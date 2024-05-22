@@ -1,37 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:socialice/app_colors.dart';
-import 'package:socialice/pages/add_comment_screen.dart';
-import 'package:socialice/pages/all_events_not_found_screen.dart';
-import 'package:socialice/pages/all_events_screen.dart';
-import 'package:socialice/pages/all_groups_not_found_screen.dart';
-import 'package:socialice/pages/all_groups_screen.dart';
-import 'package:socialice/pages/app_screen.dart';
-import 'package:socialice/pages/chat_screen.dart';
-import 'package:socialice/pages/community_screen.dart';
-import 'package:socialice/pages/confirmation_screen.dart';
-import 'package:socialice/pages/direct_message_screen.dart';
-import 'package:socialice/pages/discover_groups_screen.dart';
-import 'package:socialice/pages/event_chat_screen.dart';
-import 'package:socialice/pages/event_screen.dart';
-import 'package:socialice/pages/events_screen.dart';
-import 'package:socialice/pages/forgot_password_screen.dart';
-import 'package:socialice/pages/highlighted_moments_screen.dart';
-import 'package:socialice/pages/home_screen.dart';
-import 'package:socialice/pages/interests_screen.dart';
-import 'package:socialice/pages/login_screen.dart';
-import 'package:socialice/pages/my_profile_screen.dart';
-import 'package:socialice/pages/private_chat_screen.dart';
-import 'package:socialice/pages/register_screen.dart';
-import 'package:socialice/pages/settings_screen.dart';
-import 'package:socialice/pages/splash_screen.dart';
-import 'package:socialice/pages/start_screen.dart';
-import 'package:socialice/pages/ticket_detail_screen.dart';
-import 'package:socialice/pages/tickets_screen.dart';
-import 'package:socialice/pages/user_profile_screen.dart';
-import 'package:socialice/pages/welcome_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:socialice/constants/app_colors.dart';
+import 'package:socialice/screens/add_comment_screen/add_comment_screen.dart';
+import 'package:socialice/screens/all_events_screen/all_events_screen.dart';
+import 'package:socialice/screens/all_groups_not_found_screen/all_groups_not_found_screen.dart';
+import 'package:socialice/screens/all_groups_screen/all_groups_screen.dart';
+import 'package:socialice/screens/app_screen/app_screen.dart';
+import 'package:socialice/screens/chat_screen/chat_screen.dart';
+import 'package:socialice/screens/community_screen/community_screen.dart';
+import 'package:socialice/screens/confirmation_screen/confirmation_screen.dart';
+import 'package:socialice/screens/create_comunity_screen/create_comunity_screen.dart';
+import 'package:socialice/screens/create_event_screen/create_event_screen.dart';
+import 'package:socialice/screens/direct_message_screen/direct_message_screen.dart';
+import 'package:socialice/screens/discover_groups_screen/discover_groups_screen.dart';
+import 'package:socialice/screens/edit_profile_screen/edit_profile_screen.dart';
+import 'package:socialice/screens/event_chat_screen/event_chat_screen.dart';
+import 'package:socialice/screens/event_screen/event_screen.dart';
+import 'package:socialice/screens/events_screen/events_screen.dart';
+import 'package:socialice/screens/forgot_password_screen/forgot_password_screen.dart';
+import 'package:socialice/screens/highlighted_moments_screen/highlighted_moments_screen.dart';
+import 'package:socialice/screens/home_screen/home_screen.dart';
+import 'package:socialice/screens/interests_screen/interests_screen.dart';
+import 'package:socialice/screens/login_screen/login_screen.dart';
+import 'package:socialice/screens/my_profile_screen/my_profile_screen.dart';
+import 'package:socialice/screens/private_chat_screen/private_chat_screen.dart';
+import 'package:socialice/screens/register_screen/register_screen.dart';
+import 'package:socialice/screens/select_city_screen/select_city_screen.dart';
+import 'package:socialice/screens/settings_screen/settings_screen.dart';
+import 'package:socialice/screens/splash_screen/splash_screen.dart';
+import 'package:socialice/screens/start_screen/start_screen.dart';
+import 'package:socialice/screens/ticket_detail_screen/ticket_detail_screen.dart';
+import 'package:socialice/screens/tickets_screen/tickets_screen.dart';
+import 'package:socialice/screens/user_profile_screen/user_profile_screen.dart';
+import 'package:socialice/screens/wallet_screen/wallet_screen.dart';
+import 'package:socialice/screens/welcome_screen/welcome_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ProviderScope(child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -63,19 +68,17 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: '/SplashScreen',
+      initialRoute: '/RegisterScreen',
       routes: {
         '/SplashScreen': (context) => const SplashScreen(),
         '/AppScreen': (context) => const AppScreen(),
         '/AddCommentScreen': (context) => const AddCommentScreen(),
-        '/AllEventsNotFoundScreen': (context) =>
-            const AllEventsNotFoundScreen(),
         '/AllEventsScreen': (context) => const AllEventsScreen(),
         '/AllGroupsNotFoundScreen': (context) =>
             const AllGroupsNotFoundScreen(),
         '/AllGroupsScreen': (context) => const AllGroupsScreen(),
         '/ChatScreen': (context) => const ChatScreen(),
-        '/CommunityScreen': (context) => const CommunityScreen(),
+        '/CommunityScreen': (context) => CommunityScreen(),
         '/ConfirmationScreen': (context) => const ConfirmationScreen(),
         '/DirectMessageScreen': (context) => const DirectMessageScreen(),
         '/DiscoverGroupsScreen': (context) => const DiscoverGroupsScreen(),
@@ -88,15 +91,20 @@ class MyApp extends StatelessWidget {
         '/HomeScreen': (context) => const HomeScreen(),
         '/InterestsScreen': (context) => const InterestsScreen(),
         '/LoginScreen': (context) => const LoginScreen(),
-        '/MyProfileScreen': (context) => const MyProfileScreen(),
+        '/MyProfileScreen': (context) => MyProfileScreen(),
         '/PrivateChatScreen': (context) => const PrivateChatScreen(),
         '/RegisterScreen': (context) => const RegisterScreen(),
         '/SettingsScreen': (context) => const SettingsScreen(),
         '/StartScreen': (context) => const StartScreen(),
         '/TicketDetailScreen': (context) => const TicketDetailScreen(),
         '/TicketsScreen': (context) => const TicketsScreen(),
-        '/UserProfileScreen': (context) => const UserProfileScreen(),
+        '/UserProfileScreen': (context) => UserProfileScreen(),
         '/WelcomeScreen': (context) => const WelcomeScreen(),
+        '/EditProfileScreen': (context) => const EditProfileScreen(),
+        '/SelectCityScreen': (context) => const SelectCityScreen(),
+        '/WalletScreen': (context) => const WalletScreen(),
+        '/CreateEventScreen': (context) => const CreateEventScreen(),
+        '/CreateCommunityScreen': (context) => const CreateCommunityScreen(),
       },
     );
   }

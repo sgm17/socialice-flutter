@@ -44,3 +44,5 @@ app.*.map.json
 
 # Assets folder
 assets/
+
+# Firebase
