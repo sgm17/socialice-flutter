@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socialice/constants/app_colors.dart';
+import 'package:socialice/domains/app_user_repository/src/models/interest_model.dart';
 import 'package:socialice/domains/event_repository/src/models/event_model.dart';
 import 'package:socialice/providers/app_user_provider/app_user_provider.dart';
 import 'package:socialice/providers/community_provider/communities_provider.dart';
@@ -104,12 +105,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           width: 40,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: AssetImage(
-                                appUser.profileImage,
-                              ),
-                            ),
+                            image: appUser.profileImage == null
+                                ? DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: AssetImage(
+                                        "assets/images/default_avatar.png"))
+                                : DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(
+                                      appUser.profileImage!,
+                                    ),
+                                  ),
                           ),
                         ),
                       );
@@ -385,7 +391,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 data: (appUser) {
                   final selectedInterests = appUser.interests;
 
-                  if (selectedInterests.isNotEmpty) {
+                  if (selectedInterests!.isNotEmpty) {
                     final elements = selectedInterests.length >= 2
                         ? selectedInterests.sublist(0, 2)
                         : selectedInterests;
@@ -411,21 +417,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         UserInterest(
-                          interest: appUser.interests[0],
+                          interest: InterestModel.interests[0],
                           selected: false,
                         ),
                         SizedBox(
                           width: 10,
                         ),
                         UserInterest(
-                          interest: appUser.interests[1],
+                          interest: InterestModel.interests[1],
                           selected: false,
                         ),
                         SizedBox(
                           width: 10,
                         ),
                         UserInterest(
-                          interest: appUser.interests[2],
+                          interest: InterestModel.interests[2],
                           selected: false,
                         ),
                       ],

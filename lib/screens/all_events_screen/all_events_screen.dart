@@ -5,6 +5,7 @@ import 'package:socialice/providers/event_provider/events_provider.dart';
 import 'package:socialice/screens/all_events_screen/widgets/events_not_found.dart';
 import 'package:socialice/widgets/all_events_header.dart';
 import 'package:socialice/widgets/arrow_back.dart';
+import 'package:socialice/widgets/event_crozy.dart';
 import 'package:socialice/widgets/event_headline.dart';
 import 'package:socialice/widgets/skelton.dart';
 
@@ -71,15 +72,16 @@ class _AllEventsScreenState extends ConsumerState<AllEventsScreen> {
                               children: [
                                 Expanded(
                                     child: firstEventIndex < events.length
-                                        ? EventHeadline(
-                                            eventHeadline:
-                                                events[firstEventIndex])
+                                        ? EventCrozy(
+                                            event: events[firstEventIndex])
                                         : SizedBox.shrink()),
+                                SizedBox(
+                                  width: 16,
+                                ),
                                 Expanded(
                                   child: secondEventIndex < events.length
-                                      ? EventHeadline(
-                                          eventHeadline:
-                                              events[secondEventIndex],
+                                      ? EventCrozy(
+                                          event: events[secondEventIndex],
                                         )
                                       : SizedBox.shrink(),
                                 ),

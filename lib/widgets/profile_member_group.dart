@@ -21,7 +21,7 @@ class ProfileMemberGroup extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             image: DecorationImage(
               fit: BoxFit.cover,
-              image: AssetImage(
+              image: NetworkImage(
                 community.image,
               ),
             ),
@@ -42,7 +42,7 @@ class ProfileMemberGroup extends StatelessWidget {
               ),
             ),
             Text(
-              '${community.totalMembers} members',
+              '${community.members!.length} members',
               style: TextStyle(
                 fontWeight: FontWeight.w400,
                 fontSize: 13,

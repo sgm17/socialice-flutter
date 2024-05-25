@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$InterestModel {
-  int get id => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -30,7 +30,7 @@ abstract class $InterestModelCopyWith<$Res> {
           InterestModel value, $Res Function(InterestModel) then) =
       _$InterestModelCopyWithImpl<$Res, InterestModel>;
   @useResult
-  $Res call({int id, String name});
+  $Res call({String id, String name});
 }
 
 /// @nodoc
@@ -53,7 +53,7 @@ class _$InterestModelCopyWithImpl<$Res, $Val extends InterestModel>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -70,7 +70,7 @@ abstract class _$$CategoryModelImplCopyWith<$Res>
       __$$CategoryModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String name});
+  $Res call({String id, String name});
 }
 
 /// @nodoc
@@ -91,7 +91,7 @@ class __$$CategoryModelImplCopyWithImpl<$Res>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -106,7 +106,7 @@ class _$CategoryModelImpl extends _CategoryModel {
   const _$CategoryModelImpl({required this.id, required this.name}) : super._();
 
   @override
-  final int id;
+  final String id;
   @override
   final String name;
 
@@ -136,12 +136,12 @@ class _$CategoryModelImpl extends _CategoryModel {
 
 abstract class _CategoryModel extends InterestModel {
   const factory _CategoryModel(
-      {required final int id,
+      {required final String id,
       required final String name}) = _$CategoryModelImpl;
   const _CategoryModel._() : super._();
 
   @override
-  int get id;
+  String get id;
   @override
   String get name;
   @override

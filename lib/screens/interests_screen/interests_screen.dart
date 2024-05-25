@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:socialice/constants/app_user_interests.dart';
 import 'package:socialice/domains/app_user_repository/src/models/app_user_model.dart';
 import 'package:socialice/domains/app_user_repository/src/models/interest_model.dart';
 import 'package:socialice/providers/app_user_provider/app_user_provider.dart';
@@ -85,24 +84,26 @@ class InterestsScreen extends ConsumerWidget {
           final appUserInterests = appUser.interests;
           // generate a new array that contains just each id
           final appUserInterestsIds =
-              appUserInterests.map((e) => e.id).toList();
+              appUserInterests!.map((e) => e.id).toList();
 
-          for (int i = 0; i < interests.length; i++) {
-            final interest = interests[i];
+          for (int i = 0; i < InterestModel.interests.length; i++) {
+            final interest = InterestModel.interests[i];
 
             final interestWidth = calculateTextWidth(interest.name);
 
             // is selected if the interestId is contained inside the user interests
-            final selected = appUserInterestsIds.contains(interests[i].id);
+            final selected =
+                appUserInterestsIds.contains(InterestModel.interests[i].id);
 
             if (accumulatedWidth + (interestWidth + 10) <= screenWidth) {
               // Add the interest to the current row
               currentRow.add(Padding(
                 padding: const EdgeInsets.only(right: 10.0),
                 child: GestureDetector(
-                    onTap: () => handleUserInterestTap(interests[i]),
+                    onTap: () =>
+                        handleUserInterestTap(InterestModel.interests[i]),
                     child: UserInterest(
-                      interest: interests[i],
+                      interest: InterestModel.interests[i],
                       selected: selected,
                     )),
               ));
@@ -124,7 +125,8 @@ class InterestsScreen extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.only(right: 10.0),
                   child: GestureDetector(
-                      onTap: () => handleUserInterestTap(interests[i]),
+                      onTap: () =>
+                          handleUserInterestTap(InterestModel.interests[i]),
                       child: UserInterest(
                         interest: interest,
                         selected: selected,

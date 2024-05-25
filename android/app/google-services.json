@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "548247601995",
+    "project_id": "socialice-a8e0e",
+    "storage_bucket": "socialice-a8e0e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:548247601995:android:aa06361ab31d9e67091ece",
+        "android_client_info": {
+          "package_name": "com.invelex.socialice"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIEKCNf7cea7LvzgSTAPpHppjiToXayKs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socialice/constants/app_colors.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:socialice/domains/event_repository/src/models/event_model.dart';
+import 'package:socialice/providers/app_user_provider/app_user_provider.dart';
 import 'package:socialice/widgets/event_assistants_profile.dart';
 
-class EventCrozy extends StatelessWidget {
+class EventCrozy extends ConsumerWidget {
   const EventCrozy({super.key, required this.event});
 
   final EventModel event;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appUser = ref.watch(appUserProvider).asData?.value;
+
+    if (appUser == null) {
+      return SizedBox.shrink();
+    }
+
     return GestureDetector(
       onTap: () => Navigator.pushNamed(context, '/EventScreen',
           arguments: {'eventId': event.id}),
@@ -27,8 +34,8 @@ class EventCrozy extends StatelessWidget {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: AssetImage(
-                            'assets/images/all_event_image_4.jpeg',
+                          image: NetworkImage(
+                            event.image,
                           ),
                         ),
                         boxShadow: [
@@ -49,14 +56,20 @@ class EventCrozy extends StatelessWidget {
                                 Expanded(
                                   child: EventAssistantsProfile(assistants: []),
                                 ),
-                                Container(
-                                    alignment: Alignment.center,
-                                    width: 32,
-                                    height: 32,
-                                    child: SvgPicture.asset(
-                                      'assets/vectors/favorite_icon_x2.svg',
-                                      color: AppColors.redColor,
-                                    ))
+                                GestureDetector(
+                                    onTap: () => ref
+                                        .read(appUserProvider.notifier)
+                                        .toggleEventFavourite(event.id),
+                                    child:
+                                        appUser.favourites!.contains(event.id)
+                                            ? Icon(Icons.favorite_rounded,
+                                                size: 32,
+                                                color: AppColors.redColor)
+                                            : Icon(
+                                                size: 32,
+                                                Icons.favorite_outline,
+                                                color: AppColors.whiteColor,
+                                              ))
                               ],
                             )),
                       ),
@@ -65,7 +78,9 @@ class EventCrozy extends StatelessWidget {
                       height: 16.0,
                     ),
                     Text(
-                      'Artistics Musum 2020',
+                      event.name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 16,
@@ -90,8 +105,8 @@ class EventCrozy extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(13),
                                   image: DecorationImage(
                                     fit: BoxFit.cover,
-                                    image: AssetImage(
-                                      'assets/images/creator_profile.png',
+                                    image: NetworkImage(
+                                      event.community.image,
                                     ),
                                   ),
                                   boxShadow: [
@@ -108,7 +123,7 @@ class EventCrozy extends StatelessWidget {
                               ),
                               Container(
                                 child: Text(
-                                  'Zurich Together',
+                                  event.community.name,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 12,

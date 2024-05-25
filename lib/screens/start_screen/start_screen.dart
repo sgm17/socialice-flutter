@@ -11,14 +11,12 @@ class StartScreen extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage(
-                    'assets/images/welcome_background_image.png',
-                  ),
-                  fit: BoxFit.cover),
-            ),
-          ),
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(
+                        'assets/images/welcome_background_image.png',
+                      )))),
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),

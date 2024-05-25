@@ -135,7 +135,7 @@ class _HighlightedMomentsScreenState extends State<HighlightedMomentsScreen> {
                           decoration: BoxDecoration(
                             image: DecorationImage(
                               fit: BoxFit.fitWidth,
-                              image: AssetImage(
+                              image: NetworkImage(
                                 'assets/images/highlighted_picture.png',
                               ),
                             ),

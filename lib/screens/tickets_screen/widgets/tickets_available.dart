@@ -25,7 +25,7 @@ class TicketAvailable extends StatelessWidget {
                   bottomLeft: Radius.circular(25),
                   bottomRight: Radius.circular(25)),
               child: Image.asset(
-                'assets/images/all_events_popular_image_2.png',
+                "xd",
                 height: 90,
                 fit: BoxFit.fitWidth,
               ),

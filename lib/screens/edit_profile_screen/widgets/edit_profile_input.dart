@@ -3,9 +3,10 @@ import 'package:socialice/constants/app_colors.dart';
 
 class EditProfileInput extends StatelessWidget {
   const EditProfileInput(
-      {super.key, required this.title, required this.initialValue});
+      {super.key, required this.title, required this.controller});
 
-  final String title, initialValue;
+  final String title;
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class EditProfileInput extends StatelessWidget {
           height: 4,
         ),
         TextFormField(
-            initialValue: initialValue,
+            controller: controller,
             maxLength: 40,
             textAlignVertical: TextAlignVertical.center,
             style: TextStyle(

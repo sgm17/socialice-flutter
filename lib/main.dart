@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socialice/constants/app_colors.dart';
@@ -35,7 +36,13 @@ import 'package:socialice/screens/user_profile_screen/user_profile_screen.dart';
 import 'package:socialice/screens/wallet_screen/wallet_screen.dart';
 import 'package:socialice/screens/welcome_screen/welcome_screen.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp();
+
+  await Firebase.initializeApp();
+
   runApp(ProviderScope(child: const MyApp()));
 }
 
@@ -68,7 +75,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: '/RegisterScreen',
+      initialRoute: '/AppScreen',
       routes: {
         '/SplashScreen': (context) => const SplashScreen(),
         '/AppScreen': (context) => const AppScreen(),

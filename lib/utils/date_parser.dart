@@ -20,7 +20,11 @@ String formatMonthWordDay(DateTime dateTime) {
   return DateFormat('MMM d').format(dateTime);
 }
 
-String formatDateWordMonthWordDayYear(DateTime dateTime) {
+String formatDayWordTime(DateTime dateTime) {
+  return DateFormat('MMM dd · HH:mm').format(dateTime);
+}
+
+String formatDayWordMonthWordDayYear(DateTime dateTime) {
   // Define the date format
   final DateFormat formatter = DateFormat('EEEE, MMMM dd, yyyy');
   // Format the DateTime object

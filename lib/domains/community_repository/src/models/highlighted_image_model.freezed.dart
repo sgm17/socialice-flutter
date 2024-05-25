@@ -16,11 +16,12 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$HighlightedImageModel {
-  AppUserModel get creator => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
+  AppUserModel get user => throw _privateConstructorUsedError;
+  EventModel get event => throw _privateConstructorUsedError;
+  String get image => throw _privateConstructorUsedError;
   @TimestampConverter()
   DateTime get createdAt => throw _privateConstructorUsedError;
-  String get eventTitle => throw _privateConstructorUsedError;
-  EventModel get event => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $HighlightedImageModelCopyWith<HighlightedImageModel> get copyWith =>
@@ -34,12 +35,13 @@ abstract class $HighlightedImageModelCopyWith<$Res> {
       _$HighlightedImageModelCopyWithImpl<$Res, HighlightedImageModel>;
   @useResult
   $Res call(
-      {AppUserModel creator,
-      @TimestampConverter() DateTime createdAt,
-      String eventTitle,
-      EventModel event});
+      {String id,
+      AppUserModel user,
+      EventModel event,
+      String image,
+      @TimestampConverter() DateTime createdAt});
 
-  $AppUserModelCopyWith<$Res> get creator;
+  $AppUserModelCopyWith<$Res> get user;
   $EventModelCopyWith<$Res> get event;
 }
 
@@ -57,36 +59,41 @@ class _$HighlightedImageModelCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? creator = null,
-    Object? createdAt = null,
-    Object? eventTitle = null,
+    Object? id = null,
+    Object? user = null,
     Object? event = null,
+    Object? image = null,
+    Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
-      creator: null == creator
-          ? _value.creator
-          : creator // ignore: cast_nullable_to_non_nullable
-              as AppUserModel,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      eventTitle: null == eventTitle
-          ? _value.eventTitle
-          : eventTitle // ignore: cast_nullable_to_non_nullable
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
               as String,
+      user: null == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as AppUserModel,
       event: null == event
           ? _value.event
           : event // ignore: cast_nullable_to_non_nullable
               as EventModel,
+      image: null == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $AppUserModelCopyWith<$Res> get creator {
-    return $AppUserModelCopyWith<$Res>(_value.creator, (value) {
-      return _then(_value.copyWith(creator: value) as $Val);
+  $AppUserModelCopyWith<$Res> get user {
+    return $AppUserModelCopyWith<$Res>(_value.user, (value) {
+      return _then(_value.copyWith(user: value) as $Val);
     });
   }
 
@@ -109,13 +116,14 @@ abstract class _$$HighlightedImageModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {AppUserModel creator,
-      @TimestampConverter() DateTime createdAt,
-      String eventTitle,
-      EventModel event});
+      {String id,
+      AppUserModel user,
+      EventModel event,
+      String image,
+      @TimestampConverter() DateTime createdAt});
 
   @override
-  $AppUserModelCopyWith<$Res> get creator;
+  $AppUserModelCopyWith<$Res> get user;
   @override
   $EventModelCopyWith<$Res> get event;
 }
@@ -132,28 +140,33 @@ class __$$HighlightedImageModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? creator = null,
-    Object? createdAt = null,
-    Object? eventTitle = null,
+    Object? id = null,
+    Object? user = null,
     Object? event = null,
+    Object? image = null,
+    Object? createdAt = null,
   }) {
     return _then(_$HighlightedImageModelImpl(
-      creator: null == creator
-          ? _value.creator
-          : creator // ignore: cast_nullable_to_non_nullable
-              as AppUserModel,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      eventTitle: null == eventTitle
-          ? _value.eventTitle
-          : eventTitle // ignore: cast_nullable_to_non_nullable
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
               as String,
+      user: null == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as AppUserModel,
       event: null == event
           ? _value.event
           : event // ignore: cast_nullable_to_non_nullable
               as EventModel,
+      image: null == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -162,25 +175,28 @@ class __$$HighlightedImageModelImplCopyWithImpl<$Res>
 
 class _$HighlightedImageModelImpl extends _HighlightedImageModel {
   const _$HighlightedImageModelImpl(
-      {required this.creator,
-      @TimestampConverter() required this.createdAt,
-      required this.eventTitle,
-      required this.event})
+      {required this.id,
+      required this.user,
+      required this.event,
+      required this.image,
+      @TimestampConverter() required this.createdAt})
       : super._();
 
   @override
-  final AppUserModel creator;
+  final String id;
+  @override
+  final AppUserModel user;
+  @override
+  final EventModel event;
+  @override
+  final String image;
   @override
   @TimestampConverter()
   final DateTime createdAt;
-  @override
-  final String eventTitle;
-  @override
-  final EventModel event;
 
   @override
   String toString() {
-    return 'HighlightedImageModel(creator: $creator, createdAt: $createdAt, eventTitle: $eventTitle, event: $event)';
+    return 'HighlightedImageModel(id: $id, user: $user, event: $event, image: $image, createdAt: $createdAt)';
   }
 
   @override
@@ -188,17 +204,17 @@ class _$HighlightedImageModelImpl extends _HighlightedImageModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$HighlightedImageModelImpl &&
-            (identical(other.creator, creator) || other.creator == creator) &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.user, user) || other.user == user) &&
+            (identical(other.event, event) || other.event == event) &&
+            (identical(other.image, image) || other.image == image) &&
             (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt) &&
-            (identical(other.eventTitle, eventTitle) ||
-                other.eventTitle == eventTitle) &&
-            (identical(other.event, event) || other.event == event));
+                other.createdAt == createdAt));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, creator, createdAt, eventTitle, event);
+      Object.hash(runtimeType, id, user, event, image, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -210,21 +226,25 @@ class _$HighlightedImageModelImpl extends _HighlightedImageModel {
 
 abstract class _HighlightedImageModel extends HighlightedImageModel {
   const factory _HighlightedImageModel(
-      {required final AppUserModel creator,
-      @TimestampConverter() required final DateTime createdAt,
-      required final String eventTitle,
-      required final EventModel event}) = _$HighlightedImageModelImpl;
+          {required final String id,
+          required final AppUserModel user,
+          required final EventModel event,
+          required final String image,
+          @TimestampConverter() required final DateTime createdAt}) =
+      _$HighlightedImageModelImpl;
   const _HighlightedImageModel._() : super._();
 
   @override
-  AppUserModel get creator;
+  String get id;
+  @override
+  AppUserModel get user;
+  @override
+  EventModel get event;
+  @override
+  String get image;
   @override
   @TimestampConverter()
   DateTime get createdAt;
-  @override
-  String get eventTitle;
-  @override
-  EventModel get event;
   @override
   @JsonKey(ignore: true)
   _$$HighlightedImageModelImplCopyWith<_$HighlightedImageModelImpl>

@@ -30,7 +30,7 @@ class DirectMessageConversation extends StatelessWidget {
               borderRadius: BorderRadius.circular(25),
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: AssetImage(
+                image: NetworkImage(
                   profileImage,
                 ),
               ),

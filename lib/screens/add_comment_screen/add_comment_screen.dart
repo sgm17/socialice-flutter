@@ -5,14 +5,13 @@ import 'package:socialice/providers/app_user_provider/app_user_provider.dart';
 import 'package:socialice/screens/add_comment_screen/widgets/input_comment_value.dart';
 import 'package:socialice/widgets/arrow_back.dart';
 import 'package:socialice/widgets/black_container_button.dart';
-import 'package:socialice/widgets/skelton.dart';
 
 class AddCommentScreen extends ConsumerWidget {
   const AddCommentScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final appUserState = ref.watch(appUserProvider);
+    final appUser = ref.watch(appUserProvider).asData!.value;
 
     return Scaffold(
       body: SafeArea(
@@ -49,12 +48,17 @@ class AddCommentScreen extends ConsumerWidget {
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(14),
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: AssetImage(
-                            'assets/images/add_comment_profile_image.png',
-                          ),
-                        ),
+                        image: appUser.profileImage == null
+                            ? DecorationImage(
+                                fit: BoxFit.cover,
+                                image: AssetImage(
+                                    "assets/images/default_avatar.png"))
+                            : DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(
+                                  appUser.profileImage!,
+                                ),
+                              ),
                       ),
                       child: Container(
                         width: 28,
@@ -62,22 +66,14 @@ class AddCommentScreen extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  appUserState.when(
-                    data: (appUser) => Text(
-                      "${appUser.name} ${appUser.surname}",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14,
-                        color: AppColors.blackColor,
-                      ),
+                  Text(
+                    "${appUser.name} ${appUser.surname}",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                      color: AppColors.blackColor,
                     ),
-                    loading: () => Skelton(
-                        height: 26,
-                        width: 200,
-                        borderRadius: 6,
-                        isProfileImage: false),
-                    error: (error, stackTrace) => SizedBox.shrink(),
-                  ),
+                  )
                 ],
               ),
               SizedBox(

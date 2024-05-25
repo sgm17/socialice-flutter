@@ -7,7 +7,6 @@ part 'highlighted_image_model.g.dart';
 
 @JsonSerializable(
   createToJson: true,
-  fieldRename: FieldRename.snake,
   explicitToJson: true,
   checked: true,
 )
@@ -20,9 +19,11 @@ class HighlightedImageModel with _$HighlightedImageModel {
 
   Map<String, dynamic> toJson() => _$HighlightedImageModelToJson(this);
 
-  const factory HighlightedImageModel(
-      {required AppUserModel creator,
-      @TimestampConverter() required DateTime createdAt,
-      required String eventTitle,
-      required EventModel event}) = _HighlightedImageModel;
+  const factory HighlightedImageModel({
+    required String id,
+    required AppUserModel user,
+    required EventModel event,
+    required String image,
+    @TimestampConverter() required DateTime createdAt,
+  }) = _HighlightedImageModel;
 }

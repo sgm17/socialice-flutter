@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socialice/constants/app_colors.dart';
-import 'package:socialice/models.dart';
 import 'package:socialice/providers/user_profile_provider/user_profile_provider.dart';
 import 'package:socialice/widgets/arrow_back.dart';
 import 'package:socialice/widgets/profile_member_group.dart';
@@ -13,12 +12,12 @@ class UserProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final Map<String, dynamic> args =
-    //     ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final Map<String, dynamic> args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
 
-    // final int userId = args['userId'];
+    final String userId = args['userId'];
 
-    final userProfileState = ref.watch(userProfileProvider(0));
+    final userProfileState = ref.watch(userProfileProvider(userId));
 
     return Scaffold(
       body: SafeArea(
@@ -59,12 +58,17 @@ class UserProfileScreen extends ConsumerWidget {
                       width: 110,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: AssetImage(
-                            appUser.profileImage,
-                          ),
-                        ),
+                        image: appUser.profileImage == null
+                            ? DecorationImage(
+                                fit: BoxFit.cover,
+                                image: AssetImage(
+                                    "assets/images/default_avatar.png"))
+                            : DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(
+                                  appUser.profileImage!,
+                                ),
+                              ),
                       ),
                     ),
                     loading: () => Skelton(
@@ -113,7 +117,7 @@ class UserProfileScreen extends ConsumerWidget {
                             text: TextSpan(
                               children: [
                                 TextSpan(
-                                  text: "@${appUser.username} · ",
+                                  text: "${appUser.username} · ",
                                   style: TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 14,
@@ -184,7 +188,7 @@ class UserProfileScreen extends ConsumerWidget {
               ),
               userProfileState.when(
                 data: (appUser) => Text(
-                  lauraAppUserModel.description,
+                  appUser.description!,
                   textAlign: TextAlign.justify,
                   style: TextStyle(
                     fontWeight: FontWeight.w400,
@@ -234,7 +238,7 @@ class UserProfileScreen extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Member (${appUser.joinedCommunities.length})",
+                      "Member (${appUser.communities!.length})",
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 25,
@@ -244,9 +248,9 @@ class UserProfileScreen extends ConsumerWidget {
                     SizedBox(
                       height: 10,
                     ),
-                    for (var community in appUser.joinedCommunities)
+                    for (var community in appUser.communities!)
                       Padding(
-                        padding: appUser.joinedCommunities[0].id == community.id
+                        padding: appUser.communities![0].id == community.id
                             ? EdgeInsets.only(bottom: 16)
                             : EdgeInsets.symmetric(vertical: 16.0),
                         child: ProfileMemberGroup(

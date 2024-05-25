@@ -14,54 +14,63 @@ class EventScreenOrganizer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Dismissible(
-      confirmDismiss: handleConfirmDismiss,
-      key: Key(organizer.id.toString()),
-      background: Container(color: AppColors.redColor),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage(
-                  organizer.profileImage,
-                ),
+    final dismissWidget = Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            image: organizer.profileImage == null
+                ? DecorationImage(
+                    fit: BoxFit.cover,
+                    image: AssetImage("assets/images/default_avatar.png"))
+                : DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(
+                      organizer.profileImage!,
+                    ),
+                  ),
+          ),
+        ),
+        SizedBox(
+          width: 14,
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "${organizer.name} ${organizer.surname}",
+              style: TextStyle(
+                fontWeight: FontWeight.w400,
+                fontSize: 16,
+                color: Color(0xFF000000),
               ),
             ),
-          ),
-          SizedBox(
-            width: 14,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "${organizer.name} ${organizer.surname}",
-                style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 16,
-                  color: Color(0xFF000000),
-                ),
+            Text(
+              '@${organizer.username}',
+              style: TextStyle(
+                fontWeight: FontWeight.w400,
+                fontSize: 14,
+                color: AppColors.greyLightColor,
               ),
-              Text(
-                '@${organizer.username}',
-                style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
-                  color: AppColors.greyLightColor,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
+            ),
+          ],
+        ),
+      ],
     );
+
+    if (isOwner) {
+      return dismissWidget;
+    }
+
+    return Dismissible(
+        confirmDismiss: handleConfirmDismiss,
+        key: Key(organizer.id.toString()),
+        background: Container(color: AppColors.redColor),
+        child: dismissWidget);
   }
 
   Future<bool?> handleConfirmDismiss(DismissDirection direction) {

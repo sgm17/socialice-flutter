@@ -13,27 +13,25 @@ HighlightedImageModel _$HighlightedImageModelFromJson(
       json,
       ($checkedConvert) {
         final val = HighlightedImageModel(
-          creator: $checkedConvert('creator',
-              (v) => AppUserModel.fromJson(v as Map<String, dynamic>)),
-          createdAt: $checkedConvert('created_at',
-              (v) => const TimestampConverter().fromJson(v as String)),
-          eventTitle: $checkedConvert('event_title', (v) => v as String),
+          id: $checkedConvert('id', (v) => v as String),
+          user: $checkedConvert(
+              'user', (v) => AppUserModel.fromJson(v as Map<String, dynamic>)),
           event: $checkedConvert(
               'event', (v) => EventModel.fromJson(v as Map<String, dynamic>)),
+          image: $checkedConvert('image', (v) => v as String),
+          createdAt: $checkedConvert('createdAt',
+              (v) => const TimestampConverter().fromJson(v as String)),
         );
         return val;
-      },
-      fieldKeyMap: const {
-        'createdAt': 'created_at',
-        'eventTitle': 'event_title'
       },
     );
 
 Map<String, dynamic> _$HighlightedImageModelToJson(
         HighlightedImageModel instance) =>
     <String, dynamic>{
-      'creator': instance.creator.toJson(),
-      'created_at': const TimestampConverter().toJson(instance.createdAt),
-      'event_title': instance.eventTitle,
+      'id': instance.id,
+      'user': instance.user.toJson(),
       'event': instance.event.toJson(),
+      'image': instance.image,
+      'createdAt': const TimestampConverter().toJson(instance.createdAt),
     };

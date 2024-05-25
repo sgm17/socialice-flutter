@@ -31,10 +31,14 @@ class EventAssistantsProfile extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(17.5),
               border: Border.all(color: AppColors.whiteColor, width: 1.5),
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage(assistants[i].profileImage),
-              ),
+              image: assistants[i].profileImage == null
+                  ? DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage("assets/images/default_avatar.png"))
+                  : DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(assistants[i].profileImage!),
+                    ),
             ),
             width: 35,
             height: 35,

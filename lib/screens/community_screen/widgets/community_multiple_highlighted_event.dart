@@ -23,7 +23,7 @@ class CommunityMultipleHighlightedEvent extends StatelessWidget {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: AssetImage(
+                    image: NetworkImage(
                       'assets/images/highlighted_moment_31_image.png',
                     ),
                   ),
@@ -73,7 +73,7 @@ class CommunityMultipleHighlightedEvent extends StatelessWidget {
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: AssetImage(
+                        image: NetworkImage(
                           'assets/images/highlighted_moment_32_image.png',
                         ),
                       ),
@@ -87,7 +87,7 @@ class CommunityMultipleHighlightedEvent extends StatelessWidget {
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: AssetImage(
+                        image: NetworkImage(
                           'assets/images/highlighted_moment_32_image.png',
                         ),
                       ),

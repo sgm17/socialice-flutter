@@ -19,7 +19,7 @@ class CommunitySingleHighlightedEvent extends StatelessWidget {
           decoration: BoxDecoration(
             image: DecorationImage(
               fit: BoxFit.cover,
-              image: AssetImage(
+              image: NetworkImage(
                 'assets/images/highlighted_moment_1_image.png',
               ),
             ),

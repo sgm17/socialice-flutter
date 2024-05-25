@@ -24,8 +24,8 @@ class MyEvent extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             image: DecorationImage(
               fit: BoxFit.cover,
-              image: AssetImage(
-                event.horizontalImage,
+              image: NetworkImage(
+                event.image,
               ),
             ),
           ),
@@ -35,7 +35,7 @@ class MyEvent extends StatelessWidget {
             children: [
               Container(
                 child: Text(
-                  event.participants.length.toString(),
+                  event.participants!.length.toString(),
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 14,

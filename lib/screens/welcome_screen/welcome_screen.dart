@@ -25,7 +25,7 @@ class WelcomeScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(30),
                       image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: AssetImage(
+                        image: NetworkImage(
                           'assets/images/welcome_screen_image_1.jpeg',
                         ),
                       ),
@@ -49,7 +49,7 @@ class WelcomeScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(30),
                       image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: AssetImage(
+                        image: NetworkImage(
                           'assets/images/welcome_screen_image_2.jpeg',
                         ),
                       ),
@@ -71,7 +71,7 @@ class WelcomeScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: AssetImage(
+                      image: NetworkImage(
                         'assets/images/welcome_screen_image_3.jpeg',
                       ),
                     ),
@@ -99,7 +99,7 @@ class WelcomeScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(30),
                       image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: AssetImage(
+                        image: NetworkImage(
                           'assets/images/welcome_screen_image_4.jpeg',
                         ),
                       ),
@@ -123,7 +123,7 @@ class WelcomeScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(30),
                       image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: AssetImage(
+                        image: NetworkImage(
                           'assets/images/welcome_screen_image_5.jpeg',
                         ),
                       ),
@@ -147,7 +147,7 @@ class WelcomeScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(30),
                       image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: AssetImage(
+                        image: NetworkImage(
                           'assets/images/welcome_screen_image_6.jpeg',
                         ),
                       ),
@@ -181,7 +181,7 @@ class WelcomeScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(30),
                         image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: AssetImage(
+                          image: NetworkImage(
                             'assets/images/welcome_screen_image_7.jpeg',
                           ),
                         ),
@@ -211,7 +211,7 @@ class WelcomeScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(30),
                         image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: AssetImage(
+                          image: NetworkImage(
                             'assets/images/welcome_screen_image_9.jpeg',
                           ),
                         ),
@@ -241,7 +241,7 @@ class WelcomeScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(30),
                         image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: AssetImage(
+                          image: NetworkImage(
                             'assets/images/welcome_screen_image_8.jpeg',
                           ),
                         ),

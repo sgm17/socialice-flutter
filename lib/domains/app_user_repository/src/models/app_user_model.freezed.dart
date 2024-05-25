@@ -16,19 +16,23 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$AppUserModel {
-  int get id => throw _privateConstructorUsedError;
-  String get profileImage => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
+  String get uid => throw _privateConstructorUsedError;
+  String? get profileImage => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get surname => throw _privateConstructorUsedError;
   String get username => throw _privateConstructorUsedError;
+  String get email => throw _privateConstructorUsedError;
   String get location => throw _privateConstructorUsedError;
   double get latitude => throw _privateConstructorUsedError;
   double get longitude => throw _privateConstructorUsedError;
-  String get description => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
   CommunityModel? get createdCommunity => throw _privateConstructorUsedError;
-  List<CommunityModel> get joinedCommunities =>
-      throw _privateConstructorUsedError;
-  List<InterestModel> get interests => throw _privateConstructorUsedError;
+  List<EventModel>? get events => throw _privateConstructorUsedError;
+  List<EventModel>? get organizer => throw _privateConstructorUsedError;
+  List<CommunityModel>? get communities => throw _privateConstructorUsedError;
+  List<String>? get favourites => throw _privateConstructorUsedError;
+  List<InterestModel>? get interests => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AppUserModelCopyWith<AppUserModel> get copyWith =>
@@ -42,18 +46,23 @@ abstract class $AppUserModelCopyWith<$Res> {
       _$AppUserModelCopyWithImpl<$Res, AppUserModel>;
   @useResult
   $Res call(
-      {int id,
-      String profileImage,
+      {String id,
+      String uid,
+      String? profileImage,
       String name,
       String surname,
       String username,
+      String email,
       String location,
       double latitude,
       double longitude,
-      String description,
+      String? description,
       CommunityModel? createdCommunity,
-      List<CommunityModel> joinedCommunities,
-      List<InterestModel> interests});
+      List<EventModel>? events,
+      List<EventModel>? organizer,
+      List<CommunityModel>? communities,
+      List<String>? favourites,
+      List<InterestModel>? interests});
 
   $CommunityModelCopyWith<$Res>? get createdCommunity;
 }
@@ -72,27 +81,36 @@ class _$AppUserModelCopyWithImpl<$Res, $Val extends AppUserModel>
   @override
   $Res call({
     Object? id = null,
-    Object? profileImage = null,
+    Object? uid = null,
+    Object? profileImage = freezed,
     Object? name = null,
     Object? surname = null,
     Object? username = null,
+    Object? email = null,
     Object? location = null,
     Object? latitude = null,
     Object? longitude = null,
-    Object? description = null,
+    Object? description = freezed,
     Object? createdCommunity = freezed,
-    Object? joinedCommunities = null,
-    Object? interests = null,
+    Object? events = freezed,
+    Object? organizer = freezed,
+    Object? communities = freezed,
+    Object? favourites = freezed,
+    Object? interests = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      profileImage: null == profileImage
+              as String,
+      uid: null == uid
+          ? _value.uid
+          : uid // ignore: cast_nullable_to_non_nullable
+              as String,
+      profileImage: freezed == profileImage
           ? _value.profileImage
           : profileImage // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -104,6 +122,10 @@ class _$AppUserModelCopyWithImpl<$Res, $Val extends AppUserModel>
       username: null == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
+              as String,
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
               as String,
       location: null == location
           ? _value.location
@@ -117,22 +139,34 @@ class _$AppUserModelCopyWithImpl<$Res, $Val extends AppUserModel>
           ? _value.longitude
           : longitude // ignore: cast_nullable_to_non_nullable
               as double,
-      description: null == description
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       createdCommunity: freezed == createdCommunity
           ? _value.createdCommunity
           : createdCommunity // ignore: cast_nullable_to_non_nullable
               as CommunityModel?,
-      joinedCommunities: null == joinedCommunities
-          ? _value.joinedCommunities
-          : joinedCommunities // ignore: cast_nullable_to_non_nullable
-              as List<CommunityModel>,
-      interests: null == interests
+      events: freezed == events
+          ? _value.events
+          : events // ignore: cast_nullable_to_non_nullable
+              as List<EventModel>?,
+      organizer: freezed == organizer
+          ? _value.organizer
+          : organizer // ignore: cast_nullable_to_non_nullable
+              as List<EventModel>?,
+      communities: freezed == communities
+          ? _value.communities
+          : communities // ignore: cast_nullable_to_non_nullable
+              as List<CommunityModel>?,
+      favourites: freezed == favourites
+          ? _value.favourites
+          : favourites // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      interests: freezed == interests
           ? _value.interests
           : interests // ignore: cast_nullable_to_non_nullable
-              as List<InterestModel>,
+              as List<InterestModel>?,
     ) as $Val);
   }
 
@@ -158,18 +192,23 @@ abstract class _$$AppUserModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int id,
-      String profileImage,
+      {String id,
+      String uid,
+      String? profileImage,
       String name,
       String surname,
       String username,
+      String email,
       String location,
       double latitude,
       double longitude,
-      String description,
+      String? description,
       CommunityModel? createdCommunity,
-      List<CommunityModel> joinedCommunities,
-      List<InterestModel> interests});
+      List<EventModel>? events,
+      List<EventModel>? organizer,
+      List<CommunityModel>? communities,
+      List<String>? favourites,
+      List<InterestModel>? interests});
 
   @override
   $CommunityModelCopyWith<$Res>? get createdCommunity;
@@ -187,27 +226,36 @@ class __$$AppUserModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? profileImage = null,
+    Object? uid = null,
+    Object? profileImage = freezed,
     Object? name = null,
     Object? surname = null,
     Object? username = null,
+    Object? email = null,
     Object? location = null,
     Object? latitude = null,
     Object? longitude = null,
-    Object? description = null,
+    Object? description = freezed,
     Object? createdCommunity = freezed,
-    Object? joinedCommunities = null,
-    Object? interests = null,
+    Object? events = freezed,
+    Object? organizer = freezed,
+    Object? communities = freezed,
+    Object? favourites = freezed,
+    Object? interests = freezed,
   }) {
     return _then(_$AppUserModelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      profileImage: null == profileImage
+              as String,
+      uid: null == uid
+          ? _value.uid
+          : uid // ignore: cast_nullable_to_non_nullable
+              as String,
+      profileImage: freezed == profileImage
           ? _value.profileImage
           : profileImage // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -219,6 +267,10 @@ class __$$AppUserModelImplCopyWithImpl<$Res>
       username: null == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
+              as String,
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
               as String,
       location: null == location
           ? _value.location
@@ -232,22 +284,34 @@ class __$$AppUserModelImplCopyWithImpl<$Res>
           ? _value.longitude
           : longitude // ignore: cast_nullable_to_non_nullable
               as double,
-      description: null == description
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       createdCommunity: freezed == createdCommunity
           ? _value.createdCommunity
           : createdCommunity // ignore: cast_nullable_to_non_nullable
               as CommunityModel?,
-      joinedCommunities: null == joinedCommunities
-          ? _value._joinedCommunities
-          : joinedCommunities // ignore: cast_nullable_to_non_nullable
-              as List<CommunityModel>,
-      interests: null == interests
+      events: freezed == events
+          ? _value._events
+          : events // ignore: cast_nullable_to_non_nullable
+              as List<EventModel>?,
+      organizer: freezed == organizer
+          ? _value._organizer
+          : organizer // ignore: cast_nullable_to_non_nullable
+              as List<EventModel>?,
+      communities: freezed == communities
+          ? _value._communities
+          : communities // ignore: cast_nullable_to_non_nullable
+              as List<CommunityModel>?,
+      favourites: freezed == favourites
+          ? _value._favourites
+          : favourites // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      interests: freezed == interests
           ? _value._interests
           : interests // ignore: cast_nullable_to_non_nullable
-              as List<InterestModel>,
+              as List<InterestModel>?,
     ));
   }
 }
@@ -257,25 +321,35 @@ class __$$AppUserModelImplCopyWithImpl<$Res>
 class _$AppUserModelImpl extends _AppUserModel {
   const _$AppUserModelImpl(
       {required this.id,
-      required this.profileImage,
+      required this.uid,
+      this.profileImage,
       required this.name,
       required this.surname,
       required this.username,
+      required this.email,
       required this.location,
       required this.latitude,
       required this.longitude,
-      required this.description,
+      this.description = "Hey, I'm using Socialice",
       this.createdCommunity,
-      required final List<CommunityModel> joinedCommunities,
-      required final List<InterestModel> interests})
-      : _joinedCommunities = joinedCommunities,
+      final List<EventModel>? events = const [],
+      final List<EventModel>? organizer = const [],
+      final List<CommunityModel>? communities = const [],
+      final List<String>? favourites = const [],
+      final List<InterestModel>? interests = const []})
+      : _events = events,
+        _organizer = organizer,
+        _communities = communities,
+        _favourites = favourites,
         _interests = interests,
         super._();
 
   @override
-  final int id;
+  final String id;
   @override
-  final String profileImage;
+  final String uid;
+  @override
+  final String? profileImage;
   @override
   final String name;
   @override
@@ -283,35 +357,76 @@ class _$AppUserModelImpl extends _AppUserModel {
   @override
   final String username;
   @override
+  final String email;
+  @override
   final String location;
   @override
   final double latitude;
   @override
   final double longitude;
   @override
-  final String description;
+  @JsonKey()
+  final String? description;
   @override
   final CommunityModel? createdCommunity;
-  final List<CommunityModel> _joinedCommunities;
+  final List<EventModel>? _events;
   @override
-  List<CommunityModel> get joinedCommunities {
-    if (_joinedCommunities is EqualUnmodifiableListView)
-      return _joinedCommunities;
+  @JsonKey()
+  List<EventModel>? get events {
+    final value = _events;
+    if (value == null) return null;
+    if (_events is EqualUnmodifiableListView) return _events;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_joinedCommunities);
+    return EqualUnmodifiableListView(value);
   }
 
-  final List<InterestModel> _interests;
+  final List<EventModel>? _organizer;
   @override
-  List<InterestModel> get interests {
+  @JsonKey()
+  List<EventModel>? get organizer {
+    final value = _organizer;
+    if (value == null) return null;
+    if (_organizer is EqualUnmodifiableListView) return _organizer;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  final List<CommunityModel>? _communities;
+  @override
+  @JsonKey()
+  List<CommunityModel>? get communities {
+    final value = _communities;
+    if (value == null) return null;
+    if (_communities is EqualUnmodifiableListView) return _communities;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  final List<String>? _favourites;
+  @override
+  @JsonKey()
+  List<String>? get favourites {
+    final value = _favourites;
+    if (value == null) return null;
+    if (_favourites is EqualUnmodifiableListView) return _favourites;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  final List<InterestModel>? _interests;
+  @override
+  @JsonKey()
+  List<InterestModel>? get interests {
+    final value = _interests;
+    if (value == null) return null;
     if (_interests is EqualUnmodifiableListView) return _interests;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_interests);
+    return EqualUnmodifiableListView(value);
   }
 
   @override
   String toString() {
-    return 'AppUserModel(id: $id, profileImage: $profileImage, name: $name, surname: $surname, username: $username, location: $location, latitude: $latitude, longitude: $longitude, description: $description, createdCommunity: $createdCommunity, joinedCommunities: $joinedCommunities, interests: $interests)';
+    return 'AppUserModel(id: $id, uid: $uid, profileImage: $profileImage, name: $name, surname: $surname, username: $username, email: $email, location: $location, latitude: $latitude, longitude: $longitude, description: $description, createdCommunity: $createdCommunity, events: $events, organizer: $organizer, communities: $communities, favourites: $favourites, interests: $interests)';
   }
 
   @override
@@ -320,12 +435,14 @@ class _$AppUserModelImpl extends _AppUserModel {
         (other.runtimeType == runtimeType &&
             other is _$AppUserModelImpl &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.profileImage, profileImage) ||
                 other.profileImage == profileImage) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.surname, surname) || other.surname == surname) &&
             (identical(other.username, username) ||
                 other.username == username) &&
+            (identical(other.email, email) || other.email == email) &&
             (identical(other.location, location) ||
                 other.location == location) &&
             (identical(other.latitude, latitude) ||
@@ -336,8 +453,13 @@ class _$AppUserModelImpl extends _AppUserModel {
                 other.description == description) &&
             (identical(other.createdCommunity, createdCommunity) ||
                 other.createdCommunity == createdCommunity) &&
+            const DeepCollectionEquality().equals(other._events, _events) &&
             const DeepCollectionEquality()
-                .equals(other._joinedCommunities, _joinedCommunities) &&
+                .equals(other._organizer, _organizer) &&
+            const DeepCollectionEquality()
+                .equals(other._communities, _communities) &&
+            const DeepCollectionEquality()
+                .equals(other._favourites, _favourites) &&
             const DeepCollectionEquality()
                 .equals(other._interests, _interests));
   }
@@ -346,16 +468,21 @@ class _$AppUserModelImpl extends _AppUserModel {
   int get hashCode => Object.hash(
       runtimeType,
       id,
+      uid,
       profileImage,
       name,
       surname,
       username,
+      email,
       location,
       latitude,
       longitude,
       description,
       createdCommunity,
-      const DeepCollectionEquality().hash(_joinedCommunities),
+      const DeepCollectionEquality().hash(_events),
+      const DeepCollectionEquality().hash(_organizer),
+      const DeepCollectionEquality().hash(_communities),
+      const DeepCollectionEquality().hash(_favourites),
       const DeepCollectionEquality().hash(_interests));
 
   @JsonKey(ignore: true)
@@ -367,24 +494,31 @@ class _$AppUserModelImpl extends _AppUserModel {
 
 abstract class _AppUserModel extends AppUserModel {
   const factory _AppUserModel(
-      {required final int id,
-      required final String profileImage,
+      {required final String id,
+      required final String uid,
+      final String? profileImage,
       required final String name,
       required final String surname,
       required final String username,
+      required final String email,
       required final String location,
       required final double latitude,
       required final double longitude,
-      required final String description,
+      final String? description,
       final CommunityModel? createdCommunity,
-      required final List<CommunityModel> joinedCommunities,
-      required final List<InterestModel> interests}) = _$AppUserModelImpl;
+      final List<EventModel>? events,
+      final List<EventModel>? organizer,
+      final List<CommunityModel>? communities,
+      final List<String>? favourites,
+      final List<InterestModel>? interests}) = _$AppUserModelImpl;
   const _AppUserModel._() : super._();
 
   @override
-  int get id;
+  String get id;
   @override
-  String get profileImage;
+  String get uid;
+  @override
+  String? get profileImage;
   @override
   String get name;
   @override
@@ -392,19 +526,27 @@ abstract class _AppUserModel extends AppUserModel {
   @override
   String get username;
   @override
+  String get email;
+  @override
   String get location;
   @override
   double get latitude;
   @override
   double get longitude;
   @override
-  String get description;
+  String? get description;
   @override
   CommunityModel? get createdCommunity;
   @override
-  List<CommunityModel> get joinedCommunities;
+  List<EventModel>? get events;
   @override
-  List<InterestModel> get interests;
+  List<EventModel>? get organizer;
+  @override
+  List<CommunityModel>? get communities;
+  @override
+  List<String>? get favourites;
+  @override
+  List<InterestModel>? get interests;
   @override
   @JsonKey(ignore: true)
   _$$AppUserModelImplCopyWith<_$AppUserModelImpl> get copyWith =>

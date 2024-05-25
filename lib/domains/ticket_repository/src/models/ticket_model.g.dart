@@ -13,15 +13,14 @@ TicketModel _$TicketModelFromJson(Map<String, dynamic> json) => $checkedCreate(
         final val = TicketModel(
           event: $checkedConvert(
               'event', (v) => EventModel.fromJson(v as Map<String, dynamic>)),
-          qrCode: $checkedConvert('qr_code', (v) => v as String),
+          qrCode: $checkedConvert('qrCode', (v) => v as String),
         );
         return val;
       },
-      fieldKeyMap: const {'qrCode': 'qr_code'},
     );
 
 Map<String, dynamic> _$TicketModelToJson(TicketModel instance) =>
     <String, dynamic>{
       'event': instance.event.toJson(),
-      'qr_code': instance.qrCode,
+      'qrCode': instance.qrCode,
     };

@@ -12,22 +12,27 @@ CommentReplyModel _$CommentReplyModelFromJson(Map<String, dynamic> json) =>
       json,
       ($checkedConvert) {
         final val = CommentReplyModel(
+          id: $checkedConvert('id', (v) => v as String),
+          parentComment: $checkedConvert('parentComment',
+              (v) => CommentModel.fromJson(v as Map<String, dynamic>)),
           creator: $checkedConvert('creator',
               (v) => AppUserModel.fromJson(v as Map<String, dynamic>)),
-          createdAt: $checkedConvert('created_at',
+          createdAt: $checkedConvert('createdAt',
               (v) => const TimestampConverter().fromJson(v as String)),
           comment: $checkedConvert('comment', (v) => v as String),
-          likes: $checkedConvert('likes', (v) => (v as num).toInt()),
+          likes: $checkedConvert('likes',
+              (v) => (v as List<dynamic>?)?.map((e) => e as String).toList()),
         );
         return val;
       },
-      fieldKeyMap: const {'createdAt': 'created_at'},
     );
 
 Map<String, dynamic> _$CommentReplyModelToJson(CommentReplyModel instance) =>
     <String, dynamic>{
+      'id': instance.id,
+      'parentComment': instance.parentComment.toJson(),
       'creator': instance.creator.toJson(),
-      'created_at': const TimestampConverter().toJson(instance.createdAt),
+      'createdAt': const TimestampConverter().toJson(instance.createdAt),
       'comment': instance.comment,
       'likes': instance.likes,
     };

@@ -1,14 +1,13 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:socialice/domains/app_user_repository/src/models/app_user_model.dart';
-import 'package:socialice/domains/community_repository/src/models/highlighted_moment_model.dart';
 import 'package:socialice/domains/event_repository/src/models/category_model.dart';
 import 'package:socialice/domains/event_repository/src/models/event_model.dart';
+import 'package:socialice/helpers/serialize/category_converted.dart';
 part 'community_model.freezed.dart';
 part 'community_model.g.dart';
 
 @JsonSerializable(
   createToJson: true,
-  fieldRename: FieldRename.snake,
   explicitToJson: true,
   checked: true,
 )
@@ -22,15 +21,13 @@ class CommunityModel with _$CommunityModel {
   Map<String, dynamic> toJson() => _$CommunityModelToJson(this);
 
   const factory CommunityModel(
-      {required int id,
+      {required String id,
       required AppUserModel owner,
       required String image,
       required String name,
+      @Default([]) List<AppUserModel>? members,
       required String city,
-      required int totalMembers,
-      required List<AppUserModel> lastEightMembers,
       required String description,
-      required List<EventModel> futureEvents,
-      required List<HighlightedMomentModel> pastEvents,
-      required CategoryModel category}) = _CommunityModel;
+      @Default([]) List<EventModel>? events,
+      @CategoryConverter() required CategoryModel category}) = _CommunityModel;
 }

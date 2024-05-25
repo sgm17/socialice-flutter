@@ -11,67 +11,52 @@ EventModel _$EventModelFromJson(Map<String, dynamic> json) => $checkedCreate(
       json,
       ($checkedConvert) {
         final val = EventModel(
-          id: $checkedConvert('id', (v) => (v as num).toInt()),
+          id: $checkedConvert('id', (v) => v as String),
           name: $checkedConvert('name', (v) => v as String),
-          horizontalImage:
-              $checkedConvert('horizontal_image', (v) => v as String),
-          verticalImage: $checkedConvert('vertical_image', (v) => v as String),
-          favourite: $checkedConvert('favourite', (v) => v as bool),
-          joined: $checkedConvert('joined', (v) => v as bool),
-          startTimestamp: $checkedConvert('start_timestamp',
-              (v) => const TimestampConverter().fromJson(v as String)),
-          endTimestamp: $checkedConvert('end_timestamp',
-              (v) => const TimestampConverter().fromJson(v as String)),
-          placeName: $checkedConvert('place_name', (v) => v as String),
+          description: $checkedConvert('description', (v) => v as String),
+          image: $checkedConvert('image', (v) => v as String),
+          placeName: $checkedConvert('placeName', (v) => v as String),
           completeAddress:
-              $checkedConvert('complete_address', (v) => v as String),
-          owner: $checkedConvert(
-              'owner', (v) => AppUserModel.fromJson(v as Map<String, dynamic>)),
-          communityId:
-              $checkedConvert('community_id', (v) => (v as num).toInt()),
-          price: $checkedConvert('price', (v) => (v as num).toInt()),
+              $checkedConvert('completeAddress', (v) => v as String),
+          community: $checkedConvert('community',
+              (v) => CommunityModel.fromJson(v as Map<String, dynamic>)),
+          price: $checkedConvert('price', (v) => (v as num?)?.toInt()),
           priceWithoutDiscount: $checkedConvert(
-              'price_without_discount', (v) => (v as num?)?.toInt()),
-          communityImage:
-              $checkedConvert('community_image', (v) => v as String),
-          communityName: $checkedConvert('community_name', (v) => v as String),
+              'priceWithoutDiscount', (v) => (v as num?)?.toInt()),
           organizers: $checkedConvert(
               'organizers',
-              (v) => (v as List<dynamic>)
-                  .map((e) => AppUserModel.fromJson(e as Map<String, dynamic>))
+              (v) => (v as List<dynamic>?)
+                  ?.map((e) => AppUserModel.fromJson(e as Map<String, dynamic>))
                   .toList()),
           latitude: $checkedConvert('latitude', (v) => (v as num).toDouble()),
           longitude: $checkedConvert('longitude', (v) => (v as num).toDouble()),
           photos: $checkedConvert('photos',
-              (v) => (v as List<dynamic>).map((e) => e as String).toList()),
+              (v) => (v as List<dynamic>?)?.map((e) => e as String).toList()),
           comments: $checkedConvert(
               'comments',
-              (v) => (v as List<dynamic>)
-                  .map((e) => CommentModel.fromJson(e as Map<String, dynamic>))
+              (v) => (v as List<dynamic>?)
+                  ?.map((e) => CommentModel.fromJson(e as Map<String, dynamic>))
                   .toList()),
           participants: $checkedConvert(
               'participants',
-              (v) => (v as List<dynamic>)
-                  .map((e) => AppUserModel.fromJson(e as Map<String, dynamic>))
+              (v) => (v as List<dynamic>?)
+                  ?.map((e) => AppUserModel.fromJson(e as Map<String, dynamic>))
                   .toList()),
           eventType: $checkedConvert(
-              'event_type', (v) => $enumDecode(_$EventTypeEnumMap, v)),
-          popular: $checkedConvert('popular', (v) => v as bool?),
+              'eventType', (v) => $enumDecode(_$EventTypeEnumMap, v)),
+          popular: $checkedConvert('popular', (v) => v as bool),
+          highlightedImages: $checkedConvert(
+              'highlightedImages',
+              (v) => (v as List<dynamic>?)
+                  ?.map((e) =>
+                      HighlightedImageModel.fromJson(e as Map<String, dynamic>))
+                  .toList()),
+          startTimestamp: $checkedConvert('startTimestamp',
+              (v) => const TimestampConverter().fromJson(v as String)),
+          endTimestamp: $checkedConvert('endTimestamp',
+              (v) => const TimestampConverter().fromJson(v as String)),
         );
         return val;
-      },
-      fieldKeyMap: const {
-        'horizontalImage': 'horizontal_image',
-        'verticalImage': 'vertical_image',
-        'startTimestamp': 'start_timestamp',
-        'endTimestamp': 'end_timestamp',
-        'placeName': 'place_name',
-        'completeAddress': 'complete_address',
-        'communityId': 'community_id',
-        'priceWithoutDiscount': 'price_without_discount',
-        'communityImage': 'community_image',
-        'communityName': 'community_name',
-        'eventType': 'event_type'
       },
     );
 
@@ -79,29 +64,26 @@ Map<String, dynamic> _$EventModelToJson(EventModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'horizontal_image': instance.horizontalImage,
-      'vertical_image': instance.verticalImage,
-      'favourite': instance.favourite,
-      'joined': instance.joined,
-      'start_timestamp':
-          const TimestampConverter().toJson(instance.startTimestamp),
-      'end_timestamp': const TimestampConverter().toJson(instance.endTimestamp),
-      'place_name': instance.placeName,
-      'complete_address': instance.completeAddress,
-      'owner': instance.owner.toJson(),
-      'community_id': instance.communityId,
+      'description': instance.description,
+      'image': instance.image,
+      'placeName': instance.placeName,
+      'completeAddress': instance.completeAddress,
+      'community': instance.community.toJson(),
       'price': instance.price,
-      'price_without_discount': instance.priceWithoutDiscount,
-      'community_image': instance.communityImage,
-      'community_name': instance.communityName,
-      'organizers': instance.organizers.map((e) => e.toJson()).toList(),
+      'priceWithoutDiscount': instance.priceWithoutDiscount,
+      'organizers': instance.organizers?.map((e) => e.toJson()).toList(),
       'latitude': instance.latitude,
       'longitude': instance.longitude,
       'photos': instance.photos,
-      'comments': instance.comments.map((e) => e.toJson()).toList(),
-      'participants': instance.participants.map((e) => e.toJson()).toList(),
-      'event_type': _$EventTypeEnumMap[instance.eventType]!,
+      'comments': instance.comments?.map((e) => e.toJson()).toList(),
+      'participants': instance.participants?.map((e) => e.toJson()).toList(),
+      'eventType': _$EventTypeEnumMap[instance.eventType]!,
       'popular': instance.popular,
+      'highlightedImages':
+          instance.highlightedImages?.map((e) => e.toJson()).toList(),
+      'startTimestamp':
+          const TimestampConverter().toJson(instance.startTimestamp),
+      'endTimestamp': const TimestampConverter().toJson(instance.endTimestamp),
     };
 
 const _$EventTypeEnumMap = {

@@ -12,33 +12,34 @@ CommentModel _$CommentModelFromJson(Map<String, dynamic> json) =>
       json,
       ($checkedConvert) {
         final val = CommentModel(
+          id: $checkedConvert('id', (v) => v as String),
           creator: $checkedConvert('creator',
               (v) => AppUserModel.fromJson(v as Map<String, dynamic>)),
-          createdAt: $checkedConvert('created_at',
-              (v) => const TimestampConverter().fromJson(v as String)),
+          event: $checkedConvert(
+              'event', (v) => EventModel.fromJson(v as Map<String, dynamic>)),
           comment: $checkedConvert('comment', (v) => v as String),
-          likes: $checkedConvert('likes', (v) => (v as num).toInt()),
-          commentReplies: $checkedConvert(
-              'comment_replies',
-              (v) => (v as List<dynamic>)
-                  .map((e) =>
+          likes: $checkedConvert('likes',
+              (v) => (v as List<dynamic>?)?.map((e) => e as String).toList()),
+          replies: $checkedConvert(
+              'replies',
+              (v) => (v as List<dynamic>?)
+                  ?.map((e) =>
                       CommentReplyModel.fromJson(e as Map<String, dynamic>))
                   .toList()),
+          createdAt: $checkedConvert('createdAt',
+              (v) => const TimestampConverter().fromJson(v as String)),
         );
         return val;
-      },
-      fieldKeyMap: const {
-        'createdAt': 'created_at',
-        'commentReplies': 'comment_replies'
       },
     );
 
 Map<String, dynamic> _$CommentModelToJson(CommentModel instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'creator': instance.creator.toJson(),
-      'created_at': const TimestampConverter().toJson(instance.createdAt),
+      'event': instance.event.toJson(),
       'comment': instance.comment,
       'likes': instance.likes,
-      'comment_replies':
-          instance.commentReplies.map((e) => e.toJson()).toList(),
+      'replies': instance.replies?.map((e) => e.toJson()).toList(),
+      'createdAt': const TimestampConverter().toJson(instance.createdAt),
     };

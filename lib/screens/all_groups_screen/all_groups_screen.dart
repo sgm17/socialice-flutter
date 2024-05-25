@@ -79,9 +79,9 @@ class AllGroupsItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lastFourMembers = community.lastEightMembers.length >= 4
-        ? community.lastEightMembers.sublist(0, 4)
-        : community.lastEightMembers;
+    final lastFourMembers = community.members!.length >= 4
+        ? community.members!.sublist(0, 4)
+        : community.members;
 
     return Container(
       padding: EdgeInsets.all(16),
@@ -108,7 +108,9 @@ class AllGroupsItem extends StatelessWidget {
                 width: 30,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
-                    image: DecorationImage(image: AssetImage(community.image))),
+                    image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(community.image))),
               ),
               SizedBox(
                 width: 12,
@@ -137,7 +139,7 @@ class AllGroupsItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              if (lastFourMembers.isEmpty)
+              if (lastFourMembers!.isEmpty)
                 SizedBox.shrink()
               else
                 Stack(
@@ -166,9 +168,15 @@ class AllGroupsItem extends StatelessWidget {
                             decoration: BoxDecoration(
                                 border: Border.all(
                                     width: 2, color: AppColors.whiteColor),
-                                image: DecorationImage(
-                                    image: AssetImage(
-                                        lastFourMembers[i].profileImage))),
+                                image: lastFourMembers[i].profileImage == null
+                                    ? DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: AssetImage(
+                                            "assets/images/default_avatar.png"))
+                                    : DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: NetworkImage(
+                                            lastFourMembers[i].profileImage!))),
                           ))
                   ],
                 ),

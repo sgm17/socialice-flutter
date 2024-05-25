@@ -1,12 +1,12 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:socialice/domains/app_user_repository/src/models/app_user_model.dart';
+import 'package:socialice/domains/event_repository/src/models/comment_model.dart';
 import 'package:socialice/helpers/serialize/timestamp_converter.dart';
 part 'comment_reply_model.freezed.dart';
 part 'comment_reply_model.g.dart';
 
 @JsonSerializable(
   createToJson: true,
-  fieldRename: FieldRename.snake,
   explicitToJson: true,
   checked: true,
 )
@@ -20,8 +20,10 @@ class CommentReplyModel with _$CommentReplyModel {
   Map<String, dynamic> toJson() => _$CommentReplyModelToJson(this);
 
   const factory CommentReplyModel(
-      {required AppUserModel creator,
+      {required String id,
+      required CommentModel parentComment,
+      required AppUserModel creator,
       @TimestampConverter() required DateTime createdAt,
       required String comment,
-      required int likes}) = _CommentReplyModel;
+      List<String>? likes}) = _CommentReplyModel;
 }

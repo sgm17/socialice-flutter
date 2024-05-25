@@ -24,7 +24,7 @@ class PrivateChatReceivedMessage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(17.5),
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage(
+                  image: NetworkImage(
                     'assets/images/private_avatar_image.png',
                   ),
                 ),

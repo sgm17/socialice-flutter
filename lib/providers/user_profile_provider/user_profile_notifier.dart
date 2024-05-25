@@ -4,7 +4,7 @@ import 'package:socialice/providers/app_user_provider/app_user_viewmodel_provide
 
 class UserProfileNotifier extends StateNotifier<AsyncValue<AppUserModel>> {
   final Ref ref;
-  final int userId;
+  final String userId;
 
   UserProfileNotifier(
     this.ref,

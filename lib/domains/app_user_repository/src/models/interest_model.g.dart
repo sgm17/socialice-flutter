@@ -12,7 +12,7 @@ InterestModel _$InterestModelFromJson(Map<String, dynamic> json) =>
       json,
       ($checkedConvert) {
         final val = InterestModel(
-          id: $checkedConvert('id', (v) => (v as num).toInt()),
+          id: $checkedConvert('id', (v) => v as String),
           name: $checkedConvert('name', (v) => v as String),
         );
         return val;

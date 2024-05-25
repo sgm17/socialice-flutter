@@ -59,7 +59,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: AssetImage(
+                      image: NetworkImage(
                         'assets/images/forgot_password_image.png',
                       ),
                     ),

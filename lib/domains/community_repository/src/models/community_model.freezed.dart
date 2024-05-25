@@ -16,17 +16,15 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$CommunityModel {
-  int get id => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
   AppUserModel get owner => throw _privateConstructorUsedError;
   String get image => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  List<AppUserModel>? get members => throw _privateConstructorUsedError;
   String get city => throw _privateConstructorUsedError;
-  int get totalMembers => throw _privateConstructorUsedError;
-  List<AppUserModel> get lastEightMembers => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
-  List<EventModel> get futureEvents => throw _privateConstructorUsedError;
-  List<HighlightedMomentModel> get pastEvents =>
-      throw _privateConstructorUsedError;
+  List<EventModel>? get events => throw _privateConstructorUsedError;
+  @CategoryConverter()
   CategoryModel get category => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -41,17 +39,15 @@ abstract class $CommunityModelCopyWith<$Res> {
       _$CommunityModelCopyWithImpl<$Res, CommunityModel>;
   @useResult
   $Res call(
-      {int id,
+      {String id,
       AppUserModel owner,
       String image,
       String name,
+      List<AppUserModel>? members,
       String city,
-      int totalMembers,
-      List<AppUserModel> lastEightMembers,
       String description,
-      List<EventModel> futureEvents,
-      List<HighlightedMomentModel> pastEvents,
-      CategoryModel category});
+      List<EventModel>? events,
+      @CategoryConverter() CategoryModel category});
 
   $AppUserModelCopyWith<$Res> get owner;
   $CategoryModelCopyWith<$Res> get category;
@@ -74,19 +70,17 @@ class _$CommunityModelCopyWithImpl<$Res, $Val extends CommunityModel>
     Object? owner = null,
     Object? image = null,
     Object? name = null,
+    Object? members = freezed,
     Object? city = null,
-    Object? totalMembers = null,
-    Object? lastEightMembers = null,
     Object? description = null,
-    Object? futureEvents = null,
-    Object? pastEvents = null,
+    Object? events = freezed,
     Object? category = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       owner: null == owner
           ? _value.owner
           : owner // ignore: cast_nullable_to_non_nullable
@@ -99,30 +93,22 @@ class _$CommunityModelCopyWithImpl<$Res, $Val extends CommunityModel>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      members: freezed == members
+          ? _value.members
+          : members // ignore: cast_nullable_to_non_nullable
+              as List<AppUserModel>?,
       city: null == city
           ? _value.city
           : city // ignore: cast_nullable_to_non_nullable
               as String,
-      totalMembers: null == totalMembers
-          ? _value.totalMembers
-          : totalMembers // ignore: cast_nullable_to_non_nullable
-              as int,
-      lastEightMembers: null == lastEightMembers
-          ? _value.lastEightMembers
-          : lastEightMembers // ignore: cast_nullable_to_non_nullable
-              as List<AppUserModel>,
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      futureEvents: null == futureEvents
-          ? _value.futureEvents
-          : futureEvents // ignore: cast_nullable_to_non_nullable
-              as List<EventModel>,
-      pastEvents: null == pastEvents
-          ? _value.pastEvents
-          : pastEvents // ignore: cast_nullable_to_non_nullable
-              as List<HighlightedMomentModel>,
+      events: freezed == events
+          ? _value.events
+          : events // ignore: cast_nullable_to_non_nullable
+              as List<EventModel>?,
       category: null == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
@@ -156,17 +142,15 @@ abstract class _$$CommunityModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int id,
+      {String id,
       AppUserModel owner,
       String image,
       String name,
+      List<AppUserModel>? members,
       String city,
-      int totalMembers,
-      List<AppUserModel> lastEightMembers,
       String description,
-      List<EventModel> futureEvents,
-      List<HighlightedMomentModel> pastEvents,
-      CategoryModel category});
+      List<EventModel>? events,
+      @CategoryConverter() CategoryModel category});
 
   @override
   $AppUserModelCopyWith<$Res> get owner;
@@ -189,19 +173,17 @@ class __$$CommunityModelImplCopyWithImpl<$Res>
     Object? owner = null,
     Object? image = null,
     Object? name = null,
+    Object? members = freezed,
     Object? city = null,
-    Object? totalMembers = null,
-    Object? lastEightMembers = null,
     Object? description = null,
-    Object? futureEvents = null,
-    Object? pastEvents = null,
+    Object? events = freezed,
     Object? category = null,
   }) {
     return _then(_$CommunityModelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       owner: null == owner
           ? _value.owner
           : owner // ignore: cast_nullable_to_non_nullable
@@ -214,30 +196,22 @@ class __$$CommunityModelImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      members: freezed == members
+          ? _value._members
+          : members // ignore: cast_nullable_to_non_nullable
+              as List<AppUserModel>?,
       city: null == city
           ? _value.city
           : city // ignore: cast_nullable_to_non_nullable
               as String,
-      totalMembers: null == totalMembers
-          ? _value.totalMembers
-          : totalMembers // ignore: cast_nullable_to_non_nullable
-              as int,
-      lastEightMembers: null == lastEightMembers
-          ? _value._lastEightMembers
-          : lastEightMembers // ignore: cast_nullable_to_non_nullable
-              as List<AppUserModel>,
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      futureEvents: null == futureEvents
-          ? _value._futureEvents
-          : futureEvents // ignore: cast_nullable_to_non_nullable
-              as List<EventModel>,
-      pastEvents: null == pastEvents
-          ? _value._pastEvents
-          : pastEvents // ignore: cast_nullable_to_non_nullable
-              as List<HighlightedMomentModel>,
+      events: freezed == events
+          ? _value._events
+          : events // ignore: cast_nullable_to_non_nullable
+              as List<EventModel>?,
       category: null == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
@@ -254,63 +228,56 @@ class _$CommunityModelImpl extends _CommunityModel {
       required this.owner,
       required this.image,
       required this.name,
+      final List<AppUserModel>? members = const [],
       required this.city,
-      required this.totalMembers,
-      required final List<AppUserModel> lastEightMembers,
       required this.description,
-      required final List<EventModel> futureEvents,
-      required final List<HighlightedMomentModel> pastEvents,
-      required this.category})
-      : _lastEightMembers = lastEightMembers,
-        _futureEvents = futureEvents,
-        _pastEvents = pastEvents,
+      final List<EventModel>? events = const [],
+      @CategoryConverter() required this.category})
+      : _members = members,
+        _events = events,
         super._();
 
   @override
-  final int id;
+  final String id;
   @override
   final AppUserModel owner;
   @override
   final String image;
   @override
   final String name;
+  final List<AppUserModel>? _members;
+  @override
+  @JsonKey()
+  List<AppUserModel>? get members {
+    final value = _members;
+    if (value == null) return null;
+    if (_members is EqualUnmodifiableListView) return _members;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   final String city;
   @override
-  final int totalMembers;
-  final List<AppUserModel> _lastEightMembers;
-  @override
-  List<AppUserModel> get lastEightMembers {
-    if (_lastEightMembers is EqualUnmodifiableListView)
-      return _lastEightMembers;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_lastEightMembers);
-  }
-
-  @override
   final String description;
-  final List<EventModel> _futureEvents;
+  final List<EventModel>? _events;
   @override
-  List<EventModel> get futureEvents {
-    if (_futureEvents is EqualUnmodifiableListView) return _futureEvents;
+  @JsonKey()
+  List<EventModel>? get events {
+    final value = _events;
+    if (value == null) return null;
+    if (_events is EqualUnmodifiableListView) return _events;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_futureEvents);
-  }
-
-  final List<HighlightedMomentModel> _pastEvents;
-  @override
-  List<HighlightedMomentModel> get pastEvents {
-    if (_pastEvents is EqualUnmodifiableListView) return _pastEvents;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_pastEvents);
+    return EqualUnmodifiableListView(value);
   }
 
   @override
+  @CategoryConverter()
   final CategoryModel category;
 
   @override
   String toString() {
-    return 'CommunityModel(id: $id, owner: $owner, image: $image, name: $name, city: $city, totalMembers: $totalMembers, lastEightMembers: $lastEightMembers, description: $description, futureEvents: $futureEvents, pastEvents: $pastEvents, category: $category)';
+    return 'CommunityModel(id: $id, owner: $owner, image: $image, name: $name, members: $members, city: $city, description: $description, events: $events, category: $category)';
   }
 
   @override
@@ -322,17 +289,11 @@ class _$CommunityModelImpl extends _CommunityModel {
             (identical(other.owner, owner) || other.owner == owner) &&
             (identical(other.image, image) || other.image == image) &&
             (identical(other.name, name) || other.name == name) &&
+            const DeepCollectionEquality().equals(other._members, _members) &&
             (identical(other.city, city) || other.city == city) &&
-            (identical(other.totalMembers, totalMembers) ||
-                other.totalMembers == totalMembers) &&
-            const DeepCollectionEquality()
-                .equals(other._lastEightMembers, _lastEightMembers) &&
             (identical(other.description, description) ||
                 other.description == description) &&
-            const DeepCollectionEquality()
-                .equals(other._futureEvents, _futureEvents) &&
-            const DeepCollectionEquality()
-                .equals(other._pastEvents, _pastEvents) &&
+            const DeepCollectionEquality().equals(other._events, _events) &&
             (identical(other.category, category) ||
                 other.category == category));
   }
@@ -344,12 +305,10 @@ class _$CommunityModelImpl extends _CommunityModel {
       owner,
       image,
       name,
+      const DeepCollectionEquality().hash(_members),
       city,
-      totalMembers,
-      const DeepCollectionEquality().hash(_lastEightMembers),
       description,
-      const DeepCollectionEquality().hash(_futureEvents),
-      const DeepCollectionEquality().hash(_pastEvents),
+      const DeepCollectionEquality().hash(_events),
       category);
 
   @JsonKey(ignore: true)
@@ -362,21 +321,20 @@ class _$CommunityModelImpl extends _CommunityModel {
 
 abstract class _CommunityModel extends CommunityModel {
   const factory _CommunityModel(
-      {required final int id,
-      required final AppUserModel owner,
-      required final String image,
-      required final String name,
-      required final String city,
-      required final int totalMembers,
-      required final List<AppUserModel> lastEightMembers,
-      required final String description,
-      required final List<EventModel> futureEvents,
-      required final List<HighlightedMomentModel> pastEvents,
-      required final CategoryModel category}) = _$CommunityModelImpl;
+          {required final String id,
+          required final AppUserModel owner,
+          required final String image,
+          required final String name,
+          final List<AppUserModel>? members,
+          required final String city,
+          required final String description,
+          final List<EventModel>? events,
+          @CategoryConverter() required final CategoryModel category}) =
+      _$CommunityModelImpl;
   const _CommunityModel._() : super._();
 
   @override
-  int get id;
+  String get id;
   @override
   AppUserModel get owner;
   @override
@@ -384,18 +342,15 @@ abstract class _CommunityModel extends CommunityModel {
   @override
   String get name;
   @override
+  List<AppUserModel>? get members;
+  @override
   String get city;
-  @override
-  int get totalMembers;
-  @override
-  List<AppUserModel> get lastEightMembers;
   @override
   String get description;
   @override
-  List<EventModel> get futureEvents;
+  List<EventModel>? get events;
   @override
-  List<HighlightedMomentModel> get pastEvents;
-  @override
+  @CategoryConverter()
   CategoryModel get category;
   @override
   @JsonKey(ignore: true)

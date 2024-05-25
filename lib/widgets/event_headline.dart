@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socialice/constants/app_colors.dart';
 import 'package:socialice/domains/event_repository/src/models/event_model.dart';
-import 'package:socialice/providers/event_provider/events_provider.dart';
+import 'package:socialice/providers/app_user_provider/app_user_provider.dart';
 import 'package:socialice/utils/date_parser.dart';
 import 'package:socialice/widgets/event_assistants_profile.dart';
 
@@ -16,6 +16,12 @@ class EventHeadline extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final appUser = ref.watch(appUserProvider).asData?.value;
+
+    if (appUser == null) {
+      return SizedBox.shrink();
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -27,8 +33,8 @@ class EventHeadline extends ConsumerWidget {
             decoration: BoxDecoration(
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: AssetImage(
-                  eventHeadline.horizontalImage,
+                image: NetworkImage(
+                  eventHeadline.image,
                 ),
               ),
             ),
@@ -39,13 +45,13 @@ class EventHeadline extends ConsumerWidget {
                   children: [
                     Expanded(
                       child: EventAssistantsProfile(
-                          assistants: eventHeadline.participants),
+                          assistants: eventHeadline.participants!),
                     ),
                     GestureDetector(
                         onTap: () => ref
-                            .read(eventsProvider.notifier)
+                            .read(appUserProvider.notifier)
                             .toggleEventFavourite(eventHeadline.id),
-                        child: eventHeadline.favourite
+                        child: appUser.favourites!.contains(eventHeadline.id)
                             ? Icon(Icons.favorite_rounded,
                                 size: 32, color: AppColors.redColor)
                             : Icon(
@@ -73,7 +79,7 @@ class EventHeadline extends ConsumerWidget {
         ),
         GestureDetector(
           onTap: () => Navigator.pushNamed(context, '/CommunityScreen',
-              arguments: {'communityId': eventHeadline.communityId}),
+              arguments: {'communityId': eventHeadline.id}),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -88,8 +94,8 @@ class EventHeadline extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(15),
                       image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: AssetImage(
-                          eventHeadline.communityImage,
+                        image: NetworkImage(
+                          eventHeadline.community.image,
                         ),
                       ),
                       boxShadow: [
@@ -105,7 +111,7 @@ class EventHeadline extends ConsumerWidget {
                     width: 6,
                   ),
                   Text(
-                    eventHeadline.communityName,
+                    eventHeadline.community.name,
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 12,

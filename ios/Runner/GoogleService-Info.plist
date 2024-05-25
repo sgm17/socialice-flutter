@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyCvYkgL-tiTX0EBAArsvtqfXs5YGUsAB5M</string>
+	<key>GCM_SENDER_ID</key>
+	<string>548247601995</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.invelex.socialice</string>
+	<key>PROJECT_ID</key>
+	<string>socialice-a8e0e</string>
+	<key>STORAGE_BUCKET</key>
+	<string>socialice-a8e0e.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:548247601995:ios:4f3c23d88a644ade091ece</string>
+</dict>
+</plist>

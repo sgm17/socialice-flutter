@@ -16,11 +16,13 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$CommentReplyModel {
+  String get id => throw _privateConstructorUsedError;
+  CommentModel get parentComment => throw _privateConstructorUsedError;
   AppUserModel get creator => throw _privateConstructorUsedError;
   @TimestampConverter()
   DateTime get createdAt => throw _privateConstructorUsedError;
   String get comment => throw _privateConstructorUsedError;
-  int get likes => throw _privateConstructorUsedError;
+  List<String>? get likes => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CommentReplyModelCopyWith<CommentReplyModel> get copyWith =>
@@ -34,11 +36,14 @@ abstract class $CommentReplyModelCopyWith<$Res> {
       _$CommentReplyModelCopyWithImpl<$Res, CommentReplyModel>;
   @useResult
   $Res call(
-      {AppUserModel creator,
+      {String id,
+      CommentModel parentComment,
+      AppUserModel creator,
       @TimestampConverter() DateTime createdAt,
       String comment,
-      int likes});
+      List<String>? likes});
 
+  $CommentModelCopyWith<$Res> get parentComment;
   $AppUserModelCopyWith<$Res> get creator;
 }
 
@@ -55,12 +60,22 @@ class _$CommentReplyModelCopyWithImpl<$Res, $Val extends CommentReplyModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
+    Object? parentComment = null,
     Object? creator = null,
     Object? createdAt = null,
     Object? comment = null,
-    Object? likes = null,
+    Object? likes = freezed,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      parentComment: null == parentComment
+          ? _value.parentComment
+          : parentComment // ignore: cast_nullable_to_non_nullable
+              as CommentModel,
       creator: null == creator
           ? _value.creator
           : creator // ignore: cast_nullable_to_non_nullable
@@ -73,11 +88,19 @@ class _$CommentReplyModelCopyWithImpl<$Res, $Val extends CommentReplyModel>
           ? _value.comment
           : comment // ignore: cast_nullable_to_non_nullable
               as String,
-      likes: null == likes
+      likes: freezed == likes
           ? _value.likes
           : likes // ignore: cast_nullable_to_non_nullable
-              as int,
+              as List<String>?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $CommentModelCopyWith<$Res> get parentComment {
+    return $CommentModelCopyWith<$Res>(_value.parentComment, (value) {
+      return _then(_value.copyWith(parentComment: value) as $Val);
+    });
   }
 
   @override
@@ -98,11 +121,15 @@ abstract class _$$CommentReplyModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {AppUserModel creator,
+      {String id,
+      CommentModel parentComment,
+      AppUserModel creator,
       @TimestampConverter() DateTime createdAt,
       String comment,
-      int likes});
+      List<String>? likes});
 
+  @override
+  $CommentModelCopyWith<$Res> get parentComment;
   @override
   $AppUserModelCopyWith<$Res> get creator;
 }
@@ -118,12 +145,22 @@ class __$$CommentReplyModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
+    Object? parentComment = null,
     Object? creator = null,
     Object? createdAt = null,
     Object? comment = null,
-    Object? likes = null,
+    Object? likes = freezed,
   }) {
     return _then(_$CommentReplyModelImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      parentComment: null == parentComment
+          ? _value.parentComment
+          : parentComment // ignore: cast_nullable_to_non_nullable
+              as CommentModel,
       creator: null == creator
           ? _value.creator
           : creator // ignore: cast_nullable_to_non_nullable
@@ -136,10 +173,10 @@ class __$$CommentReplyModelImplCopyWithImpl<$Res>
           ? _value.comment
           : comment // ignore: cast_nullable_to_non_nullable
               as String,
-      likes: null == likes
-          ? _value.likes
+      likes: freezed == likes
+          ? _value._likes
           : likes // ignore: cast_nullable_to_non_nullable
-              as int,
+              as List<String>?,
     ));
   }
 }
@@ -148,12 +185,19 @@ class __$$CommentReplyModelImplCopyWithImpl<$Res>
 
 class _$CommentReplyModelImpl extends _CommentReplyModel {
   const _$CommentReplyModelImpl(
-      {required this.creator,
+      {required this.id,
+      required this.parentComment,
+      required this.creator,
       @TimestampConverter() required this.createdAt,
       required this.comment,
-      required this.likes})
-      : super._();
+      final List<String>? likes})
+      : _likes = likes,
+        super._();
 
+  @override
+  final String id;
+  @override
+  final CommentModel parentComment;
   @override
   final AppUserModel creator;
   @override
@@ -161,12 +205,19 @@ class _$CommentReplyModelImpl extends _CommentReplyModel {
   final DateTime createdAt;
   @override
   final String comment;
+  final List<String>? _likes;
   @override
-  final int likes;
+  List<String>? get likes {
+    final value = _likes;
+    if (value == null) return null;
+    if (_likes is EqualUnmodifiableListView) return _likes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'CommentReplyModel(creator: $creator, createdAt: $createdAt, comment: $comment, likes: $likes)';
+    return 'CommentReplyModel(id: $id, parentComment: $parentComment, creator: $creator, createdAt: $createdAt, comment: $comment, likes: $likes)';
   }
 
   @override
@@ -174,16 +225,19 @@ class _$CommentReplyModelImpl extends _CommentReplyModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CommentReplyModelImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.parentComment, parentComment) ||
+                other.parentComment == parentComment) &&
             (identical(other.creator, creator) || other.creator == creator) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.comment, comment) || other.comment == comment) &&
-            (identical(other.likes, likes) || other.likes == likes));
+            const DeepCollectionEquality().equals(other._likes, _likes));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, creator, createdAt, comment, likes);
+  int get hashCode => Object.hash(runtimeType, id, parentComment, creator,
+      createdAt, comment, const DeepCollectionEquality().hash(_likes));
 
   @JsonKey(ignore: true)
   @override
@@ -195,12 +249,18 @@ class _$CommentReplyModelImpl extends _CommentReplyModel {
 
 abstract class _CommentReplyModel extends CommentReplyModel {
   const factory _CommentReplyModel(
-      {required final AppUserModel creator,
+      {required final String id,
+      required final CommentModel parentComment,
+      required final AppUserModel creator,
       @TimestampConverter() required final DateTime createdAt,
       required final String comment,
-      required final int likes}) = _$CommentReplyModelImpl;
+      final List<String>? likes}) = _$CommentReplyModelImpl;
   const _CommentReplyModel._() : super._();
 
+  @override
+  String get id;
+  @override
+  CommentModel get parentComment;
   @override
   AppUserModel get creator;
   @override
@@ -209,7 +269,7 @@ abstract class _CommentReplyModel extends CommentReplyModel {
   @override
   String get comment;
   @override
-  int get likes;
+  List<String>? get likes;
   @override
   @JsonKey(ignore: true)
   _$$CommentReplyModelImplCopyWith<_$CommentReplyModelImpl> get copyWith =>

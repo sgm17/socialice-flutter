@@ -65,7 +65,7 @@ class EventCategoryItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             image: DecorationImage(
               fit: BoxFit.cover,
-              image: AssetImage(
+              image: NetworkImage(
                 eventCategory.categoryImage,
               ),
             ),

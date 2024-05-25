@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socialice/domains/event_repository/src/models/event_model.dart';
 import 'package:socialice/providers/app_user_provider/app_user_provider.dart';
-import 'package:socialice/providers/event_provider/events_provider.dart';
 import 'package:socialice/screens/events_screen/widgets/empty_joined_event.dart';
 import 'package:socialice/screens/events_screen/widgets/joined_or_past_event.dart';
 import 'package:socialice/screens/events_screen/widgets/create_first_event.dart';
@@ -15,10 +14,8 @@ class EventsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final eventsState = ref.watch(eventsProvider);
-
     // get the user state
-    final appUserState = ref.read(appUserProvider).asData?.value;
+    final appUserState = ref.read(appUserProvider);
 
     return Scaffold(
       body: SafeArea(
@@ -39,17 +36,13 @@ class EventsScreen extends ConsumerWidget {
                     color: Color(0xFF1B1A1D),
                   ),
                 ),
-                eventsState.when(
-                  data: (events) {
-                    // get all the joined events by the user
-                    final pastAndFutureEvents =
-                        events.where((e) => e.joined).toList();
-
+                appUserState.when(
+                  data: (appUser) {
                     final organizedEvents =
-                        EventModel.getOrganizedEvents(events, appUserState);
+                        EventModel.getOrganizedEvents(appUser.events!, appUser);
 
                     return Text(
-                      'You Have ${pastAndFutureEvents.length + organizedEvents.length} Events',
+                      'You Have ${organizedEvents.length + organizedEvents.length} Events',
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 22,
@@ -67,10 +60,10 @@ class EventsScreen extends ConsumerWidget {
                 MyEventsSubtitle(
                   subtitle: 'My Events',
                 ),
-                eventsState.when(
-                  data: (events) {
+                appUserState.when(
+                  data: (appUser) {
                     final organizedEvents =
-                        EventModel.getOrganizedEvents(events, appUserState);
+                        EventModel.getOrganizedEvents(appUser.events!, appUser);
 
                     if (organizedEvents.isEmpty)
                       // create your first event if there are no organized events
@@ -99,28 +92,25 @@ class EventsScreen extends ConsumerWidget {
                   height: 32,
                 ),
                 MyEventsSubtitle(subtitle: 'Joined Events'),
-                eventsState.when(
-                  data: (events) {
+                appUserState.when(
+                  data: (appUser) {
                     // get the future events
-                    final futureEvents = EventModel.getFutureEvents(events);
+                    final futureEvents =
+                        EventModel.getFutureEvents(appUser.events!);
 
-                    // get the joined events
-                    final joinedEvents =
-                        futureEvents.where((e) => e.joined).toList();
-
-                    if (joinedEvents.isEmpty)
+                    if (futureEvents.isEmpty)
                       // there are no future joined events
                       return EmptyJoinedEvent();
                     else
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          for (int i = 0; i < joinedEvents.length; i++)
+                          for (int i = 0; i < futureEvents.length; i++)
                             Padding(
-                              padding: i != joinedEvents.length - 1
+                              padding: i != futureEvents.length - 1
                                   ? const EdgeInsets.only(bottom: 16.0)
                                   : EdgeInsets.zero,
-                              child: JoinedOrPastEvent(event: joinedEvents[i]),
+                              child: JoinedOrPastEvent(event: futureEvents[i]),
                             )
                         ],
                       );
@@ -133,24 +123,21 @@ class EventsScreen extends ConsumerWidget {
                   height: 32,
                 ),
                 MyEventsSubtitle(subtitle: 'Past Events'),
-                eventsState.when(
-                  data: (events) {
+                appUserState.when(
+                  data: (appUser) {
                     // get the past events
-                    final pastEvents = EventModel.getPastEvents(events);
-
-                    // get the joined events
-                    final joinedEvents =
-                        pastEvents.where((e) => e.joined).toList();
+                    final pastEvents =
+                        EventModel.getPastEvents(appUser.events!);
 
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        for (int i = 0; i < joinedEvents.length; i++)
+                        for (int i = 0; i < pastEvents.length; i++)
                           Padding(
-                            padding: i != joinedEvents.length - 1
+                            padding: i != pastEvents.length - 1
                                 ? const EdgeInsets.only(bottom: 16.0)
                                 : EdgeInsets.zero,
-                            child: JoinedOrPastEvent(event: joinedEvents[i]),
+                            child: JoinedOrPastEvent(event: pastEvents[i]),
                           )
                       ],
                     );

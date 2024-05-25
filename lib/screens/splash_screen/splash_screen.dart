@@ -26,7 +26,8 @@ class _SplashScreenState extends State<SplashScreen> {
           height: 150,
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage(
+              fit: BoxFit.cover,
+              image: NetworkImage(
                 'assets/images/splash_logo_image.png',
               ),
             ),

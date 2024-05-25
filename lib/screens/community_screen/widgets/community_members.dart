@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:socialice/domains/app_user_repository/src/models/app_user_model.dart';
 
 class CommunityMembers extends StatelessWidget {
-  const CommunityMembers({super.key});
+  const CommunityMembers({super.key, required this.members});
+
+  final List<AppUserModel> members;
 
   @override
   Widget build(BuildContext context) {
     List<Widget> elements = [];
 
-    for (var i = 0; i < 8; i++) {
+    final maxMembers = members.length >= 8 ? 8 : members.length;
+
+    for (var i = 0; i < maxMembers; i++) {
       elements.add(
         Row(
           children: [
@@ -18,7 +23,7 @@ class CommunityMembers extends StatelessWidget {
                 borderRadius: BorderRadius.circular(18.5),
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage(
+                  image: NetworkImage(
                     'assets/images/community_profile_1.png',
                   ),
                 ),

@@ -4,7 +4,6 @@ part 'category_model.g.dart';
 
 @JsonSerializable(
   createToJson: true,
-  fieldRename: FieldRename.snake,
   explicitToJson: true,
   checked: true,
 )
