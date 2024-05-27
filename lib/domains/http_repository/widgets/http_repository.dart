@@ -1,7 +1,7 @@
 import 'package:socialice/domains/app_user_repository/src/models/app_user_model.dart';
 import 'package:socialice/domains/app_user_repository/src/models/interest_model.dart';
 import 'package:socialice/domains/community_repository/src/models/community_model.dart';
-import 'package:socialice/domains/community_repository/src/models/highlighted_image_model.dart';
+import 'package:socialice/domains/community_repository/src/models/highlight_model.dart';
 import 'package:socialice/domains/event_repository/src/models/category_model.dart';
 import 'package:socialice/domains/event_repository/src/models/comment_model.dart';
 import 'package:socialice/domains/event_repository/src/models/comment_reply_model.dart';
@@ -38,6 +38,8 @@ abstract class HttpRepository {
   Future<bool> deleteAppUserModel();
   // PUT /api/v1/favourites
   Future<AppUserModel> updateFavourites({required String eventId});
+  // GET /api/v1/interests
+  Future<List<InterestModel>> requestInterests();
   // PUT /api/v1/interests
   Future<AppUserModel> updateInterests(
       {required List<InterestModel> interests});
@@ -78,7 +80,7 @@ abstract class HttpRepository {
   // PUT /api/v1/events
   Future<bool> deleteEventModel({required String id});
   // PUT /api/v1/highlighted-images
-  Future<HighlightedImageModel> createHighlightedImagesModel(
+  Future<HighlightModel> createHighlightedImagesModel(
       {required String eventId, required String image});
   // PUT /api/v1/organizers
   Future<EventModel> updateOrganizersMembers(
@@ -111,6 +113,8 @@ abstract class HttpRepository {
   Future<bool> deleteCommunityModel({required String communityId});
   // PUT /api/v1/members
   Future<CommunityModel> updateCommunityMembers({required String communityId});
+  // GET /api/v1/categories
+  Future<List<CategoryModel>> requestCategories();
 
   // CommentModel
   // POST /api/v1/comments

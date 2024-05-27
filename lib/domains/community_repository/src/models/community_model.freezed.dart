@@ -24,7 +24,6 @@ mixin _$CommunityModel {
   String get city => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   List<EventModel>? get events => throw _privateConstructorUsedError;
-  @CategoryConverter()
   CategoryModel get category => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -47,7 +46,7 @@ abstract class $CommunityModelCopyWith<$Res> {
       String city,
       String description,
       List<EventModel>? events,
-      @CategoryConverter() CategoryModel category});
+      CategoryModel category});
 
   $AppUserModelCopyWith<$Res> get owner;
   $CategoryModelCopyWith<$Res> get category;
@@ -150,7 +149,7 @@ abstract class _$$CommunityModelImplCopyWith<$Res>
       String city,
       String description,
       List<EventModel>? events,
-      @CategoryConverter() CategoryModel category});
+      CategoryModel category});
 
   @override
   $AppUserModelCopyWith<$Res> get owner;
@@ -232,7 +231,7 @@ class _$CommunityModelImpl extends _CommunityModel {
       required this.city,
       required this.description,
       final List<EventModel>? events = const [],
-      @CategoryConverter() required this.category})
+      required this.category})
       : _members = members,
         _events = events,
         super._();
@@ -272,7 +271,6 @@ class _$CommunityModelImpl extends _CommunityModel {
   }
 
   @override
-  @CategoryConverter()
   final CategoryModel category;
 
   @override
@@ -321,16 +319,15 @@ class _$CommunityModelImpl extends _CommunityModel {
 
 abstract class _CommunityModel extends CommunityModel {
   const factory _CommunityModel(
-          {required final String id,
-          required final AppUserModel owner,
-          required final String image,
-          required final String name,
-          final List<AppUserModel>? members,
-          required final String city,
-          required final String description,
-          final List<EventModel>? events,
-          @CategoryConverter() required final CategoryModel category}) =
-      _$CommunityModelImpl;
+      {required final String id,
+      required final AppUserModel owner,
+      required final String image,
+      required final String name,
+      final List<AppUserModel>? members,
+      required final String city,
+      required final String description,
+      final List<EventModel>? events,
+      required final CategoryModel category}) = _$CommunityModelImpl;
   const _CommunityModel._() : super._();
 
   @override
@@ -350,7 +347,6 @@ abstract class _CommunityModel extends CommunityModel {
   @override
   List<EventModel>? get events;
   @override
-  @CategoryConverter()
   CategoryModel get category;
   @override
   @JsonKey(ignore: true)

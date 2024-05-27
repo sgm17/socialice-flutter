@@ -12,6 +12,6 @@ part 'ticket_model.g.dart';
 class TicketModel with _$TicketModel {
   const TicketModel._();
 
-  const factory TicketModel(
-      {required EventModel event, required String qrCode}) = _TicketModel;
+  const factory TicketModel({required String eventId, required String qrCode}) =
+      _TicketModel;
 }

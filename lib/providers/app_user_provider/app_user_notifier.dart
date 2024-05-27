@@ -4,6 +4,7 @@ import 'package:socialice/domains/app_user_repository/src/models/interest_model.
 import 'package:socialice/providers/app_user_provider/app_user_viewmodel_provider.dart';
 import 'package:socialice/providers/event_provider/events_provider.dart';
 import 'package:socialice/providers/firebase_storage_provider/firebase_storage_provider.dart';
+import 'package:socialice/providers/http_provider/http_viewmodel_provider.dart';
 import 'package:socialice/screens/select_city_screen/select_city_screen.dart';
 import 'dart:io';
 
@@ -25,15 +26,13 @@ class AppUserNotifier extends StateNotifier<AsyncValue<AppUserModel>> {
     }
   }
 
-  void setInterestUpdate(InterestModel interest) {
+  Future<void> setInterestsUpdate(List<InterestModel> interests) async {
     try {
-      final interests = state.asData?.value.interests;
-      final interestIndex = interests?.indexWhere((e) => e.id == interest.id);
+      final updatedUser = await ref
+          .read(httpViewmodelProvider)
+          .updateInterests(interests: interests);
 
-      state = AsyncValue.data(state.asData!.value.copyWith(
-          interests: interestIndex != -1
-              ? interests?.where((e) => e.id != interest.id).toList()
-              : [interest, ...interests!]));
+      state = AsyncValue.data(updatedUser);
     } catch (e) {
       state = AsyncValue.error(e, StackTrace.current);
     }

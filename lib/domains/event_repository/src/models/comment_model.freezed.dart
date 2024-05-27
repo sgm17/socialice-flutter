@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$CommentModel {
   String get id => throw _privateConstructorUsedError;
   AppUserModel get creator => throw _privateConstructorUsedError;
-  EventModel get event => throw _privateConstructorUsedError;
+  String get eventId => throw _privateConstructorUsedError;
   String get comment => throw _privateConstructorUsedError;
   List<String>? get likes => throw _privateConstructorUsedError;
   List<CommentReplyModel>? get replies => throw _privateConstructorUsedError;
@@ -39,14 +39,13 @@ abstract class $CommentModelCopyWith<$Res> {
   $Res call(
       {String id,
       AppUserModel creator,
-      EventModel event,
+      String eventId,
       String comment,
       List<String>? likes,
       List<CommentReplyModel>? replies,
       @TimestampConverter() DateTime createdAt});
 
   $AppUserModelCopyWith<$Res> get creator;
-  $EventModelCopyWith<$Res> get event;
 }
 
 /// @nodoc
@@ -64,7 +63,7 @@ class _$CommentModelCopyWithImpl<$Res, $Val extends CommentModel>
   $Res call({
     Object? id = null,
     Object? creator = null,
-    Object? event = null,
+    Object? eventId = null,
     Object? comment = null,
     Object? likes = freezed,
     Object? replies = freezed,
@@ -79,10 +78,10 @@ class _$CommentModelCopyWithImpl<$Res, $Val extends CommentModel>
           ? _value.creator
           : creator // ignore: cast_nullable_to_non_nullable
               as AppUserModel,
-      event: null == event
-          ? _value.event
-          : event // ignore: cast_nullable_to_non_nullable
-              as EventModel,
+      eventId: null == eventId
+          ? _value.eventId
+          : eventId // ignore: cast_nullable_to_non_nullable
+              as String,
       comment: null == comment
           ? _value.comment
           : comment // ignore: cast_nullable_to_non_nullable
@@ -109,14 +108,6 @@ class _$CommentModelCopyWithImpl<$Res, $Val extends CommentModel>
       return _then(_value.copyWith(creator: value) as $Val);
     });
   }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $EventModelCopyWith<$Res> get event {
-    return $EventModelCopyWith<$Res>(_value.event, (value) {
-      return _then(_value.copyWith(event: value) as $Val);
-    });
-  }
 }
 
 /// @nodoc
@@ -130,7 +121,7 @@ abstract class _$$CommentModelImplCopyWith<$Res>
   $Res call(
       {String id,
       AppUserModel creator,
-      EventModel event,
+      String eventId,
       String comment,
       List<String>? likes,
       List<CommentReplyModel>? replies,
@@ -138,8 +129,6 @@ abstract class _$$CommentModelImplCopyWith<$Res>
 
   @override
   $AppUserModelCopyWith<$Res> get creator;
-  @override
-  $EventModelCopyWith<$Res> get event;
 }
 
 /// @nodoc
@@ -155,7 +144,7 @@ class __$$CommentModelImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? creator = null,
-    Object? event = null,
+    Object? eventId = null,
     Object? comment = null,
     Object? likes = freezed,
     Object? replies = freezed,
@@ -170,10 +159,10 @@ class __$$CommentModelImplCopyWithImpl<$Res>
           ? _value.creator
           : creator // ignore: cast_nullable_to_non_nullable
               as AppUserModel,
-      event: null == event
-          ? _value.event
-          : event // ignore: cast_nullable_to_non_nullable
-              as EventModel,
+      eventId: null == eventId
+          ? _value.eventId
+          : eventId // ignore: cast_nullable_to_non_nullable
+              as String,
       comment: null == comment
           ? _value.comment
           : comment // ignore: cast_nullable_to_non_nullable
@@ -200,7 +189,7 @@ class _$CommentModelImpl extends _CommentModel {
   const _$CommentModelImpl(
       {required this.id,
       required this.creator,
-      required this.event,
+      required this.eventId,
       required this.comment,
       final List<String>? likes = const [],
       final List<CommentReplyModel>? replies = const [],
@@ -214,7 +203,7 @@ class _$CommentModelImpl extends _CommentModel {
   @override
   final AppUserModel creator;
   @override
-  final EventModel event;
+  final String eventId;
   @override
   final String comment;
   final List<String>? _likes;
@@ -245,7 +234,7 @@ class _$CommentModelImpl extends _CommentModel {
 
   @override
   String toString() {
-    return 'CommentModel(id: $id, creator: $creator, event: $event, comment: $comment, likes: $likes, replies: $replies, createdAt: $createdAt)';
+    return 'CommentModel(id: $id, creator: $creator, eventId: $eventId, comment: $comment, likes: $likes, replies: $replies, createdAt: $createdAt)';
   }
 
   @override
@@ -255,7 +244,7 @@ class _$CommentModelImpl extends _CommentModel {
             other is _$CommentModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.creator, creator) || other.creator == creator) &&
-            (identical(other.event, event) || other.event == event) &&
+            (identical(other.eventId, eventId) || other.eventId == eventId) &&
             (identical(other.comment, comment) || other.comment == comment) &&
             const DeepCollectionEquality().equals(other._likes, _likes) &&
             const DeepCollectionEquality().equals(other._replies, _replies) &&
@@ -268,7 +257,7 @@ class _$CommentModelImpl extends _CommentModel {
       runtimeType,
       id,
       creator,
-      event,
+      eventId,
       comment,
       const DeepCollectionEquality().hash(_likes),
       const DeepCollectionEquality().hash(_replies),
@@ -285,7 +274,7 @@ abstract class _CommentModel extends CommentModel {
   const factory _CommentModel(
           {required final String id,
           required final AppUserModel creator,
-          required final EventModel event,
+          required final String eventId,
           required final String comment,
           final List<String>? likes,
           final List<CommentReplyModel>? replies,
@@ -298,7 +287,7 @@ abstract class _CommentModel extends CommentModel {
   @override
   AppUserModel get creator;
   @override
-  EventModel get event;
+  String get eventId;
   @override
   String get comment;
   @override

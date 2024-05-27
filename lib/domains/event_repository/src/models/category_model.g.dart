@@ -12,8 +12,9 @@ CategoryModel _$CategoryModelFromJson(Map<String, dynamic> json) =>
       json,
       ($checkedConvert) {
         final val = CategoryModel(
-          categoryName: $checkedConvert('categoryName', (v) => v as String),
-          categoryImage: $checkedConvert('categoryImage', (v) => v as String),
+          id: $checkedConvert('id', (v) => v as String),
+          name: $checkedConvert('name', (v) => v as String),
+          image: $checkedConvert('image', (v) => v as String),
         );
         return val;
       },
@@ -21,6 +22,7 @@ CategoryModel _$CategoryModelFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$CategoryModelToJson(CategoryModel instance) =>
     <String, dynamic>{
-      'categoryName': instance.categoryName,
-      'categoryImage': instance.categoryImage,
+      'id': instance.id,
+      'name': instance.name,
+      'image': instance.image,
     };

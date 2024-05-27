@@ -1,7 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:socialice/domains/app_user_repository/src/models/app_user_model.dart';
 import 'package:socialice/domains/event_repository/src/models/comment_reply_model.dart';
-import 'package:socialice/domains/event_repository/src/models/event_model.dart';
 import 'package:socialice/helpers/serialize/timestamp_converter.dart';
 part 'comment_model.freezed.dart';
 part 'comment_model.g.dart';
@@ -23,7 +22,7 @@ class CommentModel with _$CommentModel {
   const factory CommentModel(
       {required String id,
       required AppUserModel creator,
-      required EventModel event,
+      required String eventId,
       required String comment,
       @Default([]) List<String>? likes,
       @Default([]) List<CommentReplyModel>? replies,

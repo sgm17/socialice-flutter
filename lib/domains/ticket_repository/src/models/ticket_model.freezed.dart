@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$TicketModel {
-  EventModel get event => throw _privateConstructorUsedError;
+  String get eventId => throw _privateConstructorUsedError;
   String get qrCode => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -30,9 +30,7 @@ abstract class $TicketModelCopyWith<$Res> {
           TicketModel value, $Res Function(TicketModel) then) =
       _$TicketModelCopyWithImpl<$Res, TicketModel>;
   @useResult
-  $Res call({EventModel event, String qrCode});
-
-  $EventModelCopyWith<$Res> get event;
+  $Res call({String eventId, String qrCode});
 }
 
 /// @nodoc
@@ -48,27 +46,19 @@ class _$TicketModelCopyWithImpl<$Res, $Val extends TicketModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? event = null,
+    Object? eventId = null,
     Object? qrCode = null,
   }) {
     return _then(_value.copyWith(
-      event: null == event
-          ? _value.event
-          : event // ignore: cast_nullable_to_non_nullable
-              as EventModel,
+      eventId: null == eventId
+          ? _value.eventId
+          : eventId // ignore: cast_nullable_to_non_nullable
+              as String,
       qrCode: null == qrCode
           ? _value.qrCode
           : qrCode // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $EventModelCopyWith<$Res> get event {
-    return $EventModelCopyWith<$Res>(_value.event, (value) {
-      return _then(_value.copyWith(event: value) as $Val);
-    });
   }
 }
 
@@ -80,10 +70,7 @@ abstract class _$$TicketModelImplCopyWith<$Res>
       __$$TicketModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({EventModel event, String qrCode});
-
-  @override
-  $EventModelCopyWith<$Res> get event;
+  $Res call({String eventId, String qrCode});
 }
 
 /// @nodoc
@@ -97,14 +84,14 @@ class __$$TicketModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? event = null,
+    Object? eventId = null,
     Object? qrCode = null,
   }) {
     return _then(_$TicketModelImpl(
-      event: null == event
-          ? _value.event
-          : event // ignore: cast_nullable_to_non_nullable
-              as EventModel,
+      eventId: null == eventId
+          ? _value.eventId
+          : eventId // ignore: cast_nullable_to_non_nullable
+              as String,
       qrCode: null == qrCode
           ? _value.qrCode
           : qrCode // ignore: cast_nullable_to_non_nullable
@@ -116,17 +103,17 @@ class __$$TicketModelImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$TicketModelImpl extends _TicketModel {
-  const _$TicketModelImpl({required this.event, required this.qrCode})
+  const _$TicketModelImpl({required this.eventId, required this.qrCode})
       : super._();
 
   @override
-  final EventModel event;
+  final String eventId;
   @override
   final String qrCode;
 
   @override
   String toString() {
-    return 'TicketModel(event: $event, qrCode: $qrCode)';
+    return 'TicketModel(eventId: $eventId, qrCode: $qrCode)';
   }
 
   @override
@@ -134,12 +121,12 @@ class _$TicketModelImpl extends _TicketModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TicketModelImpl &&
-            (identical(other.event, event) || other.event == event) &&
+            (identical(other.eventId, eventId) || other.eventId == eventId) &&
             (identical(other.qrCode, qrCode) || other.qrCode == qrCode));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, event, qrCode);
+  int get hashCode => Object.hash(runtimeType, eventId, qrCode);
 
   @JsonKey(ignore: true)
   @override
@@ -150,12 +137,12 @@ class _$TicketModelImpl extends _TicketModel {
 
 abstract class _TicketModel extends TicketModel {
   const factory _TicketModel(
-      {required final EventModel event,
+      {required final String eventId,
       required final String qrCode}) = _$TicketModelImpl;
   const _TicketModel._() : super._();
 
   @override
-  EventModel get event;
+  String get eventId;
   @override
   String get qrCode;
   @override

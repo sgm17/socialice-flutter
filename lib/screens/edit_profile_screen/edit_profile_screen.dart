@@ -67,8 +67,6 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         setState(() {
           _canScreenPop = canScreenPop;
         });
-
-        print("The canScreenPop is ${_canScreenPop}");
       },
       child: Scaffold(
         body: SafeArea(
@@ -291,7 +289,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                             height: 20,
                           ),
                           EditProfileDescription(
-                              initialValue: appUser.description!),
+                              initialValue: appUser.description ??
+                                  "Hey, I'm using Socialice"),
                           SizedBox(
                             height: 32,
                           ),

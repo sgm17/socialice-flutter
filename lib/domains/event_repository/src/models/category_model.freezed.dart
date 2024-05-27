@@ -16,8 +16,9 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$CategoryModel {
-  String get categoryName => throw _privateConstructorUsedError;
-  String get categoryImage => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
+  String get image => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CategoryModelCopyWith<CategoryModel> get copyWith =>
@@ -30,7 +31,7 @@ abstract class $CategoryModelCopyWith<$Res> {
           CategoryModel value, $Res Function(CategoryModel) then) =
       _$CategoryModelCopyWithImpl<$Res, CategoryModel>;
   @useResult
-  $Res call({String categoryName, String categoryImage});
+  $Res call({String id, String name, String image});
 }
 
 /// @nodoc
@@ -46,17 +47,22 @@ class _$CategoryModelCopyWithImpl<$Res, $Val extends CategoryModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? categoryName = null,
-    Object? categoryImage = null,
+    Object? id = null,
+    Object? name = null,
+    Object? image = null,
   }) {
     return _then(_value.copyWith(
-      categoryName: null == categoryName
-          ? _value.categoryName
-          : categoryName // ignore: cast_nullable_to_non_nullable
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
               as String,
-      categoryImage: null == categoryImage
-          ? _value.categoryImage
-          : categoryImage // ignore: cast_nullable_to_non_nullable
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      image: null == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -70,7 +76,7 @@ abstract class _$$CategoryModelImplCopyWith<$Res>
       __$$CategoryModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String categoryName, String categoryImage});
+  $Res call({String id, String name, String image});
 }
 
 /// @nodoc
@@ -84,17 +90,22 @@ class __$$CategoryModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? categoryName = null,
-    Object? categoryImage = null,
+    Object? id = null,
+    Object? name = null,
+    Object? image = null,
   }) {
     return _then(_$CategoryModelImpl(
-      categoryName: null == categoryName
-          ? _value.categoryName
-          : categoryName // ignore: cast_nullable_to_non_nullable
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
               as String,
-      categoryImage: null == categoryImage
-          ? _value.categoryImage
-          : categoryImage // ignore: cast_nullable_to_non_nullable
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      image: null == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -104,17 +115,19 @@ class __$$CategoryModelImplCopyWithImpl<$Res>
 
 class _$CategoryModelImpl extends _CategoryModel {
   const _$CategoryModelImpl(
-      {required this.categoryName, required this.categoryImage})
+      {required this.id, required this.name, required this.image})
       : super._();
 
   @override
-  final String categoryName;
+  final String id;
   @override
-  final String categoryImage;
+  final String name;
+  @override
+  final String image;
 
   @override
   String toString() {
-    return 'CategoryModel(categoryName: $categoryName, categoryImage: $categoryImage)';
+    return 'CategoryModel(id: $id, name: $name, image: $image)';
   }
 
   @override
@@ -122,14 +135,13 @@ class _$CategoryModelImpl extends _CategoryModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CategoryModelImpl &&
-            (identical(other.categoryName, categoryName) ||
-                other.categoryName == categoryName) &&
-            (identical(other.categoryImage, categoryImage) ||
-                other.categoryImage == categoryImage));
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.image, image) || other.image == image));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, categoryName, categoryImage);
+  int get hashCode => Object.hash(runtimeType, id, name, image);
 
   @JsonKey(ignore: true)
   @override
@@ -140,14 +152,17 @@ class _$CategoryModelImpl extends _CategoryModel {
 
 abstract class _CategoryModel extends CategoryModel {
   const factory _CategoryModel(
-      {required final String categoryName,
-      required final String categoryImage}) = _$CategoryModelImpl;
+      {required final String id,
+      required final String name,
+      required final String image}) = _$CategoryModelImpl;
   const _CategoryModel._() : super._();
 
   @override
-  String get categoryName;
+  String get id;
   @override
-  String get categoryImage;
+  String get name;
+  @override
+  String get image;
   @override
   @JsonKey(ignore: true)
   _$$CategoryModelImplCopyWith<_$CategoryModelImpl> get copyWith =>

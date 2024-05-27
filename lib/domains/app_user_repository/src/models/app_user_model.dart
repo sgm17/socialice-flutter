@@ -30,7 +30,7 @@ class AppUserModel with _$AppUserModel {
       required String location,
       required double latitude,
       required double longitude,
-      @Default("Hey, I'm using Socialice") String? description,
+      String? description,
       CommunityModel? createdCommunity,
       @Default([]) List<EventModel>? events,
       @Default([]) List<EventModel>? organizer,

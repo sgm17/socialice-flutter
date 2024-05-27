@@ -30,7 +30,7 @@ CommunityModel _$CommunityModelFromJson(Map<String, dynamic> json) =>
                   ?.map((e) => EventModel.fromJson(e as Map<String, dynamic>))
                   .toList()),
           category: $checkedConvert('category',
-              (v) => const CategoryConverter().fromJson(v as String)),
+              (v) => CategoryModel.fromJson(v as Map<String, dynamic>)),
         );
         return val;
       },
@@ -46,5 +46,5 @@ Map<String, dynamic> _$CommunityModelToJson(CommunityModel instance) =>
       'city': instance.city,
       'description': instance.description,
       'events': instance.events?.map((e) => e.toJson()).toList(),
-      'category': const CategoryConverter().toJson(instance.category),
+      'category': instance.category.toJson(),
     };

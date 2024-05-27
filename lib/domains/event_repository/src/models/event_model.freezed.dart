@@ -28,13 +28,12 @@ mixin _$EventModel {
   List<AppUserModel>? get organizers => throw _privateConstructorUsedError;
   double get latitude => throw _privateConstructorUsedError;
   double get longitude => throw _privateConstructorUsedError;
-  List<String>? get photos => throw _privateConstructorUsedError;
   List<CommentModel>? get comments => throw _privateConstructorUsedError;
   List<AppUserModel>? get participants => throw _privateConstructorUsedError;
   EventType get eventType => throw _privateConstructorUsedError;
   bool get popular => throw _privateConstructorUsedError;
-  List<HighlightedImageModel>? get highlightedImages =>
-      throw _privateConstructorUsedError;
+  List<HighlightModel>? get highlights => throw _privateConstructorUsedError;
+  List<String> get reports => throw _privateConstructorUsedError;
   @TimestampConverter()
   DateTime get startTimestamp => throw _privateConstructorUsedError;
   @TimestampConverter()
@@ -64,12 +63,12 @@ abstract class $EventModelCopyWith<$Res> {
       List<AppUserModel>? organizers,
       double latitude,
       double longitude,
-      List<String>? photos,
       List<CommentModel>? comments,
       List<AppUserModel>? participants,
       EventType eventType,
       bool popular,
-      List<HighlightedImageModel>? highlightedImages,
+      List<HighlightModel>? highlights,
+      List<String> reports,
       @TimestampConverter() DateTime startTimestamp,
       @TimestampConverter() DateTime endTimestamp});
 
@@ -101,12 +100,12 @@ class _$EventModelCopyWithImpl<$Res, $Val extends EventModel>
     Object? organizers = freezed,
     Object? latitude = null,
     Object? longitude = null,
-    Object? photos = freezed,
     Object? comments = freezed,
     Object? participants = freezed,
     Object? eventType = null,
     Object? popular = null,
-    Object? highlightedImages = freezed,
+    Object? highlights = freezed,
+    Object? reports = null,
     Object? startTimestamp = null,
     Object? endTimestamp = null,
   }) {
@@ -159,10 +158,6 @@ class _$EventModelCopyWithImpl<$Res, $Val extends EventModel>
           ? _value.longitude
           : longitude // ignore: cast_nullable_to_non_nullable
               as double,
-      photos: freezed == photos
-          ? _value.photos
-          : photos // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
       comments: freezed == comments
           ? _value.comments
           : comments // ignore: cast_nullable_to_non_nullable
@@ -179,10 +174,14 @@ class _$EventModelCopyWithImpl<$Res, $Val extends EventModel>
           ? _value.popular
           : popular // ignore: cast_nullable_to_non_nullable
               as bool,
-      highlightedImages: freezed == highlightedImages
-          ? _value.highlightedImages
-          : highlightedImages // ignore: cast_nullable_to_non_nullable
-              as List<HighlightedImageModel>?,
+      highlights: freezed == highlights
+          ? _value.highlights
+          : highlights // ignore: cast_nullable_to_non_nullable
+              as List<HighlightModel>?,
+      reports: null == reports
+          ? _value.reports
+          : reports // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       startTimestamp: null == startTimestamp
           ? _value.startTimestamp
           : startTimestamp // ignore: cast_nullable_to_non_nullable
@@ -224,12 +223,12 @@ abstract class _$$EventModelImplCopyWith<$Res>
       List<AppUserModel>? organizers,
       double latitude,
       double longitude,
-      List<String>? photos,
       List<CommentModel>? comments,
       List<AppUserModel>? participants,
       EventType eventType,
       bool popular,
-      List<HighlightedImageModel>? highlightedImages,
+      List<HighlightModel>? highlights,
+      List<String> reports,
       @TimestampConverter() DateTime startTimestamp,
       @TimestampConverter() DateTime endTimestamp});
 
@@ -260,12 +259,12 @@ class __$$EventModelImplCopyWithImpl<$Res>
     Object? organizers = freezed,
     Object? latitude = null,
     Object? longitude = null,
-    Object? photos = freezed,
     Object? comments = freezed,
     Object? participants = freezed,
     Object? eventType = null,
     Object? popular = null,
-    Object? highlightedImages = freezed,
+    Object? highlights = freezed,
+    Object? reports = null,
     Object? startTimestamp = null,
     Object? endTimestamp = null,
   }) {
@@ -318,10 +317,6 @@ class __$$EventModelImplCopyWithImpl<$Res>
           ? _value.longitude
           : longitude // ignore: cast_nullable_to_non_nullable
               as double,
-      photos: freezed == photos
-          ? _value._photos
-          : photos // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
       comments: freezed == comments
           ? _value._comments
           : comments // ignore: cast_nullable_to_non_nullable
@@ -338,10 +333,14 @@ class __$$EventModelImplCopyWithImpl<$Res>
           ? _value.popular
           : popular // ignore: cast_nullable_to_non_nullable
               as bool,
-      highlightedImages: freezed == highlightedImages
-          ? _value._highlightedImages
-          : highlightedImages // ignore: cast_nullable_to_non_nullable
-              as List<HighlightedImageModel>?,
+      highlights: freezed == highlights
+          ? _value._highlights
+          : highlights // ignore: cast_nullable_to_non_nullable
+              as List<HighlightModel>?,
+      reports: null == reports
+          ? _value._reports
+          : reports // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       startTimestamp: null == startTimestamp
           ? _value.startTimestamp
           : startTimestamp // ignore: cast_nullable_to_non_nullable
@@ -370,19 +369,19 @@ class _$EventModelImpl extends _EventModel {
       final List<AppUserModel>? organizers = const [],
       required this.latitude,
       required this.longitude,
-      final List<String>? photos = const [],
       final List<CommentModel>? comments = const [],
       final List<AppUserModel>? participants = const [],
       required this.eventType,
       this.popular = false,
-      final List<HighlightedImageModel>? highlightedImages = const [],
+      final List<HighlightModel>? highlights = const [],
+      required final List<String> reports,
       @TimestampConverter() required this.startTimestamp,
       @TimestampConverter() required this.endTimestamp})
       : _organizers = organizers,
-        _photos = photos,
         _comments = comments,
         _participants = participants,
-        _highlightedImages = highlightedImages,
+        _highlights = highlights,
+        _reports = reports,
         super._();
 
   @override
@@ -418,17 +417,6 @@ class _$EventModelImpl extends _EventModel {
   final double latitude;
   @override
   final double longitude;
-  final List<String>? _photos;
-  @override
-  @JsonKey()
-  List<String>? get photos {
-    final value = _photos;
-    if (value == null) return null;
-    if (_photos is EqualUnmodifiableListView) return _photos;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
   final List<CommentModel>? _comments;
   @override
   @JsonKey()
@@ -456,16 +444,23 @@ class _$EventModelImpl extends _EventModel {
   @override
   @JsonKey()
   final bool popular;
-  final List<HighlightedImageModel>? _highlightedImages;
+  final List<HighlightModel>? _highlights;
   @override
   @JsonKey()
-  List<HighlightedImageModel>? get highlightedImages {
-    final value = _highlightedImages;
+  List<HighlightModel>? get highlights {
+    final value = _highlights;
     if (value == null) return null;
-    if (_highlightedImages is EqualUnmodifiableListView)
-      return _highlightedImages;
+    if (_highlights is EqualUnmodifiableListView) return _highlights;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(value);
+  }
+
+  final List<String> _reports;
+  @override
+  List<String> get reports {
+    if (_reports is EqualUnmodifiableListView) return _reports;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_reports);
   }
 
   @override
@@ -477,7 +472,7 @@ class _$EventModelImpl extends _EventModel {
 
   @override
   String toString() {
-    return 'EventModel(id: $id, name: $name, description: $description, image: $image, placeName: $placeName, completeAddress: $completeAddress, community: $community, price: $price, priceWithoutDiscount: $priceWithoutDiscount, organizers: $organizers, latitude: $latitude, longitude: $longitude, photos: $photos, comments: $comments, participants: $participants, eventType: $eventType, popular: $popular, highlightedImages: $highlightedImages, startTimestamp: $startTimestamp, endTimestamp: $endTimestamp)';
+    return 'EventModel(id: $id, name: $name, description: $description, image: $image, placeName: $placeName, completeAddress: $completeAddress, community: $community, price: $price, priceWithoutDiscount: $priceWithoutDiscount, organizers: $organizers, latitude: $latitude, longitude: $longitude, comments: $comments, participants: $participants, eventType: $eventType, popular: $popular, highlights: $highlights, reports: $reports, startTimestamp: $startTimestamp, endTimestamp: $endTimestamp)';
   }
 
   @override
@@ -505,7 +500,6 @@ class _$EventModelImpl extends _EventModel {
                 other.latitude == latitude) &&
             (identical(other.longitude, longitude) ||
                 other.longitude == longitude) &&
-            const DeepCollectionEquality().equals(other._photos, _photos) &&
             const DeepCollectionEquality().equals(other._comments, _comments) &&
             const DeepCollectionEquality()
                 .equals(other._participants, _participants) &&
@@ -513,7 +507,8 @@ class _$EventModelImpl extends _EventModel {
                 other.eventType == eventType) &&
             (identical(other.popular, popular) || other.popular == popular) &&
             const DeepCollectionEquality()
-                .equals(other._highlightedImages, _highlightedImages) &&
+                .equals(other._highlights, _highlights) &&
+            const DeepCollectionEquality().equals(other._reports, _reports) &&
             (identical(other.startTimestamp, startTimestamp) ||
                 other.startTimestamp == startTimestamp) &&
             (identical(other.endTimestamp, endTimestamp) ||
@@ -535,12 +530,12 @@ class _$EventModelImpl extends _EventModel {
         const DeepCollectionEquality().hash(_organizers),
         latitude,
         longitude,
-        const DeepCollectionEquality().hash(_photos),
         const DeepCollectionEquality().hash(_comments),
         const DeepCollectionEquality().hash(_participants),
         eventType,
         popular,
-        const DeepCollectionEquality().hash(_highlightedImages),
+        const DeepCollectionEquality().hash(_highlights),
+        const DeepCollectionEquality().hash(_reports),
         startTimestamp,
         endTimestamp
       ]);
@@ -566,12 +561,12 @@ abstract class _EventModel extends EventModel {
           final List<AppUserModel>? organizers,
           required final double latitude,
           required final double longitude,
-          final List<String>? photos,
           final List<CommentModel>? comments,
           final List<AppUserModel>? participants,
           required final EventType eventType,
           final bool popular,
-          final List<HighlightedImageModel>? highlightedImages,
+          final List<HighlightModel>? highlights,
+          required final List<String> reports,
           @TimestampConverter() required final DateTime startTimestamp,
           @TimestampConverter() required final DateTime endTimestamp}) =
       _$EventModelImpl;
@@ -602,8 +597,6 @@ abstract class _EventModel extends EventModel {
   @override
   double get longitude;
   @override
-  List<String>? get photos;
-  @override
   List<CommentModel>? get comments;
   @override
   List<AppUserModel>? get participants;
@@ -612,7 +605,9 @@ abstract class _EventModel extends EventModel {
   @override
   bool get popular;
   @override
-  List<HighlightedImageModel>? get highlightedImages;
+  List<HighlightModel>? get highlights;
+  @override
+  List<String> get reports;
   @override
   @TimestampConverter()
   DateTime get startTimestamp;

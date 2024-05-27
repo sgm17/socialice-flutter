@@ -188,7 +188,7 @@ class UserProfileScreen extends ConsumerWidget {
               ),
               userProfileState.when(
                 data: (appUser) => Text(
-                  appUser.description!,
+                  appUser.description ?? "Hey, I'm using Socialice",
                   textAlign: TextAlign.justify,
                   style: TextStyle(
                     fontWeight: FontWeight.w400,

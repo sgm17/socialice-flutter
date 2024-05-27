@@ -5,6 +5,7 @@ import 'package:socialice/constants/app_colors.dart';
 import 'package:socialice/providers/app_provider/bottom_navigation_provider.dart';
 import 'package:socialice/providers/app_user_provider/app_user_provider.dart';
 import 'package:socialice/providers/event_provider/events_provider.dart';
+import 'package:socialice/screens/event_screen/widgets/comment_item.dart';
 import 'package:socialice/utils/date_parser.dart';
 import 'package:socialice/widgets/arrow_back.dart';
 import 'package:socialice/widgets/black_container_button.dart';
@@ -684,7 +685,45 @@ class EventScreen extends ConsumerWidget {
                                     scrollDirection: Axis.horizontal,
                                     itemBuilder: (context, index) {
                                       if (index == 0) {
-                                        return EventAddPhoto();
+                                        return SizedBox(
+                                          width: 125,
+                                          height: 222.2,
+                                          child: Container(
+                                              alignment: Alignment.center,
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color:
+                                                          Color(0xFFC1C1CB))),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    'Add a photo',
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontSize: 16,
+                                                      color: Color(0xFF1B1A1D),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 6,
+                                                  ),
+                                                  Container(
+                                                    width: 21,
+                                                    height: 19,
+                                                    child: SizedBox(
+                                                      width: 21,
+                                                      height: 19,
+                                                      child: SvgPicture.asset(
+                                                        'assets/vectors/vector_42_x2.svg',
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              )),
+                                        );
                                       } else {
                                         final newIndex = index - 1;
                                         return Container(
@@ -694,7 +733,8 @@ class EventScreen extends ConsumerWidget {
                                             image: DecorationImage(
                                               fit: BoxFit.cover,
                                               image: NetworkImage(
-                                                event.photos![newIndex],
+                                                event.highlights![newIndex]
+                                                    .image,
                                               ),
                                             ),
                                           ),
@@ -705,7 +745,7 @@ class EventScreen extends ConsumerWidget {
                                         SizedBox(
                                           width: 12,
                                         ),
-                                    itemCount: event.photos!.length + 1),
+                                    itemCount: event.highlights!.length + 1),
                               ),
                             ]),
                         SizedBox(
@@ -763,261 +803,13 @@ class EventScreen extends ConsumerWidget {
                         SizedBox(
                           height: 20,
                         ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: 28,
-                              height: 28,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(14),
-                                image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: NetworkImage(
-                                    'assets/images/event_comment_profile_image_1.png',
-                                  ),
-                                ),
-                              ),
+                        for (int i = 0; i < event.comments!.length; i++)
+                          Padding(
+                            padding: EdgeInsets.only(top: i != 0 ? 16.0 : 0.0),
+                            child: CommentItem(
+                              comment: event.comments![i],
                             ),
-                            SizedBox(
-                              width: 24,
-                            ),
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  RichText(
-                                    text: TextSpan(
-                                      text: 'Salvo',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 14,
-                                        color: Color(0xFF000000),
-                                      ),
-                                      children: [
-                                        TextSpan(
-                                          text: ' ',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 14,
-                                            height: 1.3,
-                                          ),
-                                        ),
-                                        TextSpan(
-                                          text: '· vie, 19 abr, 21:23',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 14,
-                                            height: 1.3,
-                                            color: Color(0xFFC1C1CB),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 6,
-                                  ),
-                                  Text(
-                                    'Some of us are being rejected at the entrance, apparently there is a private event here. Can the organizers show up?',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14,
-                                      color: Color(0xFF000000),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 6,
-                                  ),
-                                  SizedBox(
-                                    width: 135.2,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Container(
-                                              width: 15.8,
-                                              height: 13.8,
-                                              child: SizedBox(
-                                                width: 15.8,
-                                                height: 13.8,
-                                                child: SvgPicture.asset(
-                                                  'assets/vectors/vector_18_x2.svg',
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 6,
-                                            ),
-                                            Container(
-                                              child: Text(
-                                                '1 Like',
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.w400,
-                                                  fontSize: 12,
-                                                  color: Color(0xFF000000),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Container(
-                                          width: 16.6,
-                                          height: 12.8,
-                                          child: SizedBox(
-                                            width: 16.6,
-                                            height: 12.8,
-                                            child: SvgPicture.asset(
-                                              'assets/vectors/vector_40_x2.svg',
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          width: 14.5,
-                                          height: 3,
-                                          child: SizedBox(
-                                            width: 14.5,
-                                            height: 3,
-                                            child: SvgPicture.asset(
-                                              'assets/vectors/vector_28_x2.svg',
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(14),
-                                image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: NetworkImage(
-                                    'assets/images/event_comment_profile_image.png',
-                                  ),
-                                ),
-                              ),
-                              child: Container(
-                                width: 28,
-                                height: 28,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 24,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                RichText(
-                                  text: TextSpan(
-                                    text: 'Laura',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14,
-                                      color: Color(0xFF000000),
-                                    ),
-                                    children: [
-                                      TextSpan(
-                                        text: ' ',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 14,
-                                          height: 1.3,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: '· vie, 19 abr, 21:23',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 14,
-                                          height: 1.3,
-                                          color: Color(0xFFC1C1CB),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 6,
-                                ),
-                                Text(
-                                  'yeahh!!',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 14,
-                                    color: Color(0xFF000000),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 6,
-                                ),
-                                SizedBox(
-                                  width: 91.2,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Container(
-                                            width: 15.8,
-                                            height: 13.8,
-                                            child: SizedBox(
-                                              width: 15.8,
-                                              height: 13.8,
-                                              child: SvgPicture.asset(
-                                                'assets/vectors/vector_69_x2.svg',
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 6,
-                                          ),
-                                          Container(
-                                            child: Text(
-                                              '1 Like',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 12,
-                                                color: Color(0xFF000000),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Container(
-                                        margin:
-                                            EdgeInsets.fromLTRB(0, 5.9, 0, 5.5),
-                                        width: 14.5,
-                                        height: 3,
-                                        child: SizedBox(
-                                          width: 14.5,
-                                          height: 3,
-                                          child: SvgPicture.asset(
-                                            'assets/vectors/vector_26_x2.svg',
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                          ),
                         SizedBox(
                           height: 32,
                         ),
@@ -1148,51 +940,6 @@ class EventScreen extends ConsumerWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class EventAddPhoto extends StatelessWidget {
-  const EventAddPhoto({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 125,
-      height: 222.2,
-      child: Container(
-          alignment: Alignment.center,
-          decoration:
-              BoxDecoration(border: Border.all(color: Color(0xFFC1C1CB))),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Add a photo',
-                style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 16,
-                  color: Color(0xFF1B1A1D),
-                ),
-              ),
-              SizedBox(
-                height: 6,
-              ),
-              Container(
-                width: 21,
-                height: 19,
-                child: SizedBox(
-                  width: 21,
-                  height: 19,
-                  child: SvgPicture.asset(
-                    'assets/vectors/vector_42_x2.svg',
-                  ),
-                ),
-              ),
-            ],
-          )),
     );
   }
 }

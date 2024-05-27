@@ -24,6 +24,10 @@ String formatDayWordTime(DateTime dateTime) {
   return DateFormat('MMM dd · HH:mm').format(dateTime);
 }
 
+String formatDayWordMonthTimeCommasTime(DateTime dateTime) {
+  return DateFormat('EEEE, dd MMMM, HH:mm').format(dateTime);
+}
+
 String formatDayWordMonthWordDayYear(DateTime dateTime) {
   // Define the date format
   final DateFormat formatter = DateFormat('EEEE, MMMM dd, yyyy');

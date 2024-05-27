@@ -66,7 +66,7 @@ class EventCategoryItem extends StatelessWidget {
             image: DecorationImage(
               fit: BoxFit.cover,
               image: NetworkImage(
-                eventCategory.categoryImage,
+                eventCategory.image,
               ),
             ),
           ),
@@ -75,7 +75,7 @@ class EventCategoryItem extends StatelessWidget {
           height: 11,
         ),
         Text(
-          eventCategory.categoryName,
+          eventCategory.name,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(

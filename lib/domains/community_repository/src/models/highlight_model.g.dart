@@ -1,23 +1,20 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'highlighted_image_model.dart';
+part of 'highlight_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-HighlightedImageModel _$HighlightedImageModelFromJson(
-        Map<String, dynamic> json) =>
+HighlightModel _$HighlightModelFromJson(Map<String, dynamic> json) =>
     $checkedCreate(
-      'HighlightedImageModel',
+      'HighlightModel',
       json,
       ($checkedConvert) {
-        final val = HighlightedImageModel(
+        final val = HighlightModel(
           id: $checkedConvert('id', (v) => v as String),
           user: $checkedConvert(
               'user', (v) => AppUserModel.fromJson(v as Map<String, dynamic>)),
-          event: $checkedConvert(
-              'event', (v) => EventModel.fromJson(v as Map<String, dynamic>)),
           image: $checkedConvert('image', (v) => v as String),
           createdAt: $checkedConvert('createdAt',
               (v) => const TimestampConverter().fromJson(v as String)),
@@ -26,12 +23,10 @@ HighlightedImageModel _$HighlightedImageModelFromJson(
       },
     );
 
-Map<String, dynamic> _$HighlightedImageModelToJson(
-        HighlightedImageModel instance) =>
+Map<String, dynamic> _$HighlightModelToJson(HighlightModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'user': instance.user.toJson(),
-      'event': instance.event.toJson(),
       'image': instance.image,
       'createdAt': const TimestampConverter().toJson(instance.createdAt),
     };

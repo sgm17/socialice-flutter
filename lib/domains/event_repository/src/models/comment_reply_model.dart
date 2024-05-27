@@ -21,7 +21,6 @@ class CommentReplyModel with _$CommentReplyModel {
 
   const factory CommentReplyModel(
       {required String id,
-      required CommentModel parentComment,
       required AppUserModel creator,
       @TimestampConverter() required DateTime createdAt,
       required String comment,

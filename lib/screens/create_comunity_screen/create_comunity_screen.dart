@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:socialice/constants/app_colors.dart';
 import 'package:socialice/domains/event_repository/src/models/category_model.dart';
+import 'package:socialice/providers/categories_provider/categories_provider.dart';
 import 'package:socialice/screens/select_city_screen/select_city_screen.dart';
 import 'package:socialice/widgets/arrow_back.dart';
 import 'package:socialice/widgets/black_container_button.dart';
+import 'package:socialice/widgets/skelton.dart';
 
-class CreateCommunityScreen extends StatefulWidget {
+class CreateCommunityScreen extends ConsumerStatefulWidget {
   const CreateCommunityScreen({super.key});
 
   @override
-  State<CreateCommunityScreen> createState() => _CreateCommunityScreenState();
+  ConsumerState<CreateCommunityScreen> createState() =>
+      _CreateCommunityScreenState();
 }
 
-class _CreateCommunityScreenState extends State<CreateCommunityScreen> {
+class _CreateCommunityScreenState extends ConsumerState<CreateCommunityScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   CategoryModel? _selectedOption;
   XFile? image;
@@ -32,12 +36,12 @@ class _CreateCommunityScreenState extends State<CreateCommunityScreen> {
     setState(() {
       _suggestion = suggestion;
     });
-
-    print(suggestion);
   }
 
   @override
   Widget build(BuildContext context) {
+    final categoriesState = ref.watch(categoriesFutureProvider);
+
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -227,38 +231,45 @@ class _CreateCommunityScreenState extends State<CreateCommunityScreen> {
                           SizedBox(
                             height: 4,
                           ),
-                          Container(
-                              height: 53,
-                              decoration: BoxDecoration(
-                                color: AppColors.whiteColor,
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                    color: AppColors.greyDarkColor, width: 1),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 12),
-                                child: DropdownButtonHideUnderline(
-                                  child: DropdownButton<CategoryModel>(
-                                    value: _selectedOption,
-                                    hint: Text("Select an option"),
-                                    isExpanded: true,
-                                    icon: Icon(Icons.arrow_drop_down),
-                                    onChanged: (CategoryModel? newValue) {
-                                      setState(() {
-                                        _selectedOption = newValue;
-                                      });
-                                    },
-                                    items: CategoryModel.allCategories
-                                        .map<DropdownMenuItem<CategoryModel>>(
-                                            (CategoryModel value) {
-                                      return DropdownMenuItem<CategoryModel>(
-                                        value: value,
-                                        child: Text(value.categoryName),
-                                      );
-                                    }).toList(),
-                                  ),
+                          categoriesState.when(
+                            data: (categories) => Container(
+                                height: 53,
+                                decoration: BoxDecoration(
+                                  color: AppColors.whiteColor,
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                      color: AppColors.greyDarkColor, width: 1),
                                 ),
-                              ))
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 12),
+                                  child: DropdownButtonHideUnderline(
+                                    child: DropdownButton<CategoryModel>(
+                                      value: _selectedOption,
+                                      hint: Text("Select an option"),
+                                      isExpanded: true,
+                                      icon: Icon(Icons.arrow_drop_down),
+                                      onChanged: (CategoryModel? newValue) {
+                                        setState(() {
+                                          _selectedOption = newValue;
+                                        });
+                                      },
+                                      items: categories
+                                          .map<DropdownMenuItem<CategoryModel>>(
+                                              (CategoryModel value) {
+                                        return DropdownMenuItem<CategoryModel>(
+                                          value: value,
+                                          child: Text(value.name),
+                                        );
+                                      }).toList(),
+                                    ),
+                                  ),
+                                )),
+                            loading: () => Skelton(
+                                height: 53,
+                                borderRadius: 6,
+                                isProfileImage: false),
+                            error: (error, stackTrace) => SizedBox.shrink(),
+                          )
                         ],
                       ),
                       SizedBox(

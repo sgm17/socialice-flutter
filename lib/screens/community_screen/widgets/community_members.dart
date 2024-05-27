@@ -12,7 +12,7 @@ class CommunityMembers extends StatelessWidget {
 
     final maxMembers = members.length >= 8 ? 8 : members.length;
 
-    for (var i = 0; i < maxMembers; i++) {
+    for (int i = 0; i < maxMembers; i++) {
       elements.add(
         Row(
           children: [

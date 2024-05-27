@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:socialice/domains/app_user_repository/src/models/app_user_model.dart';
 import 'package:socialice/domains/community_repository/src/models/community_model.dart';
-import 'package:socialice/domains/community_repository/src/models/highlighted_image_model.dart';
+import 'package:socialice/domains/community_repository/src/models/highlight_model.dart';
 import 'package:socialice/domains/event_repository/src/models/comment_model.dart';
 import 'package:socialice/domains/event_repository/src/models/event_type.dart';
 import 'package:socialice/helpers/serialize/timestamp_converter.dart';
@@ -52,12 +52,12 @@ class EventModel with _$EventModel {
     @Default([]) List<AppUserModel>? organizers,
     required double latitude,
     required double longitude,
-    @Default([]) List<String>? photos,
     @Default([]) List<CommentModel>? comments,
     @Default([]) List<AppUserModel>? participants,
     required EventType eventType,
     @Default(false) bool popular,
-    @Default([]) List<HighlightedImageModel>? highlightedImages,
+    @Default([]) List<HighlightModel>? highlights,
+    required List<String> reports,
     @TimestampConverter() required DateTime startTimestamp,
     @TimestampConverter() required DateTime endTimestamp,
   }) = _EventModel;

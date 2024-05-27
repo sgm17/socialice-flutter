@@ -1,7 +1,7 @@
 import 'package:socialice/domains/app_user_repository/src/models/app_user_model.dart';
 import 'package:socialice/domains/app_user_repository/src/models/interest_model.dart';
 import 'package:socialice/domains/community_repository/src/models/community_model.dart';
-import 'package:socialice/domains/community_repository/src/models/highlighted_image_model.dart';
+import 'package:socialice/domains/community_repository/src/models/highlight_model.dart';
 import 'package:socialice/domains/event_repository/src/models/category_model.dart';
 import 'package:socialice/domains/event_repository/src/models/comment_model.dart';
 import 'package:socialice/domains/event_repository/src/models/comment_reply_model.dart';
@@ -13,8 +13,8 @@ import 'dart:convert';
 
 class HttpViewmodel implements HttpRepository {
   final http.Client httpClient;
-  final API_ENDPOINT = "https://socialice-nextjs.vercel.app/api/v1";
-  // final API_ENDPOINT = "http://localhost:3000/api/v1";
+  // final API_ENDPOINT = "https://socialice-nextjs.vercel.app/api/v1";
+  final API_ENDPOINT = "http://localhost:3000/api/v1";
 
   HttpViewmodel({required this.httpClient});
 
@@ -29,16 +29,9 @@ class HttpViewmodel implements HttpRepository {
         headers: headers);
 
     if (response.statusCode == 200) {
-      final Map<String, dynamic>? data = await jsonDecode(response.body);
-      if (data != null) {
-        return AppUserModel.fromJson(data);
-      } else {
-        // return null;
-      }
-    } else if (response.statusCode != 403) {
-      // throw const ErrorApp(code: 'httpindexappuser');
+      final Map<String, dynamic> data = await jsonDecode(response.body);
+      return AppUserModel.fromJson(data);
     }
-    // return null;
     throw Exception("Example");
   }
 
@@ -172,6 +165,24 @@ class HttpViewmodel implements HttpRepository {
   }
 
   @override
+  Future<List<InterestModel>> requestInterests() async {
+    final headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    final response = await httpClient
+        .get(Uri.parse("${API_ENDPOINT}/interests"), headers: headers);
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = await jsonDecode(response.body);
+
+      return data.map((e) => InterestModel.fromJson(e)).toList();
+    }
+    throw Exception("Example");
+  }
+
+  @override
   Future<AppUserModel> updateInterests(
       {required List<InterestModel> interests}) async {
     final headers = {
@@ -179,8 +190,10 @@ class HttpViewmodel implements HttpRepository {
       'Accept': 'application/json',
     };
 
+    final mappedInterests = interests.map((e) => e.name).toList();
+
     final body = jsonEncode({
-      "interests": interests,
+      "interests": mappedInterests,
     });
 
     final response = await httpClient.put(
@@ -207,9 +220,12 @@ class HttpViewmodel implements HttpRepository {
         headers: headers);
 
     if (response.statusCode == 200) {
-      final List<dynamic> data = await jsonDecode(response.body);
-
-      return data.map((e) => EventModel.fromJson(e)).toList();
+      try {
+        final List<dynamic> data = await jsonDecode(response.body);
+        return data.map((e) => EventModel.fromJson(e)).toList();
+      } catch (e) {
+        print(e);
+      }
     }
     throw Exception("Example");
   }
@@ -328,7 +344,7 @@ class HttpViewmodel implements HttpRepository {
   }
 
   @override
-  Future<HighlightedImageModel> createHighlightedImagesModel(
+  Future<HighlightModel> createHighlightedImagesModel(
       {required String eventId, required String image}) async {
     final headers = {
       'Content-Type': 'application/json',
@@ -347,7 +363,7 @@ class HttpViewmodel implements HttpRepository {
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = await jsonDecode(response.body);
-      return HighlightedImageModel.fromJson(data);
+      return HighlightModel.fromJson(data);
     }
     // return null;
     throw Exception("Example");
@@ -460,7 +476,7 @@ class HttpViewmodel implements HttpRepository {
       "name": name,
       "city": city,
       "description": description,
-      "category": category.categoryName,
+      "categoryId": category.id,
     });
 
     final response = await httpClient.post(
@@ -495,7 +511,7 @@ class HttpViewmodel implements HttpRepository {
       "name": name,
       "city": city,
       "description": description,
-      "category": category.categoryName,
+      "categoryId": category.id,
     });
 
     final response = await httpClient.post(
@@ -550,6 +566,24 @@ class HttpViewmodel implements HttpRepository {
       return CommunityModel.fromJson(data);
     }
     // return null;
+    throw Exception("Example");
+  }
+
+  @override
+  Future<List<CategoryModel>> requestCategories() async {
+    final headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    final response = await httpClient
+        .get(Uri.parse("${API_ENDPOINT}/categories"), headers: headers);
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = await jsonDecode(response.body);
+
+      return data.map((e) => CategoryModel.fromJson(e)).toList();
+    }
     throw Exception("Example");
   }
 

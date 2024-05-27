@@ -330,7 +330,7 @@ class _$AppUserModelImpl extends _AppUserModel {
       required this.location,
       required this.latitude,
       required this.longitude,
-      this.description = "Hey, I'm using Socialice",
+      this.description,
       this.createdCommunity,
       final List<EventModel>? events = const [],
       final List<EventModel>? organizer = const [],
@@ -365,7 +365,6 @@ class _$AppUserModelImpl extends _AppUserModel {
   @override
   final double longitude;
   @override
-  @JsonKey()
   final String? description;
   @override
   final CommunityModel? createdCommunity;

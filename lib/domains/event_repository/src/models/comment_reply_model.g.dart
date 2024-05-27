@@ -13,8 +13,6 @@ CommentReplyModel _$CommentReplyModelFromJson(Map<String, dynamic> json) =>
       ($checkedConvert) {
         final val = CommentReplyModel(
           id: $checkedConvert('id', (v) => v as String),
-          parentComment: $checkedConvert('parentComment',
-              (v) => CommentModel.fromJson(v as Map<String, dynamic>)),
           creator: $checkedConvert('creator',
               (v) => AppUserModel.fromJson(v as Map<String, dynamic>)),
           createdAt: $checkedConvert('createdAt',
@@ -30,7 +28,6 @@ CommentReplyModel _$CommentReplyModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$CommentReplyModelToJson(CommentReplyModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'parentComment': instance.parentComment.toJson(),
       'creator': instance.creator.toJson(),
       'createdAt': const TimestampConverter().toJson(instance.createdAt),
       'comment': instance.comment,

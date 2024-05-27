@@ -30,8 +30,6 @@ EventModel _$EventModelFromJson(Map<String, dynamic> json) => $checkedCreate(
                   .toList()),
           latitude: $checkedConvert('latitude', (v) => (v as num).toDouble()),
           longitude: $checkedConvert('longitude', (v) => (v as num).toDouble()),
-          photos: $checkedConvert('photos',
-              (v) => (v as List<dynamic>?)?.map((e) => e as String).toList()),
           comments: $checkedConvert(
               'comments',
               (v) => (v as List<dynamic>?)
@@ -45,12 +43,14 @@ EventModel _$EventModelFromJson(Map<String, dynamic> json) => $checkedCreate(
           eventType: $checkedConvert(
               'eventType', (v) => $enumDecode(_$EventTypeEnumMap, v)),
           popular: $checkedConvert('popular', (v) => v as bool),
-          highlightedImages: $checkedConvert(
-              'highlightedImages',
+          highlights: $checkedConvert(
+              'highlights',
               (v) => (v as List<dynamic>?)
-                  ?.map((e) =>
-                      HighlightedImageModel.fromJson(e as Map<String, dynamic>))
+                  ?.map(
+                      (e) => HighlightModel.fromJson(e as Map<String, dynamic>))
                   .toList()),
+          reports: $checkedConvert('reports',
+              (v) => (v as List<dynamic>).map((e) => e as String).toList()),
           startTimestamp: $checkedConvert('startTimestamp',
               (v) => const TimestampConverter().fromJson(v as String)),
           endTimestamp: $checkedConvert('endTimestamp',
@@ -74,13 +74,12 @@ Map<String, dynamic> _$EventModelToJson(EventModel instance) =>
       'organizers': instance.organizers?.map((e) => e.toJson()).toList(),
       'latitude': instance.latitude,
       'longitude': instance.longitude,
-      'photos': instance.photos,
       'comments': instance.comments?.map((e) => e.toJson()).toList(),
       'participants': instance.participants?.map((e) => e.toJson()).toList(),
       'eventType': _$EventTypeEnumMap[instance.eventType]!,
       'popular': instance.popular,
-      'highlightedImages':
-          instance.highlightedImages?.map((e) => e.toJson()).toList(),
+      'highlights': instance.highlights?.map((e) => e.toJson()).toList(),
+      'reports': instance.reports,
       'startTimestamp':
           const TimestampConverter().toJson(instance.startTimestamp),
       'endTimestamp': const TimestampConverter().toJson(instance.endTimestamp),

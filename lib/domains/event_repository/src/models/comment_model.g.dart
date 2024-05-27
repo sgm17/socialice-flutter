@@ -15,8 +15,7 @@ CommentModel _$CommentModelFromJson(Map<String, dynamic> json) =>
           id: $checkedConvert('id', (v) => v as String),
           creator: $checkedConvert('creator',
               (v) => AppUserModel.fromJson(v as Map<String, dynamic>)),
-          event: $checkedConvert(
-              'event', (v) => EventModel.fromJson(v as Map<String, dynamic>)),
+          eventId: $checkedConvert('eventId', (v) => v as String),
           comment: $checkedConvert('comment', (v) => v as String),
           likes: $checkedConvert('likes',
               (v) => (v as List<dynamic>?)?.map((e) => e as String).toList()),
@@ -37,7 +36,7 @@ Map<String, dynamic> _$CommentModelToJson(CommentModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'creator': instance.creator.toJson(),
-      'event': instance.event.toJson(),
+      'eventId': instance.eventId,
       'comment': instance.comment,
       'likes': instance.likes,
       'replies': instance.replies?.map((e) => e.toJson()).toList(),

@@ -151,7 +151,7 @@ class MyProfileScreen extends ConsumerWidget {
                   height: 30,
                 ),
                 Text(
-                  appUser.description!,
+                  appUser.description ?? "Hey, I'm using Socialice",
                   textAlign: TextAlign.justify,
                   style: TextStyle(
                     fontWeight: FontWeight.w400,

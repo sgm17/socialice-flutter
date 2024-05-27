@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socialice/constants/app_colors.dart';
-import 'package:socialice/domains/app_user_repository/src/models/interest_model.dart';
 import 'package:socialice/domains/event_repository/src/models/event_model.dart';
 import 'package:socialice/providers/app_user_provider/app_user_provider.dart';
 import 'package:socialice/providers/community_provider/communities_provider.dart';
 import 'package:socialice/providers/event_provider/events_provider.dart';
+import 'package:socialice/providers/interests_provider/interests_future_provider.dart';
 import 'package:socialice/screens/home_screen/widgets/empty_communities.dart';
 import 'package:socialice/widgets/event_crozy.dart';
 import 'package:socialice/widgets/event_headline.dart';
@@ -35,7 +35,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void discoverGroupsFocusCallback() {
     Navigator.pushNamedAndRemoveUntil(
         context, '/DiscoverGroupsScreen', ModalRoute.withName('/AppScreen'));
-    _focusNode.removeListener(discoverGroupsFocusCallback);
   }
 
   @override
@@ -49,6 +48,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final eventsState = ref.watch(eventsProvider);
     final appUserState = ref.watch(appUserProvider);
     final communitiesState = ref.watch(communitiesProvider);
+    final interestsState = ref.watch(interestsFutureProvider);
 
     return Scaffold(
         body: SafeArea(
@@ -412,29 +412,34 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             ),
                         ]);
                   } else
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        UserInterest(
-                          interest: InterestModel.interests[0],
-                          selected: false,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        UserInterest(
-                          interest: InterestModel.interests[1],
-                          selected: false,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        UserInterest(
-                          interest: InterestModel.interests[2],
-                          selected: false,
-                        ),
-                      ],
+                    return interestsState.when(
+                      data: (interests) => Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          UserInterest(
+                            interest: interests[0],
+                            selected: false,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          UserInterest(
+                            interest: interests[1],
+                            selected: false,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          UserInterest(
+                            interest: interests[2],
+                            selected: false,
+                          ),
+                        ],
+                      ),
+                      error: (error, stackTrace) => SizedBox.shrink(),
+                      loading: () => Skelton(
+                          height: 30, borderRadius: 6, isProfileImage: false),
                     );
                 },
                 loading: () => Skelton(

@@ -11,8 +11,7 @@ TicketModel _$TicketModelFromJson(Map<String, dynamic> json) => $checkedCreate(
       json,
       ($checkedConvert) {
         final val = TicketModel(
-          event: $checkedConvert(
-              'event', (v) => EventModel.fromJson(v as Map<String, dynamic>)),
+          eventId: $checkedConvert('eventId', (v) => v as String),
           qrCode: $checkedConvert('qrCode', (v) => v as String),
         );
         return val;
@@ -21,6 +20,6 @@ TicketModel _$TicketModelFromJson(Map<String, dynamic> json) => $checkedCreate(
 
 Map<String, dynamic> _$TicketModelToJson(TicketModel instance) =>
     <String, dynamic>{
-      'event': instance.event.toJson(),
+      'eventId': instance.eventId,
       'qrCode': instance.qrCode,
     };
