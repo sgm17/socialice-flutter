@@ -190,10 +190,8 @@ class HttpViewmodel implements HttpRepository {
       'Accept': 'application/json',
     };
 
-    final mappedInterests = interests.map((e) => e.name).toList();
-
     final body = jsonEncode({
-      "interests": mappedInterests,
+      "interests": interests,
     });
 
     final response = await httpClient.put(
@@ -357,7 +355,7 @@ class HttpViewmodel implements HttpRepository {
     });
 
     final response = await httpClient.post(
-        Uri.parse("${API_ENDPOINT}/highlighted-images"),
+        Uri.parse("${API_ENDPOINT}/highlights"),
         headers: headers,
         body: body);
 
@@ -406,7 +404,7 @@ class HttpViewmodel implements HttpRepository {
       "eventId": eventId,
     });
 
-    final response = await httpClient.post(
+    final response = await httpClient.put(
         Uri.parse("${API_ENDPOINT}/participants"),
         headers: headers,
         body: body);
@@ -420,16 +418,17 @@ class HttpViewmodel implements HttpRepository {
   }
 
   @override
-  Future<EventModel> updatePhotos(
-      {required String eventId, required String photo}) async {
+  Future<EventModel> updateReports({required String eventId}) async {
     final headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
     };
 
-    final body = jsonEncode({"eventId": eventId, "photo": photo});
+    final body = jsonEncode({
+      "eventId": eventId,
+    });
 
-    final response = await httpClient.post(Uri.parse("${API_ENDPOINT}/photos"),
+    final response = await httpClient.put(Uri.parse("${API_ENDPOINT}/reports"),
         headers: headers, body: body);
 
     if (response.statusCode == 200) {
@@ -589,13 +588,13 @@ class HttpViewmodel implements HttpRepository {
 
   @override
   Future<CommentModel> createCommentModel(
-      {required String communityId, required String comment}) async {
+      {required String eventId, required String comment}) async {
     final headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
     };
 
-    final body = jsonEncode({"communityId": communityId, "comment": comment});
+    final body = jsonEncode({"eventId": eventId, "comment": comment});
 
     final response = await httpClient.post(
         Uri.parse("${API_ENDPOINT}/comments"),
@@ -623,6 +622,30 @@ class HttpViewmodel implements HttpRepository {
 
     final response = await httpClient.put(Uri.parse("${API_ENDPOINT}/comments"),
         headers: headers, body: body);
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = await jsonDecode(response.body);
+      return CommentModel.fromJson(data);
+    }
+    // return null;
+    throw Exception("Example");
+  }
+
+  @override
+  Future<CommentModel> updateCommentReports({required String commentId}) async {
+    final headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    final body = jsonEncode({
+      "commentId": commentId,
+    });
+
+    final response = await httpClient.put(
+        Uri.parse("${API_ENDPOINT}/comment-reports"),
+        headers: headers,
+        body: body);
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = await jsonDecode(response.body);
@@ -668,6 +691,29 @@ class HttpViewmodel implements HttpRepository {
 
     final response = await httpClient.put(
         Uri.parse("${API_ENDPOINT}/comment-replies"),
+        headers: headers,
+        body: body);
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = await jsonDecode(response.body);
+      return CommentReplyModel.fromJson(data);
+    }
+    // return null;
+    throw Exception("Example");
+  }
+
+  @override
+  Future<CommentReplyModel> updateCommentRepliesReports(
+      {required String commentReplyId}) async {
+    final headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    final body = jsonEncode({"commentReplyId": commentReplyId});
+
+    final response = await httpClient.put(
+        Uri.parse("${API_ENDPOINT}/comment-replies-reports"),
         headers: headers,
         body: body);
 

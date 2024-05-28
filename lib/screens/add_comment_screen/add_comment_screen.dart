@@ -6,11 +6,18 @@ import 'package:socialice/screens/add_comment_screen/widgets/input_comment_value
 import 'package:socialice/widgets/arrow_back.dart';
 import 'package:socialice/widgets/black_container_button.dart';
 
-class AddCommentScreen extends ConsumerWidget {
+class AddCommentScreen extends ConsumerStatefulWidget {
   const AddCommentScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<AddCommentScreen> createState() => _AddCommentScreenState();
+}
+
+class _AddCommentScreenState extends ConsumerState<AddCommentScreen> {
+  final controller = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
     final appUser = ref.watch(appUserProvider).asData!.value;
 
     return Scaffold(
@@ -79,12 +86,16 @@ class AddCommentScreen extends ConsumerWidget {
               SizedBox(
                 height: 32.0,
               ),
-              InputCommentValue(placeholder: 'Add a comment'),
+              InputCommentValue(
+                placeholder: 'Add a comment',
+                controller: controller,
+              ),
               SizedBox(
                 height: 32.0,
               ),
               BlackContainerButton(
-                  text: 'Publish', action: () => Navigator.pop(context))
+                  text: 'Publish',
+                  action: () => Navigator.of(context).pop(controller.text))
             ],
           ),
         ),

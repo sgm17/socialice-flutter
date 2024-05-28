@@ -1,6 +1,8 @@
+import 'package:socialice/dialogs/report_dialog/report_dialog.dart';
 import 'package:socialice/domains/event_repository/src/models/comment_model.dart';
 import 'package:socialice/providers/app_user_provider/app_user_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:socialice/providers/event_provider/events_provider.dart';
 import 'package:socialice/utils/date_parser.dart';
 import 'package:flutter/material.dart';
 
@@ -95,60 +97,85 @@ class CommentItem extends ConsumerWidget {
                   SizedBox(
                     height: 6,
                   ),
-                  SizedBox(
-                    width: 135.2,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            GestureDetector(
-                              onTap: () => _handleCommentFavourite(),
-                              child: comment.replies!.contains(appUser.id)
-                                  ? Icon(
-                                      Icons.favorite,
-                                      size: 20,
-                                    )
-                                  : Icon(
-                                      Icons.favorite_outline,
-                                      size: 20,
-                                    ),
-                            ),
-                            SizedBox(
-                              width: 6,
-                            ),
-                            Container(
-                              child: Text(
-                                '${comment.likes!.length} Likes',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 12,
-                                  color: Color(0xFF000000),
-                                ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () async => await ref
+                                .read(eventsProvider.notifier)
+                                .handleCommentFavourite(
+                                    eventId: comment.eventId,
+                                    commentId: comment.id),
+                            child: comment.likes.contains(appUser.id)
+                                ? Icon(
+                                    Icons.favorite,
+                                    size: 20,
+                                  )
+                                : Icon(
+                                    Icons.favorite_outline,
+                                    size: 20,
+                                  ),
+                          ),
+                          SizedBox(
+                            width: 6,
+                          ),
+                          Container(
+                            child: Text(
+                              '${comment.likes.length} Likes',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 12,
+                                color: Color(0xFF000000),
                               ),
                             ),
-                          ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Icon(
+                        Icons.reply,
+                        size: 20,
+                      ),
+                      if (!comment.reports.contains(appUser.id))
+                        Padding(
+                          padding: EdgeInsets.only(left: 20),
+                          child: GestureDetector(
+                            onTap: () => showDialog(
+                              context: context,
+                              builder: (context) {
+                                return ReportDialog();
+                              },
+                            ).then((value) async {
+                              if (value) {
+                                await ref
+                                    .read(eventsProvider.notifier)
+                                    .handleReportComment(
+                                        eventId: comment.eventId,
+                                        commentId: comment.id);
+                              }
+                            }),
+                            child: Icon(
+                              Icons.more_horiz,
+                              size: 20,
+                            ),
+                          ),
                         ),
-                        Icon(
-                          Icons.reply,
-                          size: 20,
-                        ),
-                        Icon(
-                          Icons.more_horiz,
-                          size: 20,
-                        ),
-                      ],
-                    ),
+                    ],
                   ),
                 ],
               ),
             ),
           ],
         ),
-        SizedBox(
-          height: 20,
-        ),
+        if (comment.replies!.isNotEmpty)
+          SizedBox(
+            height: 20,
+          ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -235,55 +262,74 @@ class CommentItem extends ConsumerWidget {
                                 SizedBox(
                                   height: 6,
                                 ),
-                                SizedBox(
-                                  width: 135.2,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () =>
-                                                _handleReplyFavourite(),
-                                            child: comment.likes!
-                                                    .contains(appUser.id)
-                                                ? Icon(
-                                                    Icons.favorite,
-                                                    size: 20,
-                                                  )
-                                                : Icon(
-                                                    Icons.favorite_outline,
-                                                    size: 20,
-                                                  ),
-                                          ),
-                                          SizedBox(
-                                            width: 6,
-                                          ),
-                                          Container(
-                                            child: Text(
-                                              '${comment.replies![j].likes!.length} Likes',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 12,
-                                                color: Color(0xFF000000),
-                                              ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () async => await ref
+                                              .read(eventsProvider.notifier)
+                                              .handleCommentReplyFavourite(),
+                                          child: comment.replies![j].likes
+                                                  .contains(appUser.id)
+                                              ? Icon(
+                                                  Icons.favorite,
+                                                  size: 20,
+                                                )
+                                              : Icon(
+                                                  Icons.favorite_outline,
+                                                  size: 20,
+                                                ),
+                                        ),
+                                        SizedBox(
+                                          width: 6,
+                                        ),
+                                        Container(
+                                          child: Text(
+                                            '${comment.replies![j].likes.length} Likes',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 12,
+                                              color: Color(0xFF000000),
                                             ),
                                           ),
-                                        ],
+                                        ),
+                                      ],
+                                    ),
+                                    if (!comment.replies![j].reports
+                                        .contains(appUser.id))
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 20),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            showDialog(
+                                                    context: context,
+                                                    builder: (context) =>
+                                                        ReportDialog())
+                                                .then((value) async {
+                                              if (value) {
+                                                await ref
+                                                    .read(
+                                                        eventsProvider.notifier)
+                                                    .handleReportCommentReply(
+                                                        eventId:
+                                                            comment.eventId,
+                                                        commentId: comment.id,
+                                                        commentReplyId: comment
+                                                            .replies![j].id);
+                                              }
+                                            });
+                                          },
+                                          child: Icon(
+                                            Icons.more_horiz,
+                                            size: 20,
+                                          ),
+                                        ),
                                       ),
-                                      Icon(
-                                        Icons.reply,
-                                        size: 20,
-                                      ),
-                                      Icon(
-                                        Icons.more_horiz,
-                                        size: 20,
-                                      ),
-                                    ],
-                                  ),
+                                  ],
                                 ),
                               ],
                             ),
@@ -298,13 +344,5 @@ class CommentItem extends ConsumerWidget {
         ),
       ],
     );
-  }
-
-  Future<void> _handleCommentFavourite() async {
-    print("_handleCommentFavourite");
-  }
-
-  Future<void> _handleReplyFavourite() async {
-    print("_handleReplyFavourite");
   }
 }

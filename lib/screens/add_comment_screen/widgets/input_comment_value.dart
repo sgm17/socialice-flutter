@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:socialice/constants/app_colors.dart';
 
 class InputCommentValue extends StatelessWidget {
-  const InputCommentValue({super.key, required this.placeholder});
+  const InputCommentValue(
+      {super.key, required this.placeholder, required this.controller});
 
   final String placeholder;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
-      // onChanged: (text) => ref.read(searchBarProvider.notifier).state = text,
+      controller: controller,
       maxLength: 700,
       textAlignVertical: TextAlignVertical.center,
       style: TextStyle(

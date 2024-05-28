@@ -48,7 +48,7 @@ class _InterestsScreenState extends ConsumerState<InterestsScreen> {
       double accumulatedWidth = 0;
 
       // generate a new array that contains just each id
-      final appUserInterestsIds = interestsState.map((e) => e.id).toList();
+      final appUserInterestsIds = interests.map((e) => e.id).toList();
 
       for (int i = 0; i < interestsState.length; i++) {
         final interest = interestsState[i];

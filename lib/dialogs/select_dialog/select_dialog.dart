@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 
 class SelectDialog extends StatelessWidget {
-  const SelectDialog({Key? key}) : super(key: key);
+  const SelectDialog({
+    Key? key,
+    required this.message,
+    this.blueButtonText = 'Cancel',
+    this.redButtonText = 'Delete',
+  }) : super(key: key);
+
+  final String message;
+  final String blueButtonText, redButtonText;
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +28,10 @@ class SelectDialog extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 8),
                         alignment: Alignment.center,
                         child: Text(
-                          'Are you sure that you wan’t to delete the flat?',
+                          message,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.w400,
@@ -36,7 +45,7 @@ class SelectDialog extends StatelessWidget {
                       children: [
                         Flexible(
                             child: GestureDetector(
-                          onTap: toggleCancel,
+                          onTap: () => Navigator.of(context).pop(false),
                           child: Container(
                             alignment: Alignment.center,
                             height: 36,
@@ -47,7 +56,7 @@ class SelectDialog extends StatelessWidget {
                                     right: BorderSide(
                                         color: Color(0xFF939393), width: 0.5))),
                             child: Text(
-                              'Cancel',
+                              blueButtonText,
                               style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 14,
@@ -58,7 +67,7 @@ class SelectDialog extends StatelessWidget {
                         )),
                         Flexible(
                             child: GestureDetector(
-                          onTap: toggleDelete,
+                          onTap: () => Navigator.of(context).pop(true),
                           child: Container(
                             alignment: Alignment.center,
                             height: 36,
@@ -69,7 +78,7 @@ class SelectDialog extends StatelessWidget {
                                     right: BorderSide(
                                         color: Color(0xFF939393), width: 0.5))),
                             child: Text(
-                              'Delete',
+                              redButtonText,
                               style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 14,
@@ -89,8 +98,4 @@ class SelectDialog extends StatelessWidget {
       ),
     );
   }
-
-  void toggleCancel() {}
-
-  void toggleDelete() {}
 }

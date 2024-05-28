@@ -87,9 +87,8 @@ abstract class HttpRepository {
       {required String eventId, required String username});
   // PUT /api/v1/participants
   Future<EventModel> updateParticipants({required String eventId});
-  // PUT /api/v1/photos
-  Future<EventModel> updatePhotos(
-      {required String eventId, required String photo});
+  // PUT /api/v1/reports
+  Future<EventModel> updateReports({required String eventId});
 
   // CommunityModel
   // GET /api/v1/communities
@@ -119,9 +118,11 @@ abstract class HttpRepository {
   // CommentModel
   // POST /api/v1/comments
   Future<CommentModel> createCommentModel(
-      {required String communityId, required String comment});
+      {required String eventId, required String comment});
   // PUT /api/v1/comments
   Future<CommentModel> updateCommentModel({required String id});
+  // PUT /api/v1/comment-reports
+  Future<CommentModel> updateCommentReports({required String commentId});
 
   // CommentRepliesModel
   // POST /api/v1/comment-replies
@@ -129,4 +130,7 @@ abstract class HttpRepository {
       {required String parentCommentId, required String comment});
   // PUT /api/v1/comment-replies
   Future<CommentReplyModel> updateCommentReplyModel({required String id});
+  // PUT /api/v1/comment-replies-reports
+  Future<CommentReplyModel> updateCommentRepliesReports(
+      {required String commentReplyId});
 }

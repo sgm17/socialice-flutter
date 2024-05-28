@@ -20,8 +20,9 @@ mixin _$CommentModel {
   AppUserModel get creator => throw _privateConstructorUsedError;
   String get eventId => throw _privateConstructorUsedError;
   String get comment => throw _privateConstructorUsedError;
-  List<String>? get likes => throw _privateConstructorUsedError;
+  List<String> get likes => throw _privateConstructorUsedError;
   List<CommentReplyModel>? get replies => throw _privateConstructorUsedError;
+  List<String> get reports => throw _privateConstructorUsedError;
   @TimestampConverter()
   DateTime get createdAt => throw _privateConstructorUsedError;
 
@@ -41,8 +42,9 @@ abstract class $CommentModelCopyWith<$Res> {
       AppUserModel creator,
       String eventId,
       String comment,
-      List<String>? likes,
+      List<String> likes,
       List<CommentReplyModel>? replies,
+      List<String> reports,
       @TimestampConverter() DateTime createdAt});
 
   $AppUserModelCopyWith<$Res> get creator;
@@ -65,8 +67,9 @@ class _$CommentModelCopyWithImpl<$Res, $Val extends CommentModel>
     Object? creator = null,
     Object? eventId = null,
     Object? comment = null,
-    Object? likes = freezed,
+    Object? likes = null,
     Object? replies = freezed,
+    Object? reports = null,
     Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
@@ -86,14 +89,18 @@ class _$CommentModelCopyWithImpl<$Res, $Val extends CommentModel>
           ? _value.comment
           : comment // ignore: cast_nullable_to_non_nullable
               as String,
-      likes: freezed == likes
+      likes: null == likes
           ? _value.likes
           : likes // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
+              as List<String>,
       replies: freezed == replies
           ? _value.replies
           : replies // ignore: cast_nullable_to_non_nullable
               as List<CommentReplyModel>?,
+      reports: null == reports
+          ? _value.reports
+          : reports // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -123,8 +130,9 @@ abstract class _$$CommentModelImplCopyWith<$Res>
       AppUserModel creator,
       String eventId,
       String comment,
-      List<String>? likes,
+      List<String> likes,
       List<CommentReplyModel>? replies,
+      List<String> reports,
       @TimestampConverter() DateTime createdAt});
 
   @override
@@ -146,8 +154,9 @@ class __$$CommentModelImplCopyWithImpl<$Res>
     Object? creator = null,
     Object? eventId = null,
     Object? comment = null,
-    Object? likes = freezed,
+    Object? likes = null,
     Object? replies = freezed,
+    Object? reports = null,
     Object? createdAt = null,
   }) {
     return _then(_$CommentModelImpl(
@@ -167,14 +176,18 @@ class __$$CommentModelImplCopyWithImpl<$Res>
           ? _value.comment
           : comment // ignore: cast_nullable_to_non_nullable
               as String,
-      likes: freezed == likes
+      likes: null == likes
           ? _value._likes
           : likes // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
+              as List<String>,
       replies: freezed == replies
           ? _value._replies
           : replies // ignore: cast_nullable_to_non_nullable
               as List<CommentReplyModel>?,
+      reports: null == reports
+          ? _value._reports
+          : reports // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -191,11 +204,13 @@ class _$CommentModelImpl extends _CommentModel {
       required this.creator,
       required this.eventId,
       required this.comment,
-      final List<String>? likes = const [],
+      required final List<String> likes,
       final List<CommentReplyModel>? replies = const [],
+      required final List<String> reports,
       @TimestampConverter() required this.createdAt})
       : _likes = likes,
         _replies = replies,
+        _reports = reports,
         super._();
 
   @override
@@ -206,15 +221,12 @@ class _$CommentModelImpl extends _CommentModel {
   final String eventId;
   @override
   final String comment;
-  final List<String>? _likes;
+  final List<String> _likes;
   @override
-  @JsonKey()
-  List<String>? get likes {
-    final value = _likes;
-    if (value == null) return null;
+  List<String> get likes {
     if (_likes is EqualUnmodifiableListView) return _likes;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
+    return EqualUnmodifiableListView(_likes);
   }
 
   final List<CommentReplyModel>? _replies;
@@ -228,13 +240,21 @@ class _$CommentModelImpl extends _CommentModel {
     return EqualUnmodifiableListView(value);
   }
 
+  final List<String> _reports;
+  @override
+  List<String> get reports {
+    if (_reports is EqualUnmodifiableListView) return _reports;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_reports);
+  }
+
   @override
   @TimestampConverter()
   final DateTime createdAt;
 
   @override
   String toString() {
-    return 'CommentModel(id: $id, creator: $creator, eventId: $eventId, comment: $comment, likes: $likes, replies: $replies, createdAt: $createdAt)';
+    return 'CommentModel(id: $id, creator: $creator, eventId: $eventId, comment: $comment, likes: $likes, replies: $replies, reports: $reports, createdAt: $createdAt)';
   }
 
   @override
@@ -248,6 +268,7 @@ class _$CommentModelImpl extends _CommentModel {
             (identical(other.comment, comment) || other.comment == comment) &&
             const DeepCollectionEquality().equals(other._likes, _likes) &&
             const DeepCollectionEquality().equals(other._replies, _replies) &&
+            const DeepCollectionEquality().equals(other._reports, _reports) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
@@ -261,6 +282,7 @@ class _$CommentModelImpl extends _CommentModel {
       comment,
       const DeepCollectionEquality().hash(_likes),
       const DeepCollectionEquality().hash(_replies),
+      const DeepCollectionEquality().hash(_reports),
       createdAt);
 
   @JsonKey(ignore: true)
@@ -276,8 +298,9 @@ abstract class _CommentModel extends CommentModel {
           required final AppUserModel creator,
           required final String eventId,
           required final String comment,
-          final List<String>? likes,
+          required final List<String> likes,
           final List<CommentReplyModel>? replies,
+          required final List<String> reports,
           @TimestampConverter() required final DateTime createdAt}) =
       _$CommentModelImpl;
   const _CommentModel._() : super._();
@@ -291,9 +314,11 @@ abstract class _CommentModel extends CommentModel {
   @override
   String get comment;
   @override
-  List<String>? get likes;
+  List<String> get likes;
   @override
   List<CommentReplyModel>? get replies;
+  @override
+  List<String> get reports;
   @override
   @TimestampConverter()
   DateTime get createdAt;

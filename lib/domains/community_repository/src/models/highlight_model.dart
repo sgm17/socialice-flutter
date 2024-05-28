@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:socialice/domains/app_user_repository/src/models/app_user_model.dart';
-import 'package:socialice/domains/event_repository/src/models/event_model.dart';
 import 'package:socialice/helpers/serialize/timestamp_converter.dart';
 part 'highlight_model.freezed.dart';
 part 'highlight_model.g.dart';

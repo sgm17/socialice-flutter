@@ -18,13 +18,15 @@ CommentModel _$CommentModelFromJson(Map<String, dynamic> json) =>
           eventId: $checkedConvert('eventId', (v) => v as String),
           comment: $checkedConvert('comment', (v) => v as String),
           likes: $checkedConvert('likes',
-              (v) => (v as List<dynamic>?)?.map((e) => e as String).toList()),
+              (v) => (v as List<dynamic>).map((e) => e as String).toList()),
           replies: $checkedConvert(
               'replies',
               (v) => (v as List<dynamic>?)
                   ?.map((e) =>
                       CommentReplyModel.fromJson(e as Map<String, dynamic>))
                   .toList()),
+          reports: $checkedConvert('reports',
+              (v) => (v as List<dynamic>).map((e) => e as String).toList()),
           createdAt: $checkedConvert('createdAt',
               (v) => const TimestampConverter().fromJson(v as String)),
         );
@@ -40,5 +42,6 @@ Map<String, dynamic> _$CommentModelToJson(CommentModel instance) =>
       'comment': instance.comment,
       'likes': instance.likes,
       'replies': instance.replies?.map((e) => e.toJson()).toList(),
+      'reports': instance.reports,
       'createdAt': const TimestampConverter().toJson(instance.createdAt),
     };

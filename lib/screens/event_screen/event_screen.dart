@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:socialice/constants/app_colors.dart';
+import 'package:socialice/dialogs/select_dialog/select_dialog.dart';
 import 'package:socialice/providers/app_provider/bottom_navigation_provider.dart';
 import 'package:socialice/providers/app_user_provider/app_user_provider.dart';
 import 'package:socialice/providers/event_provider/events_provider.dart';
@@ -787,8 +788,16 @@ class EventScreen extends ConsumerWidget {
                               width: 24,
                             ),
                             GestureDetector(
-                              onTap: () => Navigator.pushNamed(
-                                  context, '/AddCommentScreen'),
+                              onTap: () async {
+                                final comment = await Navigator.pushNamed(
+                                    context, '/AddCommentScreen') as String?;
+                                if (comment != null && comment.isNotEmpty) {
+                                  await ref
+                                      .read(eventsProvider.notifier)
+                                      .handleCreateComment(
+                                          eventId: eventId, comment: comment);
+                                }
+                              },
                               child: Text(
                                 'Add a comment',
                                 style: TextStyle(
@@ -810,35 +819,53 @@ class EventScreen extends ConsumerWidget {
                               comment: event.comments![i],
                             ),
                           ),
-                        SizedBox(
-                          height: 32,
-                        ),
-                        Container(
-                          height: 1,
-                          decoration: BoxDecoration(
-                            color: Color(0xFF000000),
+                        if (!event.reports.contains(appUser.id))
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: 32,
+                              ),
+                              GestureDetector(
+                                onTap: () async {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return SelectDialog(
+                                          message:
+                                              "Are you sure that you want to report this event?",
+                                          redButtonText: "Report",
+                                        );
+                                      }).then((value) async {
+                                    if (value) {
+                                      await ref
+                                          .read(eventsProvider.notifier)
+                                          .handleReportEvent(eventId: eventId);
+                                    }
+                                  });
+                                },
+                                child: Container(
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(
+                                              color: AppColors.blackColor),
+                                          top: BorderSide(
+                                              color: AppColors.blackColor))),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 20.0),
+                                  child: Text(
+                                    'Report this event',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 18,
+                                      color: Color(0xFF3F8DFD),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          'Report this event',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 18,
-                            color: Color(0xFF3F8DFD),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Container(
-                          height: 1,
-                          decoration: BoxDecoration(
-                            color: Color(0xFF000000),
-                          ),
-                        ),
                         SizedBox(
                           height: 128,
                         )

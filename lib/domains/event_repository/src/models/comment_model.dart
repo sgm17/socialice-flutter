@@ -24,7 +24,8 @@ class CommentModel with _$CommentModel {
       required AppUserModel creator,
       required String eventId,
       required String comment,
-      @Default([]) List<String>? likes,
+      required List<String> likes,
       @Default([]) List<CommentReplyModel>? replies,
+      required List<String> reports,
       @TimestampConverter() required DateTime createdAt}) = _CommentModel;
 }
