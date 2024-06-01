@@ -112,11 +112,11 @@ class CommentItem extends ConsumerWidget {
                             child: comment.likes.contains(appUser.id)
                                 ? Icon(
                                     Icons.favorite,
-                                    size: 20,
+                                    size: 23,
                                   )
                                 : Icon(
                                     Icons.favorite_outline,
-                                    size: 20,
+                                    size: 23,
                                   ),
                           ),
                           SizedBox(
@@ -137,9 +137,24 @@ class CommentItem extends ConsumerWidget {
                       SizedBox(
                         width: 20,
                       ),
-                      Icon(
-                        Icons.reply,
-                        size: 20,
+                      GestureDetector(
+                        onTap: () async {
+                          final commentReply = await Navigator.pushNamed(
+                              context, "/AddCommentScreen") as String?;
+
+                          if (commentReply != null && commentReply.isNotEmpty) {
+                            await ref
+                                .read(eventsProvider.notifier)
+                                .handleCreateCommentReply(
+                                    eventId: comment.eventId,
+                                    commentId: comment.id,
+                                    comment: commentReply);
+                          }
+                        },
+                        child: Icon(
+                          Icons.reply,
+                          size: 23,
+                        ),
                       ),
                       if (!comment.reports.contains(appUser.id))
                         Padding(
@@ -151,7 +166,7 @@ class CommentItem extends ConsumerWidget {
                                 return ReportDialog();
                               },
                             ).then((value) async {
-                              if (value) {
+                              if (value is bool && value) {
                                 await ref
                                     .read(eventsProvider.notifier)
                                     .handleReportComment(
@@ -161,7 +176,7 @@ class CommentItem extends ConsumerWidget {
                             }),
                             child: Icon(
                               Icons.more_horiz,
-                              size: 20,
+                              size: 23,
                             ),
                           ),
                         ),
@@ -252,7 +267,7 @@ class CommentItem extends ConsumerWidget {
                                   height: 6,
                                 ),
                                 Text(
-                                  comment.replies![j].comment,
+                                  comment.replies![j].commentReply,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 14,
@@ -272,16 +287,21 @@ class CommentItem extends ConsumerWidget {
                                         GestureDetector(
                                           onTap: () async => await ref
                                               .read(eventsProvider.notifier)
-                                              .handleCommentReplyFavourite(),
+                                              .handleCommentReplyFavourite(
+                                                eventId: comment.eventId,
+                                                commentId: comment.id,
+                                                commentReplyId:
+                                                    comment.replies![j].id,
+                                              ),
                                           child: comment.replies![j].likes
                                                   .contains(appUser.id)
                                               ? Icon(
                                                   Icons.favorite,
-                                                  size: 20,
+                                                  size: 23,
                                                 )
                                               : Icon(
                                                   Icons.favorite_outline,
-                                                  size: 20,
+                                                  size: 23,
                                                 ),
                                         ),
                                         SizedBox(
@@ -310,7 +330,7 @@ class CommentItem extends ConsumerWidget {
                                                     builder: (context) =>
                                                         ReportDialog())
                                                 .then((value) async {
-                                              if (value) {
+                                              if (value is bool && value) {
                                                 await ref
                                                     .read(
                                                         eventsProvider.notifier)
@@ -325,7 +345,7 @@ class CommentItem extends ConsumerWidget {
                                           },
                                           child: Icon(
                                             Icons.more_horiz,
-                                            size: 20,
+                                            size: 23,
                                           ),
                                         ),
                                       ),

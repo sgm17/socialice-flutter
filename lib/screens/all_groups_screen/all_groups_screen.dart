@@ -20,9 +20,12 @@ class AllGroupsScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ArrowBack(),
             SizedBox(
               height: 32,
+            ),
+            ArrowBack(),
+            SizedBox(
+              height: 16,
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,21 +49,22 @@ class AllGroupsScreen extends ConsumerWidget {
               ],
             ),
             SizedBox(
-              height: 20,
+              height: 16,
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                for (int i = 0; i < communities.length; i++)
-                  Padding(
-                    padding: i != communities.length - 1
-                        ? const EdgeInsets.only(top: 16.0)
-                        : EdgeInsets.zero,
-                    child: AllGroupsItem(
-                      community: communities[i],
-                    ),
-                  )
-              ],
+            Expanded(
+              child: ListView.separated(
+                itemBuilder: (BuildContext context, int index) {
+                  return AllGroupsItem(
+                    community: communities[index],
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return SizedBox(
+                    height: 16,
+                  );
+                },
+                itemCount: communities.length,
+              ),
             )
           ],
         ),
@@ -83,108 +87,112 @@ class AllGroupsItem extends StatelessWidget {
         ? community.members!.sublist(0, 4)
         : community.members;
 
-    return Container(
-      padding: EdgeInsets.all(16),
-      height: 212.0,
-      decoration: BoxDecoration(
-          color: AppColors.whiteColor,
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: Color(0x40000000),
-              offset: Offset(0, 4),
-              blurRadius: 2,
-            ),
-          ]),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                height: 30,
-                width: 30,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(community.image))),
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, "/CommunityScreen",
+            arguments: {"communityId": community.id});
+      },
+      child: Container(
+        padding: EdgeInsets.all(16),
+        height: 212.0,
+        decoration: BoxDecoration(
+            color: AppColors.whiteColor,
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: Color(0x40000000),
+                offset: Offset(0, 4),
+                blurRadius: 2,
               ),
-              SizedBox(
-                width: 12,
-              ),
-              Text(
-                community.name,
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 14,
-                  color: AppColors.blackColor,
+            ]),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  height: 30,
+                  width: 30,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(community.image))),
                 ),
-              ),
-            ],
-          ),
-          Text(
-            community.description,
-            style: TextStyle(
-              fontWeight: FontWeight.w400,
-              fontSize: 14,
-              color: AppColors.greyLightColor,
+                SizedBox(
+                  width: 12,
+                ),
+                Text(
+                  community.name,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 14,
+                    color: AppColors.blackColor,
+                  ),
+                ),
+              ],
             ),
-            overflow: TextOverflow.ellipsis,
-            maxLines: 4,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              if (lastFourMembers!.isEmpty)
-                SizedBox.shrink()
-              else
-                Stack(
-                  children: [
-                    if (lastFourMembers.length >= 4)
-                      Container(
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: AppColors.blackColor,
-                        ),
-                        child: Text(
-                          '+${lastFourMembers.length - 4}',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16,
+            Text(
+              community.description,
+              style: TextStyle(
+                fontWeight: FontWeight.w400,
+                fontSize: 14,
+                color: AppColors.greyLightColor,
+              ),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 4,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                if (lastFourMembers!.isNotEmpty)
+                  Stack(
+                    children: [
+                      if (lastFourMembers.length >= 4)
+                        Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
                             color: AppColors.blackColor,
                           ),
+                          child: Text(
+                            '+${lastFourMembers.length - 4}',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                              color: AppColors.blackColor,
+                            ),
+                          ),
                         ),
-                      ),
-                    for (int i = lastFourMembers.length; i >= 0; i--)
-                      Positioned(
-                          left: i * 30,
-                          child: Container(
-                            height: 40,
-                            width: 40,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    width: 2, color: AppColors.whiteColor),
-                                image: lastFourMembers[i].profileImage == null
-                                    ? DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: AssetImage(
-                                            "assets/images/default_avatar.png"))
-                                    : DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: NetworkImage(
-                                            lastFourMembers[i].profileImage!))),
-                          ))
-                  ],
-                ),
-              BlackContainerButton(
-                  text: "+ Join", action: () => Navigator.pop(context))
-            ],
-          )
-        ],
+                      for (int i = lastFourMembers.length; i >= 0; i--)
+                        Positioned(
+                            left: i * 30,
+                            child: Container(
+                              height: 40,
+                              width: 40,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 2, color: AppColors.whiteColor),
+                                  image: lastFourMembers[i].profileImage == null
+                                      ? DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: AssetImage(
+                                              "assets/images/default_avatar.png"))
+                                      : DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: NetworkImage(lastFourMembers[i]
+                                              .profileImage!))),
+                            ))
+                    ],
+                  ),
+                BlackContainerButton(
+                    text: "+ Join", action: () => Navigator.pop(context))
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

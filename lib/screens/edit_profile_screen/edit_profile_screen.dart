@@ -76,14 +76,22 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBox(
+                      height: 32,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Expanded(child: ArrowBack()),
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: ArrowBack(),
+                          ),
+                        ),
                         Expanded(
                           child: Text(
-                            "Profile",
+                            "Edit Profile",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontWeight: FontWeight.w400,

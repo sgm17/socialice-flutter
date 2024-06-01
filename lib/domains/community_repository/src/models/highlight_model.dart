@@ -20,6 +20,7 @@ class HighlightModel with _$HighlightModel {
 
   const factory HighlightModel({
     required String id,
+    required String eventId,
     required AppUserModel user,
     required String image,
     @TimestampConverter() required DateTime createdAt,

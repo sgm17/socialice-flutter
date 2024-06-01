@@ -91,8 +91,11 @@ class EventScreen extends ConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Expanded(
-                                child: ArrowBack(
-                                  color: AppColors.whiteColor,
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: ArrowBack(
+                                    color: AppColors.whiteColor,
+                                  ),
                                 ),
                               ),
                               Expanded(
@@ -711,17 +714,8 @@ class EventScreen extends ConsumerWidget {
                                                   SizedBox(
                                                     height: 6,
                                                   ),
-                                                  Container(
-                                                    width: 21,
-                                                    height: 19,
-                                                    child: SizedBox(
-                                                      width: 21,
-                                                      height: 19,
-                                                      child: SvgPicture.asset(
-                                                        'assets/vectors/vector_42_x2.svg',
-                                                      ),
-                                                    ),
-                                                  ),
+                                                  Icon(Icons
+                                                      .add_a_photo_outlined)
                                                 ],
                                               )),
                                         );

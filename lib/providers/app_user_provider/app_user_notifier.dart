@@ -43,17 +43,14 @@ class AppUserNotifier extends StateNotifier<AsyncValue<AppUserModel>> {
       final events = ref.read(eventsProvider).asData?.value;
       final event = events?.where((e) => e.id == eventId).first;
       List<String>? newFavourites = [...state.asData!.value.favourites!];
-      try {
-        if (newFavourites.contains(event?.id) == true) {
-          newFavourites = newFavourites.where((e) => e != event?.id).toList();
-        } else {
-          newFavourites = [event!.id, ...newFavourites];
-        }
-        state = AsyncValue.data(
-            state.asData!.value.copyWith(favourites: newFavourites));
-      } catch (e) {
-        print(e);
+
+      if (newFavourites.contains(event?.id) == true) {
+        newFavourites = newFavourites.where((e) => e != event?.id).toList();
+      } else {
+        newFavourites = [event!.id, ...newFavourites];
       }
+      state = AsyncValue.data(
+          state.asData!.value.copyWith(favourites: newFavourites));
     } catch (e) {
       state = AsyncValue.error(e, StackTrace.current);
     }
@@ -74,7 +71,7 @@ class AppUserNotifier extends StateNotifier<AsyncValue<AppUserModel>> {
       if (profileImage != null) {
         updatedProfileImage = await ref
             .read(firebaseStorageProvider.notifier)
-            .uploadFileToFirebaseStorage(profileImage, oldState);
+            .uploadFileToFirebaseStorage(profileImage);
       }
 
       final newAppUserModel = await ref

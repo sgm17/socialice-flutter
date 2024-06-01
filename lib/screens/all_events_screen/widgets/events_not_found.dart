@@ -19,7 +19,7 @@ class EventsNotFound extends StatelessWidget {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: NetworkImage(
+                  image: AssetImage(
                     'assets/images/all_events_not_found_image.png',
                   ),
                 ),

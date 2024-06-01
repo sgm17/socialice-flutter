@@ -20,8 +20,9 @@ class CommentReplyModel with _$CommentReplyModel {
 
   const factory CommentReplyModel({
     required String id,
+    required String commentId,
     required AppUserModel creator,
-    required String comment,
+    required String commentReply,
     required List<String> likes,
     required List<String> reports,
     @TimestampConverter() required DateTime createdAt,

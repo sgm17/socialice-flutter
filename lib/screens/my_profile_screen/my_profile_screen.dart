@@ -1,4 +1,5 @@
 import 'package:socialice/providers/app_user_provider/app_user_provider.dart';
+import 'package:socialice/providers/community_provider/communities_provider.dart';
 import 'package:socialice/widgets/profile_organizer_group.dart';
 import 'package:socialice/screens/my_profile_screen/widgets/profile_discover_group.dart';
 import 'package:socialice/screens/my_profile_screen/widgets/profile_initialize_group.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socialice/constants/app_colors.dart';
 import 'package:socialice/widgets/arrow_back.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
 
 class MyProfileScreen extends ConsumerWidget {
   MyProfileScreen({Key? key}) : super(key: key);
@@ -23,26 +25,39 @@ class MyProfileScreen extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(
+                  height: 32,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    ArrowBack(),
-                    Text(
-                      "Profile",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 18,
+                    Expanded(
+                        child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: ArrowBack())),
+                    Expanded(
+                      child: Text(
+                        "Profile",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 18,
+                        ),
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () =>
-                          Navigator.pushNamed(context, "/SettingsScreen"),
-                      child: Icon(
-                        Icons.settings_outlined,
-                        weight: 300.0,
-                        size: 30.0,
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: GestureDetector(
+                          onTap: () =>
+                              Navigator.pushNamed(context, "/SettingsScreen"),
+                          child: Icon(
+                            Icons.settings_outlined,
+                            weight: 300.0,
+                            size: 30.0,
+                          ),
+                        ),
                       ),
                     ),
                   ],
@@ -182,8 +197,36 @@ class MyProfileScreen extends ConsumerWidget {
                       )
                     else
                       GestureDetector(
-                          onTap: () => Navigator.pushNamed(
-                              context, '/CreateCommunityScreen'),
+                          onTap: () async {
+                            final communityJson = await Navigator.pushNamed(
+                                context, '/CreateCommunityScreen');
+
+                            if (communityJson is String? &&
+                                communityJson != null) {
+                              final community = jsonDecode(communityJson);
+
+                              final name = community["name"];
+                              final description = community["description"];
+                              final image = community["image"];
+                              final categoryId = community["categoryId"];
+                              final city = community["city"];
+
+                              final createdCommunity = await ref
+                                  .read(communitiesProvider.notifier)
+                                  .createCommunity(
+                                      name: name,
+                                      description: description,
+                                      image: image,
+                                      categoryId: categoryId,
+                                      city: city);
+                              if (createdCommunity != null) {
+                                Navigator.pushNamed(context, "/CommunityScreen",
+                                    arguments: {
+                                      'communityId': createdCommunity.id
+                                    });
+                              }
+                            }
+                          },
                           child: ProfileInitializeGroup()),
                   ],
                 ),

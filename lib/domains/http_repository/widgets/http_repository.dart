@@ -99,7 +99,7 @@ abstract class HttpRepository {
       required String name,
       required String city,
       required String description,
-      required CategoryModel category});
+      required String categoryId});
   // PUT /api/v1/communities
   Future<CommunityModel> updateCommunityModel(
       {required String id,
@@ -127,7 +127,7 @@ abstract class HttpRepository {
   // CommentRepliesModel
   // POST /api/v1/comment-replies
   Future<CommentReplyModel> createCommentReplyModel(
-      {required String parentCommentId, required String comment});
+      {required String commentId, required String commentReply});
   // PUT /api/v1/comment-replies
   Future<CommentReplyModel> updateCommentReplyModel({required String id});
   // PUT /api/v1/comment-replies-reports

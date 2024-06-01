@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:socialice/constants/app_colors.dart';
+import 'package:socialice/domains/community_repository/src/models/highlight_model.dart';
 
 class CommunitySingleHighlightedEvent extends StatelessWidget {
   const CommunitySingleHighlightedEvent({
     super.key,
+    required this.highlight,
   });
+
+  final HighlightModel highlight;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +24,7 @@ class CommunitySingleHighlightedEvent extends StatelessWidget {
             image: DecorationImage(
               fit: BoxFit.cover,
               image: NetworkImage(
-                'assets/images/highlighted_moment_1_image.png',
+                highlight.image,
               ),
             ),
           ),

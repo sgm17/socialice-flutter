@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:socialice/constants/app_colors.dart';
 import 'package:socialice/screens/add_comment_screen/add_comment_screen.dart';
 import 'package:socialice/screens/all_events_screen/all_events_screen.dart';
@@ -41,8 +42,6 @@ Future<void> main() async {
 
   await Firebase.initializeApp();
 
-  await Firebase.initializeApp();
-
   runApp(ProviderScope(child: const MyApp()));
 }
 
@@ -70,7 +69,9 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        fontFamily: 'Roboto',
+        textTheme: GoogleFonts.robotoTextTheme(
+          Theme.of(context).textTheme,
+        ),
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.blackColor),
         useMaterial3: true,
       ),

@@ -1,6 +1,6 @@
+import 'package:socialice/providers/app_user_provider/app_user_provider.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:socialice/domains/app_user_repository/src/models/app_user_model.dart';
 import 'dart:io';
 
 class FirebaseStorageNotifier extends StateNotifier<FirebaseStorage?> {
@@ -15,12 +15,12 @@ class FirebaseStorageNotifier extends StateNotifier<FirebaseStorage?> {
     state = firebaseStorage;
   }
 
-  Future<String> uploadFileToFirebaseStorage(
-      File file, AppUserModel appUserModel) async {
+  Future<String> uploadFileToFirebaseStorage(File file) async {
     try {
+      final user = ref.read(appUserProvider).asData!.value;
       final now = DateTime.now().millisecondsSinceEpoch;
       final extension = file.path.split("/").last.split(".").last;
-      final filename = "${now}_${appUserModel.id}.${extension}";
+      final filename = "${now}_${user.id}.${extension}";
 
       final storageRef = FirebaseStorage.instance.ref().child(filename);
       await storageRef.putFile(file);

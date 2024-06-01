@@ -1,11 +1,15 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:socialice/constants/app_colors.dart';
+import 'package:socialice/domains/community_repository/src/models/highlight_model.dart';
 
 class CommunityMultipleHighlightedEvent extends StatelessWidget {
   const CommunityMultipleHighlightedEvent({
     super.key,
+    required this.highlights,
   });
+
+  final List<HighlightModel> highlights;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +28,7 @@ class CommunityMultipleHighlightedEvent extends StatelessWidget {
                   image: DecorationImage(
                     fit: BoxFit.cover,
                     image: NetworkImage(
-                      'assets/images/highlighted_moment_31_image.png',
+                      highlights.reversed.toList()[0].image,
                     ),
                   ),
                 ),
@@ -50,7 +54,7 @@ class CommunityMultipleHighlightedEvent extends StatelessWidget {
                             width: 4,
                           ),
                           Text(
-                            '8',
+                            highlights.length.toString(),
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 18,
@@ -74,7 +78,7 @@ class CommunityMultipleHighlightedEvent extends StatelessWidget {
                       image: DecorationImage(
                         fit: BoxFit.cover,
                         image: NetworkImage(
-                          'assets/images/highlighted_moment_32_image.png',
+                          highlights.reversed.toList()[1].image,
                         ),
                       ),
                     ),
@@ -88,7 +92,7 @@ class CommunityMultipleHighlightedEvent extends StatelessWidget {
                       image: DecorationImage(
                         fit: BoxFit.cover,
                         image: NetworkImage(
-                          'assets/images/highlighted_moment_32_image.png',
+                          highlights.reversed.toList()[2].image,
                         ),
                       ),
                     ),

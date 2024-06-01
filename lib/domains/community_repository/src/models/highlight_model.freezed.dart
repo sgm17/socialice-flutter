@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$HighlightModel {
   String get id => throw _privateConstructorUsedError;
+  String get eventId => throw _privateConstructorUsedError;
   AppUserModel get user => throw _privateConstructorUsedError;
   String get image => throw _privateConstructorUsedError;
   @TimestampConverter()
@@ -35,6 +36,7 @@ abstract class $HighlightModelCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
+      String eventId,
       AppUserModel user,
       String image,
       @TimestampConverter() DateTime createdAt});
@@ -56,6 +58,7 @@ class _$HighlightModelCopyWithImpl<$Res, $Val extends HighlightModel>
   @override
   $Res call({
     Object? id = null,
+    Object? eventId = null,
     Object? user = null,
     Object? image = null,
     Object? createdAt = null,
@@ -64,6 +67,10 @@ class _$HighlightModelCopyWithImpl<$Res, $Val extends HighlightModel>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      eventId: null == eventId
+          ? _value.eventId
+          : eventId // ignore: cast_nullable_to_non_nullable
               as String,
       user: null == user
           ? _value.user
@@ -99,6 +106,7 @@ abstract class _$$HighlightModelImplCopyWith<$Res>
   @useResult
   $Res call(
       {String id,
+      String eventId,
       AppUserModel user,
       String image,
       @TimestampConverter() DateTime createdAt});
@@ -119,6 +127,7 @@ class __$$HighlightModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
+    Object? eventId = null,
     Object? user = null,
     Object? image = null,
     Object? createdAt = null,
@@ -127,6 +136,10 @@ class __$$HighlightModelImplCopyWithImpl<$Res>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      eventId: null == eventId
+          ? _value.eventId
+          : eventId // ignore: cast_nullable_to_non_nullable
               as String,
       user: null == user
           ? _value.user
@@ -149,6 +162,7 @@ class __$$HighlightModelImplCopyWithImpl<$Res>
 class _$HighlightModelImpl extends _HighlightModel {
   const _$HighlightModelImpl(
       {required this.id,
+      required this.eventId,
       required this.user,
       required this.image,
       @TimestampConverter() required this.createdAt})
@@ -156,6 +170,8 @@ class _$HighlightModelImpl extends _HighlightModel {
 
   @override
   final String id;
+  @override
+  final String eventId;
   @override
   final AppUserModel user;
   @override
@@ -166,7 +182,7 @@ class _$HighlightModelImpl extends _HighlightModel {
 
   @override
   String toString() {
-    return 'HighlightModel(id: $id, user: $user, image: $image, createdAt: $createdAt)';
+    return 'HighlightModel(id: $id, eventId: $eventId, user: $user, image: $image, createdAt: $createdAt)';
   }
 
   @override
@@ -175,6 +191,7 @@ class _$HighlightModelImpl extends _HighlightModel {
         (other.runtimeType == runtimeType &&
             other is _$HighlightModelImpl &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.eventId, eventId) || other.eventId == eventId) &&
             (identical(other.user, user) || other.user == user) &&
             (identical(other.image, image) || other.image == image) &&
             (identical(other.createdAt, createdAt) ||
@@ -182,7 +199,8 @@ class _$HighlightModelImpl extends _HighlightModel {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, user, image, createdAt);
+  int get hashCode =>
+      Object.hash(runtimeType, id, eventId, user, image, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -195,6 +213,7 @@ class _$HighlightModelImpl extends _HighlightModel {
 abstract class _HighlightModel extends HighlightModel {
   const factory _HighlightModel(
           {required final String id,
+          required final String eventId,
           required final AppUserModel user,
           required final String image,
           @TimestampConverter() required final DateTime createdAt}) =
@@ -203,6 +222,8 @@ abstract class _HighlightModel extends HighlightModel {
 
   @override
   String get id;
+  @override
+  String get eventId;
   @override
   AppUserModel get user;
   @override

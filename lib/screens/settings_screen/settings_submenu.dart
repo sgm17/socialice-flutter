@@ -4,14 +4,16 @@ class SettingSubmenu extends StatelessWidget {
   const SettingSubmenu({
     super.key,
     required this.settingName,
+    this.action,
   });
 
+  final Function? action;
   final String settingName;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => print(''),
+      onTap: action != null ? () => action!() : null,
       child: Container(
         width: double.infinity,
         padding: EdgeInsets.all(16),

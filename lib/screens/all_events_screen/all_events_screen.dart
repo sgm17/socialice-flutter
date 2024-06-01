@@ -37,9 +37,12 @@ class _AllEventsScreenState extends ConsumerState<AllEventsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(
+                height: 32,
+              ),
               ArrowBack(),
               SizedBox(
-                height: 32.0,
+                height: 16.0,
               ),
               AllEventsHeader(
                 cozy: cozy,

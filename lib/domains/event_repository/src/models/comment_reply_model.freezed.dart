@@ -17,8 +17,9 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$CommentReplyModel {
   String get id => throw _privateConstructorUsedError;
+  String get commentId => throw _privateConstructorUsedError;
   AppUserModel get creator => throw _privateConstructorUsedError;
-  String get comment => throw _privateConstructorUsedError;
+  String get commentReply => throw _privateConstructorUsedError;
   List<String> get likes => throw _privateConstructorUsedError;
   List<String> get reports => throw _privateConstructorUsedError;
   @TimestampConverter()
@@ -37,8 +38,9 @@ abstract class $CommentReplyModelCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
+      String commentId,
       AppUserModel creator,
-      String comment,
+      String commentReply,
       List<String> likes,
       List<String> reports,
       @TimestampConverter() DateTime createdAt});
@@ -60,8 +62,9 @@ class _$CommentReplyModelCopyWithImpl<$Res, $Val extends CommentReplyModel>
   @override
   $Res call({
     Object? id = null,
+    Object? commentId = null,
     Object? creator = null,
-    Object? comment = null,
+    Object? commentReply = null,
     Object? likes = null,
     Object? reports = null,
     Object? createdAt = null,
@@ -71,13 +74,17 @@ class _$CommentReplyModelCopyWithImpl<$Res, $Val extends CommentReplyModel>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
+      commentId: null == commentId
+          ? _value.commentId
+          : commentId // ignore: cast_nullable_to_non_nullable
+              as String,
       creator: null == creator
           ? _value.creator
           : creator // ignore: cast_nullable_to_non_nullable
               as AppUserModel,
-      comment: null == comment
-          ? _value.comment
-          : comment // ignore: cast_nullable_to_non_nullable
+      commentReply: null == commentReply
+          ? _value.commentReply
+          : commentReply // ignore: cast_nullable_to_non_nullable
               as String,
       likes: null == likes
           ? _value.likes
@@ -113,8 +120,9 @@ abstract class _$$CommentReplyModelImplCopyWith<$Res>
   @useResult
   $Res call(
       {String id,
+      String commentId,
       AppUserModel creator,
-      String comment,
+      String commentReply,
       List<String> likes,
       List<String> reports,
       @TimestampConverter() DateTime createdAt});
@@ -135,8 +143,9 @@ class __$$CommentReplyModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
+    Object? commentId = null,
     Object? creator = null,
-    Object? comment = null,
+    Object? commentReply = null,
     Object? likes = null,
     Object? reports = null,
     Object? createdAt = null,
@@ -146,13 +155,17 @@ class __$$CommentReplyModelImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
+      commentId: null == commentId
+          ? _value.commentId
+          : commentId // ignore: cast_nullable_to_non_nullable
+              as String,
       creator: null == creator
           ? _value.creator
           : creator // ignore: cast_nullable_to_non_nullable
               as AppUserModel,
-      comment: null == comment
-          ? _value.comment
-          : comment // ignore: cast_nullable_to_non_nullable
+      commentReply: null == commentReply
+          ? _value.commentReply
+          : commentReply // ignore: cast_nullable_to_non_nullable
               as String,
       likes: null == likes
           ? _value._likes
@@ -175,8 +188,9 @@ class __$$CommentReplyModelImplCopyWithImpl<$Res>
 class _$CommentReplyModelImpl extends _CommentReplyModel {
   const _$CommentReplyModelImpl(
       {required this.id,
+      required this.commentId,
       required this.creator,
-      required this.comment,
+      required this.commentReply,
       required final List<String> likes,
       required final List<String> reports,
       @TimestampConverter() required this.createdAt})
@@ -187,9 +201,11 @@ class _$CommentReplyModelImpl extends _CommentReplyModel {
   @override
   final String id;
   @override
+  final String commentId;
+  @override
   final AppUserModel creator;
   @override
-  final String comment;
+  final String commentReply;
   final List<String> _likes;
   @override
   List<String> get likes {
@@ -212,7 +228,7 @@ class _$CommentReplyModelImpl extends _CommentReplyModel {
 
   @override
   String toString() {
-    return 'CommentReplyModel(id: $id, creator: $creator, comment: $comment, likes: $likes, reports: $reports, createdAt: $createdAt)';
+    return 'CommentReplyModel(id: $id, commentId: $commentId, creator: $creator, commentReply: $commentReply, likes: $likes, reports: $reports, createdAt: $createdAt)';
   }
 
   @override
@@ -221,8 +237,11 @@ class _$CommentReplyModelImpl extends _CommentReplyModel {
         (other.runtimeType == runtimeType &&
             other is _$CommentReplyModelImpl &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.commentId, commentId) ||
+                other.commentId == commentId) &&
             (identical(other.creator, creator) || other.creator == creator) &&
-            (identical(other.comment, comment) || other.comment == comment) &&
+            (identical(other.commentReply, commentReply) ||
+                other.commentReply == commentReply) &&
             const DeepCollectionEquality().equals(other._likes, _likes) &&
             const DeepCollectionEquality().equals(other._reports, _reports) &&
             (identical(other.createdAt, createdAt) ||
@@ -233,8 +252,9 @@ class _$CommentReplyModelImpl extends _CommentReplyModel {
   int get hashCode => Object.hash(
       runtimeType,
       id,
+      commentId,
       creator,
-      comment,
+      commentReply,
       const DeepCollectionEquality().hash(_likes),
       const DeepCollectionEquality().hash(_reports),
       createdAt);
@@ -250,8 +270,9 @@ class _$CommentReplyModelImpl extends _CommentReplyModel {
 abstract class _CommentReplyModel extends CommentReplyModel {
   const factory _CommentReplyModel(
           {required final String id,
+          required final String commentId,
           required final AppUserModel creator,
-          required final String comment,
+          required final String commentReply,
           required final List<String> likes,
           required final List<String> reports,
           @TimestampConverter() required final DateTime createdAt}) =
@@ -261,9 +282,11 @@ abstract class _CommentReplyModel extends CommentReplyModel {
   @override
   String get id;
   @override
+  String get commentId;
+  @override
   AppUserModel get creator;
   @override
-  String get comment;
+  String get commentReply;
   @override
   List<String> get likes;
   @override

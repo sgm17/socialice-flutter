@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socialice/constants/app_colors.dart';
 import 'package:socialice/providers/user_profile_provider/user_profile_provider.dart';
@@ -12,12 +13,12 @@ class UserProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final Map<String, dynamic> args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    // final Map<String, dynamic> args =
+    //     ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
 
-    final String userId = args['userId'];
+    // final String userId = args['userId'];
 
-    final userProfileState = ref.watch(userProfileProvider(userId));
+    final userProfileState = ref.watch(userProfileProvider("1"));
 
     return Scaffold(
       body: SafeArea(
@@ -26,24 +27,27 @@ class UserProfileScreen extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(
+                height: 32,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  ArrowBack(),
-                  Text(
-                    "Profile",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 18,
+                  Expanded(
+                      child: Align(
+                          alignment: Alignment.centerLeft, child: ArrowBack())),
+                  Expanded(
+                    child: Text(
+                      "Profile",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 18,
+                      ),
                     ),
                   ),
-                  Icon(
-                    Icons.settings_outlined,
-                    weight: 300.0,
-                    size: 30.0,
-                  ),
+                  Expanded(child: SizedBox.shrink()),
                 ],
               ),
               SizedBox(

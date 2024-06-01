@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:socialice/constants/app_colors.dart';
+import 'package:socialice/domains/event_repository/src/models/event_model.dart';
 import 'package:socialice/providers/event_provider/events_provider.dart';
 import 'package:socialice/widgets/skelton.dart';
 
@@ -37,9 +38,7 @@ class AllEventsHeader extends ConsumerWidget {
             ),
             eventsState.when(
               data: (data) {
-                final events = data
-                    .where((e) => e.endTimestamp.isBefore(DateTime.now()))
-                    .toList();
+                final events = EventModel.getFutureEvents(data);
 
                 return Text(
                   '${events.length} Events In Total',

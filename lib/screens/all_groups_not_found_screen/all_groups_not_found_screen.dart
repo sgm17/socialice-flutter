@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:socialice/constants/app_colors.dart';
 import 'package:socialice/widgets/arrow_back.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class AllGroupsNotFoundScreen extends StatelessWidget {
   const AllGroupsNotFoundScreen({Key? key}) : super(key: key);
@@ -46,15 +45,12 @@ class AllGroupsNotFoundScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                  SizedBox(
-                    width: 118.11,
-                    height: 110.68,
-                    child: SvgPicture.asset(
-                      'assets/vectors/person_search.svg',
-                    ),
+                  Icon(
+                    Icons.person_search_rounded,
+                    size: 100,
                   ),
                   SizedBox(
-                    height: 16.0,
+                    height: 10.0,
                   ),
                   Column(
                     children: [

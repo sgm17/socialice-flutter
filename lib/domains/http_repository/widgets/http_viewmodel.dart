@@ -14,7 +14,7 @@ import 'dart:convert';
 class HttpViewmodel implements HttpRepository {
   final http.Client httpClient;
   // final API_ENDPOINT = "https://socialice-nextjs.vercel.app/api/v1";
-  final API_ENDPOINT = "http://localhost:3000/api/v1";
+  final API_ENDPOINT = "http://192.168.1.122:3000/api/v1";
 
   HttpViewmodel({required this.httpClient});
 
@@ -218,12 +218,8 @@ class HttpViewmodel implements HttpRepository {
         headers: headers);
 
     if (response.statusCode == 200) {
-      try {
-        final List<dynamic> data = await jsonDecode(response.body);
-        return data.map((e) => EventModel.fromJson(e)).toList();
-      } catch (e) {
-        print(e);
-      }
+      final List<dynamic> data = await jsonDecode(response.body);
+      return data.map((e) => EventModel.fromJson(e)).toList();
     }
     throw Exception("Example");
   }
@@ -464,7 +460,7 @@ class HttpViewmodel implements HttpRepository {
       required String name,
       required String city,
       required String description,
-      required CategoryModel category}) async {
+      required String categoryId}) async {
     final headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
@@ -475,7 +471,7 @@ class HttpViewmodel implements HttpRepository {
       "name": name,
       "city": city,
       "description": description,
-      "categoryId": category.id,
+      "categoryId": categoryId,
     });
 
     final response = await httpClient.post(
@@ -657,14 +653,14 @@ class HttpViewmodel implements HttpRepository {
 
   @override
   Future<CommentReplyModel> createCommentReplyModel(
-      {required String parentCommentId, required String comment}) async {
+      {required String commentId, required String commentReply}) async {
     final headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
     };
 
     final body =
-        jsonEncode({"parentCommentId": parentCommentId, "comment": comment});
+        jsonEncode({"commentId": commentId, "commentReply": commentReply});
 
     final response = await httpClient.post(
         Uri.parse("${API_ENDPOINT}/comment-replies"),

@@ -10,11 +10,13 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class Suggestion {
+  final String name;
   final String displayName;
   final double latitude;
   final double longitude;
 
   Suggestion(
+    this.name,
     this.displayName,
     this.latitude,
     this.longitude,
@@ -49,8 +51,8 @@ class _SelectCityScreenState extends ConsumerState<SelectCityScreen> {
       final List data = json.decode(response.body);
       setState(() {
         _suggestions = data.map((item) {
-          return Suggestion(item["display_name"], double.parse(item["lat"]),
-              double.parse(item["lon"]));
+          return Suggestion(item["name"], item["display_name"],
+              double.parse(item["lat"]), double.parse(item["lon"]));
         }).toList();
       });
     } else {

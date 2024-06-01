@@ -1,23 +1,19 @@
+import 'package:flutter/widgets.dart';
+import 'package:socialice/providers/event_provider/events_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:socialice/utils/date_parser.dart';
 
-class HighlightedMomentsScreen extends StatefulWidget {
+class HighlightedMomentsScreen extends ConsumerStatefulWidget {
   const HighlightedMomentsScreen({Key? key}) : super(key: key);
 
   @override
-  State<HighlightedMomentsScreen> createState() =>
+  ConsumerState<HighlightedMomentsScreen> createState() =>
       _HighlightedMomentsScreenState();
 }
 
-class _HighlightedMomentsScreenState extends State<HighlightedMomentsScreen> {
-  final List<String> pictures = [
-    "assets/images/highlighted_picture.png",
-    "assets/images/highlighted_picture.png",
-    "assets/images/highlighted_picture.png",
-    "assets/images/highlighted_picture.png",
-    "assets/images/highlighted_picture.png",
-  ];
-
+class _HighlightedMomentsScreenState
+    extends ConsumerState<HighlightedMomentsScreen> {
   int _currentPictureIndex = 0;
 
   late PageController _pageController;
@@ -36,38 +32,42 @@ class _HighlightedMomentsScreenState extends State<HighlightedMomentsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, dynamic> args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+
+    final String eventId = args['eventId'];
+
+    final events = ref.watch(eventsProvider).asData!.value;
+    final event = events.firstWhere((e) => e.id == eventId);
+
+    final pictures = event.highlights!;
+
     return Scaffold(
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(
+              height: 32,
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Expanded(
-                    child: GestureDetector(
-                      onTap: () => Navigator.pop(context),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(
-                          width: 13.7,
-                          height: 13.7,
-                          child: SizedBox(
-                            width: 13.7,
-                            height: 13.7,
-                            child: SvgPicture.asset(
-                              'assets/vectors/vector_39_x2.svg',
-                            ),
-                          ),
-                        ),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: Icon(Icons.close_rounded),
                       ),
                     ),
                   ),
                   Expanded(
                     child: Text(
-                      '${_currentPictureIndex + 1} de ${pictures.length}',
+                      '${_currentPictureIndex + 1} of ${pictures.length}',
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 23,
@@ -77,42 +77,12 @@ class _HighlightedMomentsScreenState extends State<HighlightedMomentsScreen> {
                   ),
                   Expanded(
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Container(
-                          width: 14.1,
-                          height: 14.1,
-                          child: SizedBox(
-                            width: 14.1,
-                            height: 14.1,
-                            child: SvgPicture.asset(
-                              'assets/vectors/vector_22_x2.svg',
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: 19,
-                          height: 21.1,
-                          child: SizedBox(
-                            width: 19,
-                            height: 21.1,
-                            child: SvgPicture.asset(
-                              'assets/vectors/vector_1_x2.svg',
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: 3.3,
-                          height: 15.8,
-                          child: SizedBox(
-                            width: 3.3,
-                            height: 15.8,
-                            child: SvgPicture.asset(
-                              'assets/vectors/vector_2_x2.svg',
-                            ),
-                          ),
-                        ),
+                        Icon(Icons.add_rounded),
+                        Icon(Icons.share_rounded),
+                        Icon(Icons.more_vert_rounded)
                       ],
                     ),
                   ),
@@ -136,7 +106,7 @@ class _HighlightedMomentsScreenState extends State<HighlightedMomentsScreen> {
                             image: DecorationImage(
                               fit: BoxFit.fitWidth,
                               image: NetworkImage(
-                                'assets/images/highlighted_picture.png',
+                                pictures[i].image,
                               ),
                             ),
                           ),
@@ -147,7 +117,7 @@ class _HighlightedMomentsScreenState extends State<HighlightedMomentsScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
-                'Added by Laura Nardella 3 mar',
+                'Added by ${pictures[_currentPictureIndex].user.name} ${pictures[_currentPictureIndex].user.surname} ${formatMonthWordDay(pictures[_currentPictureIndex].createdAt).toLowerCase()}',
                 style: TextStyle(
                   fontWeight: FontWeight.w400,
                   fontSize: 16,
@@ -169,54 +139,48 @@ class _HighlightedMomentsScreenState extends State<HighlightedMomentsScreen> {
             SizedBox(
               height: 16,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 9.9,
-                        height: 11.2,
-                        child: SizedBox(
-                          width: 9.9,
-                          height: 11.2,
-                          child: SvgPicture.asset(
-                            'assets/vectors/vector_x2.svg',
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, "/EventScreen",
+                    arguments: {"eventId": eventId});
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.event_rounded,
+                          size: 14,
+                        ),
+                        SizedBox(
+                          width: 6,
+                        ),
+                        Text(
+                          event.name,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16,
+                            color: Color(0xFF000000),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 6,
-                      ),
-                      Text(
-                        'Party Night at SOHO: Make New Friends',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16,
-                          color: Color(0xFF000000),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    width: 8.5,
-                    height: 6.2,
-                    child: SizedBox(
-                      width: 8.5,
-                      height: 6.2,
-                      child: SvgPicture.asset(
-                        'assets/vectors/vector_27_x2.svg',
-                      ),
+                      ],
                     ),
-                  ),
-                ],
+                    Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      size: 14,
+                    )
+                  ],
+                ),
               ),
             ),
+            SizedBox(
+              height: 32,
+            )
           ],
         ),
       ),

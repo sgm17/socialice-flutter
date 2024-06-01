@@ -328,28 +328,27 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             Navigator.pushNamed(context, '/AllGroupsScreen'),
                         child: EmptyCommunities());
                   else
-                    // there is at least one community
-                    return Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          GestureDetector(
+                    return SizedBox(
+                      height: 150,
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: communities.length,
+                        itemBuilder: (context, index) {
+                          final community = communities[index];
+                          return GestureDetector(
                             onTap: () => Navigator.pushNamed(
                                 context, '/CommunityScreen',
-                                arguments: {'communityId': communities[0].id}),
-                            child: YourGroup(community: communities[0]),
-                          ),
-                          if (communities.length > 1)
-                            Padding(
-                              padding: const EdgeInsets.only(left: 16.0),
-                              child: GestureDetector(
-                                onTap: () => Navigator.pushNamed(
-                                    context, '/CommunityScreen', arguments: {
-                                  'communityId': communities[1].id
-                                }),
-                                child: YourGroup(community: communities[1]),
-                              ),
-                            ),
-                        ]);
+                                arguments: {'communityId': community.id}),
+                            child: YourGroup(community: community),
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return SizedBox(
+                            width: 16,
+                          );
+                        },
+                      ),
+                    );
                 },
                 loading: () => Skelton(
                     height: 150, borderRadius: 8, isProfileImage: false),
@@ -460,14 +459,30 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               SizedBox(
                 height: 16,
               ),
-              eventsState.when(
-                data: (events) {
+              appUserState.when(
+                data: (appUser) {
                   // it does not matter if the events are popular or not
-                  final pastEvents = EventModel.getPastEvents(events);
+                  final pastEvents = EventModel.getPastEvents(appUser.events!);
 
                   if (pastEvents.isEmpty)
                     // there are no past events yet
-                    return SizedBox.shrink();
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Icon(Icons.calendar_month_rounded),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          "You haven't joined an event yet",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 18,
+                            color: Color(0xFF1B1A1D),
+                          ),
+                        ),
+                      ],
+                    );
                   else
                     return Column(
                       children: [
