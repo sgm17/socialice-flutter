@@ -1,3 +1,6 @@
+import 'package:flutter/widgets.dart';
+import 'package:socialice/dialogs/report_dialog/report_dialog.dart';
+import 'package:socialice/dialogs/select_dialog/select_dialog.dart';
 import 'package:socialice/domains/event_repository/src/models/event_model.dart';
 import 'package:socialice/providers/app_provider/bottom_navigation_provider.dart';
 import 'package:socialice/providers/app_user_provider/app_user_provider.dart';
@@ -7,11 +10,13 @@ import 'package:socialice/screens/community_screen/widgets/community_double_high
 import 'package:socialice/screens/community_screen/widgets/community_members.dart';
 import 'package:socialice/screens/community_screen/widgets/community_multiple_highlighted_event.dart';
 import 'package:socialice/screens/community_screen/widgets/community_single_highlighted_event.dart';
+import 'package:socialice/widgets/black_container_button.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socialice/constants/app_colors.dart';
 import 'package:socialice/widgets/arrow_back.dart';
 import 'package:socialice/utils/date_parser.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
 
 class CommunityScreen extends ConsumerStatefulWidget {
   CommunityScreen({super.key});
@@ -51,11 +56,81 @@ class _CommunityScreenState extends ConsumerState<CommunityScreen> {
         .where((highlights) => highlights != null && highlights.isNotEmpty)
         .toList();
 
-    Future<void> _handleCreateEvent() async {
-      final event = await Navigator.pushNamed(context, "/CreateEventScreen");
-      if (event is EventModel? && event != null) {
-        //TODO
+    final isMember = community.members!.map((e) => e.id).contains(user.id);
+
+    Future<void> _handleJoinGroup() async {
+      final res = await ref
+          .read(communitiesProvider.notifier)
+          .joinCommunity(communityId: communityId);
+      if (res) {
+        Navigator.pushNamed(context, "/JoinedCommunityScreen",
+            arguments: {"communityId": community.id});
       }
+    }
+
+    Future<void> _handleCreateEvent() async {
+      final eventJson =
+          await Navigator.pushNamed(context, "/CreateEventScreen");
+      if (eventJson is String? && eventJson != null) {
+        final json = jsonDecode(eventJson);
+
+        final createdEvent = await ref
+            .read(eventsProvider.notifier)
+            .createEvent(
+                name: json["name"],
+                description: json["description"],
+                image: json["image"],
+                placeName: json["placeName"],
+                completeAddress: json["completeAddress"],
+                communityId: json["communityId"],
+                startDate: json["startDate"],
+                endDate: json["endDate"],
+                latitude: json["latitude"],
+                longitude: json["longitude"],
+                price: json["price"],
+                priceWithoutDiscount: json["priceWithoutDiscount"],
+                eventType: json["eventType"]);
+
+        if (createdEvent != null) {
+          Navigator.pushNamed(context, "/EventScreen",
+              arguments: {'eventId': createdEvent.id});
+        }
+      }
+    }
+
+    Future<void> _handleClick(String option) async {
+      final uniqueOption = "Leave the Group";
+
+      if (option == uniqueOption) {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return SelectDialog(
+                message: "Are you sure that you want to leave the community?");
+          },
+        ).then((value) {
+          if (value is bool && value) {
+            ref
+                .read(communitiesProvider.notifier)
+                .joinCommunity(communityId: communityId);
+          }
+        });
+      }
+    }
+
+    void _handleVert() {
+      showDialog(
+        context: context,
+        builder: (context) => ReportDialog(text: "Leave the group"),
+      ).then((value) async {
+        if (!isMember) return;
+
+        if (value is bool && value) {
+          await ref
+              .read(communitiesProvider.notifier)
+              .joinCommunity(communityId: community.id);
+        }
+      });
     }
 
     return Scaffold(
@@ -100,9 +175,12 @@ class _CommunityScreenState extends ConsumerState<CommunityScreen> {
                         SizedBox(
                           width: 16,
                         ),
-                        Icon(
-                          Icons.more_vert,
-                          size: 28,
+                        GestureDetector(
+                          onTap: _handleVert,
+                          child: Icon(
+                            Icons.more_vert,
+                            size: 28,
+                          ),
                         ),
                       ],
                     ),
@@ -134,6 +212,12 @@ class _CommunityScreenState extends ConsumerState<CommunityScreen> {
                     color: Color(0xFF1B1A1D),
                   ),
                 ),
+                if (!isMember && community.owner.id != user.id)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20.0),
+                    child: BlackContainerButton(
+                        text: "Join this group", action: _handleJoinGroup),
+                  ),
                 SizedBox(
                   height: 20.0,
                 ),
@@ -463,8 +547,7 @@ class _CommunityScreenState extends ConsumerState<CommunityScreen> {
                                     height: 5,
                                   ),
                                   Text(
-                                    formatDayWordTime(
-                                        events[index].startTimestamp),
+                                    formatDayWordTime(events[index].startDate),
                                     style: TextStyle(
                                       fontWeight: FontWeight.w400,
                                       fontSize: 16,

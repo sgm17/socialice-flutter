@@ -19,7 +19,7 @@ class DetailLocationMap extends StatelessWidget {
       children: [
         TileLayer(
           urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-          userAgentPackageName: 'com.invelex.platonic',
+          userAgentPackageName: 'com.invelex.socialice',
         ),
         MarkerLayer(markers: [
           Marker(

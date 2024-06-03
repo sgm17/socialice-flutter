@@ -28,6 +28,7 @@ class FirebaseStorageNotifier extends StateNotifier<FirebaseStorage?> {
       String downloadURL = await storageRef.getDownloadURL();
       return downloadURL;
     } catch (e) {
+      print(e);
       throw Exception('Failed to upload file: $e');
     }
   }

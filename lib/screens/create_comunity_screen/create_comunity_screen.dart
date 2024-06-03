@@ -81,6 +81,9 @@ class _CreateCommunityScreenState extends ConsumerState<CreateCommunityScreen> {
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               children: [
+                SizedBox(
+                  height: 32,
+                ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [

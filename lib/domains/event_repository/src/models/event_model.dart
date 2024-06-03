@@ -24,20 +24,11 @@ class EventModel with _$EventModel {
 
   static List<EventModel> getFutureEvents(List<EventModel> events) =>
       // filter the old events and get the future ones
-      events.where((e) => !e.endTimestamp.isBefore(DateTime.now())).toList();
+      events.where((e) => !e.endDate.isBefore(DateTime.now())).toList();
 
   static List<EventModel> getPastEvents(List<EventModel> events) =>
       // filter the future events and get the past ones
-      events.where((e) => e.endTimestamp.isBefore(DateTime.now())).toList();
-
-  // get the events where the user is the owner or the organizer
-  static List<EventModel> getOrganizedEvents(
-          List<EventModel> events, AppUserModel appUserState) =>
-      events
-          .where((e) =>
-              e.community.owner.id == appUserState.id ||
-              e.organizers!.contains(appUserState.id))
-          .toList();
+      events.where((e) => e.endDate.isBefore(DateTime.now())).toList();
 
   const factory EventModel({
     required String id,
@@ -58,7 +49,7 @@ class EventModel with _$EventModel {
     @Default(false) bool popular,
     @Default([]) List<HighlightModel>? highlights,
     required List<String> reports,
-    @TimestampConverter() required DateTime startTimestamp,
-    @TimestampConverter() required DateTime endTimestamp,
+    @TimestampConverter() required DateTime startDate,
+    @TimestampConverter() required DateTime endDate,
   }) = _EventModel;
 }

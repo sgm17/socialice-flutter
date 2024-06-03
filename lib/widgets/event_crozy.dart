@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socialice/constants/app_colors.dart';
 import 'package:socialice/domains/event_repository/src/models/event_model.dart';
 import 'package:socialice/providers/app_user_provider/app_user_provider.dart';
+import 'package:socialice/utils/date_parser.dart';
 import 'package:socialice/widgets/event_assistants_profile.dart';
 
 class EventCrozy extends ConsumerWidget {
@@ -135,7 +136,7 @@ class EventCrozy extends ConsumerWidget {
                           ),
                         ),
                         Text(
-                          'May 30',
+                          formatMonthWordDay(event.startDate),
                           style: TextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 10,

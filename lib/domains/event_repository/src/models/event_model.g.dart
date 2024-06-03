@@ -51,9 +51,9 @@ EventModel _$EventModelFromJson(Map<String, dynamic> json) => $checkedCreate(
                   .toList()),
           reports: $checkedConvert('reports',
               (v) => (v as List<dynamic>).map((e) => e as String).toList()),
-          startTimestamp: $checkedConvert('startTimestamp',
+          startDate: $checkedConvert('startDate',
               (v) => const TimestampConverter().fromJson(v as String)),
-          endTimestamp: $checkedConvert('endTimestamp',
+          endDate: $checkedConvert('endDate',
               (v) => const TimestampConverter().fromJson(v as String)),
         );
         return val;
@@ -80,9 +80,8 @@ Map<String, dynamic> _$EventModelToJson(EventModel instance) =>
       'popular': instance.popular,
       'highlights': instance.highlights?.map((e) => e.toJson()).toList(),
       'reports': instance.reports,
-      'startTimestamp':
-          const TimestampConverter().toJson(instance.startTimestamp),
-      'endTimestamp': const TimestampConverter().toJson(instance.endTimestamp),
+      'startDate': const TimestampConverter().toJson(instance.startDate),
+      'endDate': const TimestampConverter().toJson(instance.endDate),
     };
 
 const _$EventTypeEnumMap = {

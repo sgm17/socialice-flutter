@@ -16,6 +16,7 @@ class WalletNotifier extends StateNotifier<AsyncValue<WalletModel>> {
       final wallet = await ref.read(walletViewmodelProvider).getWallet();
       state = AsyncValue.data(wallet);
     } catch (e) {
+      print(e);
       state = AsyncValue.error(e, StackTrace.current);
     }
   }

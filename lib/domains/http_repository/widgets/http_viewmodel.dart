@@ -232,13 +232,13 @@ class HttpViewmodel implements HttpRepository {
       required String placeName,
       required String completeAddress,
       required String communityId,
-      required int startTimestamp,
-      required int endTimestamp,
+      required int startDate,
+      required int endDate,
       required double latitude,
       required double longitude,
-      required double price,
-      required double priceWithoutDiscount,
-      required EventType eventType}) async {
+      required double? price,
+      required double? priceWithoutDiscount,
+      required String eventType}) async {
     final headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
@@ -251,8 +251,8 @@ class HttpViewmodel implements HttpRepository {
       "placeName": placeName,
       "completeAddress": completeAddress,
       "communityId": communityId,
-      "startTimestamp": startTimestamp,
-      "endTimestamp": endTimestamp,
+      "startDate": startDate,
+      "endDate": endDate,
       "latitude": latitude,
       "longitude": longitude,
       "price": price,
@@ -279,8 +279,8 @@ class HttpViewmodel implements HttpRepository {
       required String image,
       required String placeName,
       required String completeAddress,
-      required int startTimestamp,
-      required int endTimestamp,
+      required int startDate,
+      required int endDate,
       required double latitude,
       required double longitude,
       required double price,
@@ -298,8 +298,8 @@ class HttpViewmodel implements HttpRepository {
       "image": image,
       "placeName": placeName,
       "completeAddress": completeAddress,
-      "startTimestamp": startTimestamp,
-      "endTimestamp": endTimestamp,
+      "startDate": startDate,
+      "endDate": endDate,
       "latitude": latitude,
       "longitude": longitude,
       "price": price,
@@ -350,7 +350,7 @@ class HttpViewmodel implements HttpRepository {
       "image": image,
     });
 
-    final response = await httpClient.post(
+    final response = await httpClient.put(
         Uri.parse("${API_ENDPOINT}/highlights"),
         headers: headers,
         body: body);
@@ -364,6 +364,31 @@ class HttpViewmodel implements HttpRepository {
   }
 
   @override
+  Future<bool> deleteHighlightedImagesModel(
+      {required String eventId, required String highlightId}) async {
+    final headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    final body = jsonEncode({
+      "eventId": eventId,
+      "highlightId": highlightId,
+    });
+
+    final response = await httpClient.delete(
+        Uri.parse("${API_ENDPOINT}/highlights"),
+        headers: headers,
+        body: body);
+
+    if (response.statusCode == 200) {
+      await jsonDecode(response.body);
+      return true;
+    }
+    throw Exception("Example");
+  }
+
+  @override
   Future<EventModel> updateOrganizersMembers(
       {required String eventId, required String username}) async {
     final headers = {
@@ -373,10 +398,10 @@ class HttpViewmodel implements HttpRepository {
 
     final body = jsonEncode({
       "eventId": eventId,
-      "username": username,
+      "username": username.replaceAll("@", ""),
     });
 
-    final response = await httpClient.post(
+    final response = await httpClient.put(
         Uri.parse("${API_ENDPOINT}/organizers"),
         headers: headers,
         body: body);
@@ -553,7 +578,7 @@ class HttpViewmodel implements HttpRepository {
       "communityId": communityId,
     });
 
-    final response = await httpClient.post(Uri.parse("${API_ENDPOINT}/members"),
+    final response = await httpClient.put(Uri.parse("${API_ENDPOINT}/members"),
         headers: headers, body: body);
 
     if (response.statusCode == 200) {

@@ -5,7 +5,7 @@ class TimestampConverter implements JsonConverter<DateTime, String> {
 
   @override
   DateTime fromJson(String value) {
-    return DateTime.parse(value);
+    return DateTime.parse(value).toLocal();
   }
 
   @override

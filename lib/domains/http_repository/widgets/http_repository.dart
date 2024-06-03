@@ -55,13 +55,13 @@ abstract class HttpRepository {
       required String placeName,
       required String completeAddress,
       required String communityId,
-      required int startTimestamp,
-      required int endTimestamp,
+      required int startDate,
+      required int endDate,
       required double latitude,
       required double longitude,
       required double price,
       required double priceWithoutDiscount,
-      required EventType eventType});
+      required String eventType});
   // PUT /api/v1/events
   Future<EventModel> updateEventModel(
       {required String id,
@@ -70,8 +70,8 @@ abstract class HttpRepository {
       required String image,
       required String placeName,
       required String completeAddress,
-      required int startTimestamp,
-      required int endTimestamp,
+      required int startDate,
+      required int endDate,
       required double latitude,
       required double longitude,
       required double price,
@@ -82,6 +82,9 @@ abstract class HttpRepository {
   // PUT /api/v1/highlighted-images
   Future<HighlightModel> createHighlightedImagesModel(
       {required String eventId, required String image});
+  // DELETE /api/v1/highlighted-images
+  Future<bool> deleteHighlightedImagesModel(
+      {required String eventId, required String highlightId});
   // PUT /api/v1/organizers
   Future<EventModel> updateOrganizersMembers(
       {required String eventId, required String username});

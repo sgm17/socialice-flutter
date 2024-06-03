@@ -23,6 +23,7 @@ import 'package:socialice/screens/forgot_password_screen/forgot_password_screen.
 import 'package:socialice/screens/highlighted_moments_screen/highlighted_moments_screen.dart';
 import 'package:socialice/screens/home_screen/home_screen.dart';
 import 'package:socialice/screens/interests_screen/interests_screen.dart';
+import 'package:socialice/screens/joined_community_screen/joined_community_screen.dart';
 import 'package:socialice/screens/login_screen/login_screen.dart';
 import 'package:socialice/screens/my_profile_screen/my_profile_screen.dart';
 import 'package:socialice/screens/private_chat_screen/private_chat_screen.dart';
@@ -113,6 +114,7 @@ class MyApp extends StatelessWidget {
         '/WalletScreen': (context) => const WalletScreen(),
         '/CreateEventScreen': (context) => const CreateEventScreen(),
         '/CreateCommunityScreen': (context) => const CreateCommunityScreen(),
+        '/JoinedCommunityScreen': (context) => const JoinedCommunityScreen()
       },
     );
   }

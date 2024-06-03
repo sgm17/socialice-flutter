@@ -11,13 +11,16 @@ class ForgotPasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future<void> handleSendEmail() async {
-      await showDialog(
+      showDialog(
           context: context,
           builder: (context) => MessageDialog(
                 message: 'An email has been sent to the provided address',
                 buttonText: 'Ok',
-              ));
-      Navigator.pop(context);
+              )).then((value) {
+        if (value is bool && value) {
+          Navigator.pop(context);
+        }
+      });
     }
 
     return Scaffold(
@@ -59,7 +62,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: NetworkImage(
+                      image: AssetImage(
                         'assets/images/forgot_password_image.png',
                       ),
                     ),

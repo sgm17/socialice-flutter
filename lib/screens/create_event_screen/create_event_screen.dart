@@ -1,20 +1,18 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:socialice/constants/app_colors.dart';
 import 'package:socialice/dialogs/message_dialog/message_dialog.dart';
-import 'package:socialice/domains/community_repository/src/models/community_model.dart';
 import 'package:socialice/domains/event_repository/src/models/event_type.dart';
 import 'package:socialice/providers/app_user_provider/app_user_provider.dart';
-import 'package:socialice/providers/event_provider/events_provider.dart';
 import 'package:socialice/providers/firebase_storage_provider/firebase_storage_provider.dart';
 import 'package:socialice/screens/select_city_screen/select_city_screen.dart';
 import 'package:socialice/utils/date_parser.dart';
 import 'package:socialice/widgets/arrow_back.dart';
 import 'package:socialice/widgets/black_container_button.dart';
-import 'package:socialice/widgets/skelton.dart';
+import 'dart:convert';
+import 'dart:async';
+import 'dart:io';
 
 class CreateEventScreen extends ConsumerStatefulWidget {
   const CreateEventScreen({super.key});
@@ -28,7 +26,6 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
   XFile? _image;
 
   EventType? _eventType;
-  CommunityModel? _communityModel;
 
   DateTime? dateStart;
   TimeOfDay? timeStart;
@@ -73,56 +70,85 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
     }
   }
 
-  Future submitCreateEvent() async {
-    if (_nameController.text.isNotEmpty &&
-        _descriptionController.text.isNotEmpty &&
-        _priceController.text.isNotEmpty &&
-        _image != null &&
-        _suggestion != null &&
-        _eventType != null &&
-        _communityModel != null &&
-        dateStart != null &&
-        timeStart != null &&
-        dateEnd != null &&
-        timeEnd != null) {
-      final startDate = DateTime(dateStart!.year, dateStart!.month,
-          dateStart!.day, timeStart!.hour, timeStart!.minute);
-      final endDate = DateTime(dateEnd!.year, dateEnd!.month, dateEnd!.day,
-          dateEnd!.hour, dateEnd!.minute);
-
-      final image = await ref
-          .read(firebaseStorageProvider.notifier)
-          .uploadFileToFirebaseStorage(File(_image!.path));
-
-      await ref.read(eventsProvider.notifier).createEvent(
-          name: _nameController.text,
-          description: _descriptionController.text,
-          image: image,
-          placeName: _suggestion!.name,
-          completeAddress: _suggestion!.displayName,
-          communityId: _communityModel!.id,
-          startDate: startDate,
-          endDate: endDate,
-          latitude: _suggestion!.latitude,
-          longitude: _suggestion!.longitude,
-          price: double.parse(_priceController.text),
-          priceWithoutDiscount: double.parse(_oldPriceController.text),
-          eventType: _eventType!);
-    } else {
-      showDialog(
-        context: context,
-        builder: (context) => MessageDialog(
-            message: "One or more of the required fields are empty",
-            buttonText: "Retry"),
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final nowDateTime = DateTime.now();
+    final appUser = ref.watch(appUserProvider).asData!.value;
 
-    final appUserState = ref.watch(appUserProvider);
+    Future _submitCreateEvent() async {
+      if (_nameController.text.isNotEmpty &&
+          _descriptionController.text.isNotEmpty &&
+          ((_eventType == EventType.payment &&
+                  _oldPriceController.text.isNotEmpty &&
+                  _priceController.text.isNotEmpty) ||
+              _eventType == EventType.free ||
+              (_priceController.text.isNotEmpty &&
+                  _eventType == EventType.entrancePayment)) &&
+          _image != null &&
+          _suggestion != null &&
+          _eventType != null &&
+          appUser.createdCommunity != null &&
+          dateStart != null &&
+          timeStart != null &&
+          dateEnd != null &&
+          timeEnd != null) {
+        final startDate = DateTime(dateStart!.year, dateStart!.month,
+            dateStart!.day, timeStart!.hour, timeStart!.minute);
+        final endDate = DateTime(dateEnd!.year, dateEnd!.month, dateEnd!.day,
+            timeEnd!.hour, timeEnd!.minute);
+
+        final image = await ref
+            .read(firebaseStorageProvider.notifier)
+            .uploadFileToFirebaseStorage(File(_image!.path));
+
+        final eventJson = {
+          "name": _nameController.text,
+          "description": _descriptionController.text,
+          "image": image,
+          "placeName": _suggestion!.name,
+          "completeAddress": _suggestion!.displayName,
+          "communityId": appUser.createdCommunity!.id,
+          "startDate": startDate.toUtc().millisecondsSinceEpoch,
+          "endDate": endDate.toUtc().millisecondsSinceEpoch,
+          "latitude": _suggestion!.latitude,
+          "longitude": _suggestion!.longitude,
+          "price": _priceController.text.isNotEmpty
+              ? double.parse(_priceController.text)
+              : null,
+          "priceWithoutDiscount": _oldPriceController.text.isNotEmpty
+              ? double.parse(_oldPriceController.text)
+              : null,
+          "eventType": _eventType!.name
+        };
+        Navigator.of(context).pop(jsonEncode(eventJson));
+      } else {
+        print("_nameController: ${_nameController.text.isNotEmpty}");
+        print(
+            "_descriptionController: ${_descriptionController.text.isNotEmpty}");
+        print("eventType: " +
+            ((_eventType == EventType.payment &&
+                        _oldPriceController.text.isNotEmpty &&
+                        _priceController.text.isNotEmpty) ||
+                    _eventType == EventType.free ||
+                    (_priceController.text.isNotEmpty &&
+                        _eventType == EventType.entrancePayment))
+                .toString());
+        print("_image: ${_image != null}");
+        print("_suggestion: ${_suggestion != null}");
+        print("_eventType: ${_eventType != null}");
+        print("dateStart: ${dateStart != null}");
+        print("timeStart: ${timeStart != null}");
+        print("dateEnd: ${dateEnd != null}");
+        print("timeEnd: ${timeEnd != null}");
+
+        showDialog(
+          context: context,
+          builder: (context) => MessageDialog(
+              message: "One or more of the required fields are empty",
+              buttonText: "Retry"),
+        );
+      }
+    }
 
     return Scaffold(
       body: SafeArea(
@@ -296,14 +322,18 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                                   handleContainerTap: () {
                                     showDatePicker(
                                             context: context,
-                                            firstDate: nowDateTime,
+                                            firstDate: dateStart ?? nowDateTime,
                                             lastDate: DateTime(
                                                 nowDateTime.year,
                                                 nowDateTime.month + 1,
                                                 nowDateTime.day))
-                                        .then((value) => setState(() {
-                                              dateStart = value;
-                                            }));
+                                        .then((value) {
+                                      if (value != null) {
+                                        setState(() {
+                                          dateStart = value;
+                                        });
+                                      }
+                                    });
                                   },
                                   nowDateTime: nowDateTime,
                                   dateStart: dateStart,
@@ -312,11 +342,15 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                                   handleContainerTap: () {
                                     showTimePicker(
                                       context: context,
-                                      initialTime:
+                                      initialTime: timeStart ??
                                           TimeOfDay(hour: 0, minute: 0),
-                                    ).then((value) => setState(() {
+                                    ).then((value) {
+                                      if (value != null) {
+                                        setState(() {
                                           timeStart = value;
-                                        }));
+                                        });
+                                      }
+                                    });
                                   },
                                   timeOfDay: timeStart,
                                 ),
@@ -340,14 +374,20 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                                   handleContainerTap: () {
                                     showDatePicker(
                                             context: context,
-                                            firstDate: nowDateTime,
+                                            firstDate: dateEnd ?? nowDateTime,
                                             lastDate: DateTime(
                                                 nowDateTime.year,
                                                 nowDateTime.month + 1,
                                                 nowDateTime.day))
-                                        .then((value) => setState(() {
-                                              dateEnd = value;
-                                            }));
+                                        .then((value) {
+                                      if (value != null) {
+                                        setState(
+                                          () {
+                                            dateEnd = value;
+                                          },
+                                        );
+                                      }
+                                    });
                                   },
                                   nowDateTime: nowDateTime,
                                   dateStart: dateEnd,
@@ -356,11 +396,15 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                                   handleContainerTap: () {
                                     showTimePicker(
                                       context: context,
-                                      initialTime:
+                                      initialTime: timeEnd ??
                                           TimeOfDay(hour: 0, minute: 0),
-                                    ).then((value) => setState(() {
+                                    ).then((value) {
+                                      if (value != null) {
+                                        setState(() {
                                           timeEnd = value;
-                                        }));
+                                        });
+                                      }
+                                    });
                                   },
                                   timeOfDay: timeEnd,
                                 ),
@@ -468,118 +512,124 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                             ))
                       ])
                 ]),
-                SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  height: 88,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Price",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 16,
-                                color: AppColors.blackColor,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 4,
-                            ),
-                            TextFormField(
-                                controller: _priceController,
-                                maxLength: 40,
-                                keyboardType: TextInputType.number,
-                                textAlignVertical: TextAlignVertical.center,
-                                style: TextStyle(
-                                  color: AppColors.blackColor,
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.all(16),
-                                  counter: SizedBox.shrink(),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                          color: AppColors.greyLightColor,
-                                          width: 1)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                          color: AppColors.greyLightColor,
-                                          width: 1)),
-                                  isCollapsed: true,
-                                  hintText: "CHF 30",
-                                  hintStyle: TextStyle(
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.w400,
-                                    color: AppColors.greyLightColor,
-                                  ),
-                                ))
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        width: 16,
-                      ),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Price Without Discount",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 16,
-                                color: AppColors.blackColor,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 4,
-                            ),
-                            TextFormField(
-                                controller: _oldPriceController,
-                                keyboardType: TextInputType.number,
-                                maxLength: 40,
-                                textAlignVertical: TextAlignVertical.center,
-                                style: TextStyle(
-                                  color: AppColors.blackColor,
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.all(16),
-                                  counter: SizedBox.shrink(),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                          color: AppColors.greyLightColor,
-                                          width: 1)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                          color: AppColors.greyLightColor,
-                                          width: 1)),
-                                  isCollapsed: true,
-                                  hintText: "CHF 50",
-                                  hintStyle: TextStyle(
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.w400,
-                                    color: AppColors.greyLightColor,
-                                  ),
-                                ))
-                          ],
-                        ),
-                      )
-                    ],
+                if (_eventType != EventType.free)
+                  SizedBox(
+                    height: 20,
                   ),
-                ),
+                if (_eventType != EventType.free)
+                  SizedBox(
+                    height: 88,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Price",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 16,
+                                  color: AppColors.blackColor,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 4,
+                              ),
+                              TextFormField(
+                                  controller: _priceController,
+                                  maxLength: 40,
+                                  keyboardType: TextInputType.number,
+                                  textAlignVertical: TextAlignVertical.center,
+                                  style: TextStyle(
+                                    color: AppColors.blackColor,
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.all(16),
+                                    counter: SizedBox.shrink(),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide(
+                                            color: AppColors.greyLightColor,
+                                            width: 1)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide(
+                                            color: AppColors.greyLightColor,
+                                            width: 1)),
+                                    isCollapsed: true,
+                                    hintText: "CHF 30",
+                                    hintStyle: TextStyle(
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.w400,
+                                      color: AppColors.greyLightColor,
+                                    ),
+                                  ))
+                            ],
+                          ),
+                        ),
+                        if (_eventType == EventType.payment)
+                          SizedBox(
+                            width: 16,
+                          ),
+                        if (_eventType == EventType.payment)
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Price Without Discount",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 16,
+                                    color: AppColors.blackColor,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 4,
+                                ),
+                                TextFormField(
+                                    controller: _oldPriceController,
+                                    keyboardType: TextInputType.number,
+                                    maxLength: 40,
+                                    textAlignVertical: TextAlignVertical.center,
+                                    style: TextStyle(
+                                      color: AppColors.blackColor,
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                    decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.all(16),
+                                      counter: SizedBox.shrink(),
+                                      border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: BorderSide(
+                                              color: AppColors.greyLightColor,
+                                              width: 1)),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: BorderSide(
+                                              color: AppColors.greyLightColor,
+                                              width: 1)),
+                                      isCollapsed: true,
+                                      hintText: "CHF 50",
+                                      hintStyle: TextStyle(
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.w400,
+                                        color: AppColors.greyLightColor,
+                                      ),
+                                    ))
+                              ],
+                            ),
+                          )
+                      ],
+                    ),
+                  ),
                 SizedBox(
                   height: 20,
                 ),
@@ -597,119 +647,94 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                     SizedBox(
                       height: 4,
                     ),
-                    appUserState.when(
-                      data: (appUser) => Container(
-                        alignment: Alignment.centerLeft,
-                        height: 53,
-                        decoration: BoxDecoration(
-                          color: AppColors.whiteColor,
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                              color: AppColors.greyDarkColor, width: 1),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 12),
-                          child: Text(
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            appUser.createdCommunity?.name ??
-                                "No community found",
-                            style: TextStyle(
-                              color: AppColors.blackColor,
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.w400,
-                            ),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      height: 53,
+                      decoration: BoxDecoration(
+                        color: AppColors.whiteColor,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                            color: AppColors.greyDarkColor, width: 1),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 12),
+                        child: Text(
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          appUser.createdCommunity?.name ??
+                              "No community found",
+                          style: TextStyle(
+                            color: AppColors.blackColor,
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
                       ),
-                      loading: () => Skelton(
-                          height: 53, borderRadius: 6, isProfileImage: false),
-                      error: (error, stackTrace) => SizedBox.shrink(),
                     ),
                   ],
                 ),
                 SizedBox(
                   height: 48,
                 ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.all(16),
-                        alignment: Alignment.center,
-                        height: 146,
-                        decoration: BoxDecoration(
-                          color: AppColors.whiteColor,
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: AppColors.blackColor),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.cloud_upload_outlined,
-                              size: 30,
+                if (_image == null)
+                  GestureDetector(
+                    onTap: () async {
+                      final picker = ImagePicker();
+                      final image =
+                          await picker.pickImage(source: ImageSource.gallery);
+                      setState(() {
+                        _image = image;
+                      });
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(16),
+                      alignment: Alignment.center,
+                      height: 225,
+                      decoration: BoxDecoration(
+                        color: AppColors.whiteColor,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: AppColors.blackColor),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.cloud_upload_outlined,
+                            size: 30,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            "Upload Event Image",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12,
+                              color: AppColors.blackColor,
                             ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              "Upload Horizontal Image",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 12,
-                                color: AppColors.blackColor,
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.all(16),
-                        alignment: Alignment.center,
-                        height: 167,
-                        decoration: BoxDecoration(
-                          color: AppColors.whiteColor,
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: AppColors.blackColor),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.cloud_upload_outlined,
-                              size: 30,
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              "Upload Vertical Image",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 12,
-                                color: AppColors.blackColor,
-                              ),
-                            ),
-                          ],
-                        ),
+                  )
+                else
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: 225,
+                      child: Image.file(
+                        File(_image!.path),
+                        fit: BoxFit.cover,
                       ),
                     ),
-                  ],
-                ),
+                  ),
                 SizedBox(
                   height: 48,
                 ),
                 BlackContainerButton(
-                    text: "Create", action: () => Navigator.pop(context)),
+                    text: "Create", action: _submitCreateEvent),
                 SizedBox(
                   height: 48,
                 )

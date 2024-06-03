@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:socialice/constants/app_colors.dart';
 import 'package:socialice/domains/community_repository/src/models/highlight_model.dart';
+import 'package:socialice/providers/event_provider/events_provider.dart';
+import 'package:socialice/utils/date_parser.dart';
 
-class CommunitySingleHighlightedEvent extends StatelessWidget {
+class CommunitySingleHighlightedEvent extends ConsumerWidget {
   const CommunitySingleHighlightedEvent({
     super.key,
     required this.highlight,
@@ -12,7 +15,12 @@ class CommunitySingleHighlightedEvent extends StatelessWidget {
   final HighlightModel highlight;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final events = ref.watch(eventsProvider).asData!.value;
+    final event = events.where((e) => e.id == highlight.eventId).firstOrNull;
+
+    if (event == null) return SizedBox.shrink();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -64,7 +72,7 @@ class CommunitySingleHighlightedEvent extends StatelessWidget {
           height: 16,
         ),
         Text(
-          'Exquisite Together - Marktküche Tasting Dinner (Limited Capacity)',
+          event.name,
           style: TextStyle(
             fontWeight: FontWeight.w400,
             fontSize: 18,
@@ -75,7 +83,7 @@ class CommunitySingleHighlightedEvent extends StatelessWidget {
           height: 3,
         ),
         Text(
-          'Hace 7 días',
+          formatMonthWordDay(event.startDate),
           style: TextStyle(
             fontWeight: FontWeight.w400,
             fontSize: 18,

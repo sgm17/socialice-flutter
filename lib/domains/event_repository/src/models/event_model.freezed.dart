@@ -35,9 +35,9 @@ mixin _$EventModel {
   List<HighlightModel>? get highlights => throw _privateConstructorUsedError;
   List<String> get reports => throw _privateConstructorUsedError;
   @TimestampConverter()
-  DateTime get startTimestamp => throw _privateConstructorUsedError;
+  DateTime get startDate => throw _privateConstructorUsedError;
   @TimestampConverter()
-  DateTime get endTimestamp => throw _privateConstructorUsedError;
+  DateTime get endDate => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $EventModelCopyWith<EventModel> get copyWith =>
@@ -69,8 +69,8 @@ abstract class $EventModelCopyWith<$Res> {
       bool popular,
       List<HighlightModel>? highlights,
       List<String> reports,
-      @TimestampConverter() DateTime startTimestamp,
-      @TimestampConverter() DateTime endTimestamp});
+      @TimestampConverter() DateTime startDate,
+      @TimestampConverter() DateTime endDate});
 
   $CommunityModelCopyWith<$Res> get community;
 }
@@ -106,8 +106,8 @@ class _$EventModelCopyWithImpl<$Res, $Val extends EventModel>
     Object? popular = null,
     Object? highlights = freezed,
     Object? reports = null,
-    Object? startTimestamp = null,
-    Object? endTimestamp = null,
+    Object? startDate = null,
+    Object? endDate = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -182,13 +182,13 @@ class _$EventModelCopyWithImpl<$Res, $Val extends EventModel>
           ? _value.reports
           : reports // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      startTimestamp: null == startTimestamp
-          ? _value.startTimestamp
-          : startTimestamp // ignore: cast_nullable_to_non_nullable
+      startDate: null == startDate
+          ? _value.startDate
+          : startDate // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      endTimestamp: null == endTimestamp
-          ? _value.endTimestamp
-          : endTimestamp // ignore: cast_nullable_to_non_nullable
+      endDate: null == endDate
+          ? _value.endDate
+          : endDate // ignore: cast_nullable_to_non_nullable
               as DateTime,
     ) as $Val);
   }
@@ -229,8 +229,8 @@ abstract class _$$EventModelImplCopyWith<$Res>
       bool popular,
       List<HighlightModel>? highlights,
       List<String> reports,
-      @TimestampConverter() DateTime startTimestamp,
-      @TimestampConverter() DateTime endTimestamp});
+      @TimestampConverter() DateTime startDate,
+      @TimestampConverter() DateTime endDate});
 
   @override
   $CommunityModelCopyWith<$Res> get community;
@@ -265,8 +265,8 @@ class __$$EventModelImplCopyWithImpl<$Res>
     Object? popular = null,
     Object? highlights = freezed,
     Object? reports = null,
-    Object? startTimestamp = null,
-    Object? endTimestamp = null,
+    Object? startDate = null,
+    Object? endDate = null,
   }) {
     return _then(_$EventModelImpl(
       id: null == id
@@ -341,13 +341,13 @@ class __$$EventModelImplCopyWithImpl<$Res>
           ? _value._reports
           : reports // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      startTimestamp: null == startTimestamp
-          ? _value.startTimestamp
-          : startTimestamp // ignore: cast_nullable_to_non_nullable
+      startDate: null == startDate
+          ? _value.startDate
+          : startDate // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      endTimestamp: null == endTimestamp
-          ? _value.endTimestamp
-          : endTimestamp // ignore: cast_nullable_to_non_nullable
+      endDate: null == endDate
+          ? _value.endDate
+          : endDate // ignore: cast_nullable_to_non_nullable
               as DateTime,
     ));
   }
@@ -375,8 +375,8 @@ class _$EventModelImpl extends _EventModel {
       this.popular = false,
       final List<HighlightModel>? highlights = const [],
       required final List<String> reports,
-      @TimestampConverter() required this.startTimestamp,
-      @TimestampConverter() required this.endTimestamp})
+      @TimestampConverter() required this.startDate,
+      @TimestampConverter() required this.endDate})
       : _organizers = organizers,
         _comments = comments,
         _participants = participants,
@@ -465,14 +465,14 @@ class _$EventModelImpl extends _EventModel {
 
   @override
   @TimestampConverter()
-  final DateTime startTimestamp;
+  final DateTime startDate;
   @override
   @TimestampConverter()
-  final DateTime endTimestamp;
+  final DateTime endDate;
 
   @override
   String toString() {
-    return 'EventModel(id: $id, name: $name, description: $description, image: $image, placeName: $placeName, completeAddress: $completeAddress, community: $community, price: $price, priceWithoutDiscount: $priceWithoutDiscount, organizers: $organizers, latitude: $latitude, longitude: $longitude, comments: $comments, participants: $participants, eventType: $eventType, popular: $popular, highlights: $highlights, reports: $reports, startTimestamp: $startTimestamp, endTimestamp: $endTimestamp)';
+    return 'EventModel(id: $id, name: $name, description: $description, image: $image, placeName: $placeName, completeAddress: $completeAddress, community: $community, price: $price, priceWithoutDiscount: $priceWithoutDiscount, organizers: $organizers, latitude: $latitude, longitude: $longitude, comments: $comments, participants: $participants, eventType: $eventType, popular: $popular, highlights: $highlights, reports: $reports, startDate: $startDate, endDate: $endDate)';
   }
 
   @override
@@ -509,10 +509,9 @@ class _$EventModelImpl extends _EventModel {
             const DeepCollectionEquality()
                 .equals(other._highlights, _highlights) &&
             const DeepCollectionEquality().equals(other._reports, _reports) &&
-            (identical(other.startTimestamp, startTimestamp) ||
-                other.startTimestamp == startTimestamp) &&
-            (identical(other.endTimestamp, endTimestamp) ||
-                other.endTimestamp == endTimestamp));
+            (identical(other.startDate, startDate) ||
+                other.startDate == startDate) &&
+            (identical(other.endDate, endDate) || other.endDate == endDate));
   }
 
   @override
@@ -536,8 +535,8 @@ class _$EventModelImpl extends _EventModel {
         popular,
         const DeepCollectionEquality().hash(_highlights),
         const DeepCollectionEquality().hash(_reports),
-        startTimestamp,
-        endTimestamp
+        startDate,
+        endDate
       ]);
 
   @JsonKey(ignore: true)
@@ -567,8 +566,8 @@ abstract class _EventModel extends EventModel {
           final bool popular,
           final List<HighlightModel>? highlights,
           required final List<String> reports,
-          @TimestampConverter() required final DateTime startTimestamp,
-          @TimestampConverter() required final DateTime endTimestamp}) =
+          @TimestampConverter() required final DateTime startDate,
+          @TimestampConverter() required final DateTime endDate}) =
       _$EventModelImpl;
   const _EventModel._() : super._();
 
@@ -610,10 +609,10 @@ abstract class _EventModel extends EventModel {
   List<String> get reports;
   @override
   @TimestampConverter()
-  DateTime get startTimestamp;
+  DateTime get startDate;
   @override
   @TimestampConverter()
-  DateTime get endTimestamp;
+  DateTime get endDate;
   @override
   @JsonKey(ignore: true)
   _$$EventModelImplCopyWith<_$EventModelImpl> get copyWith =>

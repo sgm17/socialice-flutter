@@ -26,7 +26,7 @@ class WelcomeScreen extends StatelessWidget {
                       image: DecorationImage(
                         fit: BoxFit.cover,
                         image: NetworkImage(
-                          'assets/images/welcome_screen_image_1.jpeg',
+                          'assets/images/welcome_screen_image_1.jpg',
                         ),
                       ),
                     ),
@@ -50,7 +50,7 @@ class WelcomeScreen extends StatelessWidget {
                       image: DecorationImage(
                         fit: BoxFit.cover,
                         image: NetworkImage(
-                          'assets/images/welcome_screen_image_2.jpeg',
+                          'assets/images/welcome_screen_image_2.jpg',
                         ),
                       ),
                     ),
@@ -72,7 +72,7 @@ class WelcomeScreen extends StatelessWidget {
                     image: DecorationImage(
                       fit: BoxFit.cover,
                       image: NetworkImage(
-                        'assets/images/welcome_screen_image_3.jpeg',
+                        'assets/images/welcome_screen_image_3.jpg',
                       ),
                     ),
                   ),
@@ -100,7 +100,7 @@ class WelcomeScreen extends StatelessWidget {
                       image: DecorationImage(
                         fit: BoxFit.cover,
                         image: NetworkImage(
-                          'assets/images/welcome_screen_image_4.jpeg',
+                          'assets/images/welcome_screen_image_4.jpg',
                         ),
                       ),
                     ),
@@ -124,7 +124,7 @@ class WelcomeScreen extends StatelessWidget {
                       image: DecorationImage(
                         fit: BoxFit.cover,
                         image: NetworkImage(
-                          'assets/images/welcome_screen_image_5.jpeg',
+                          'assets/images/welcome_screen_image_5.jpg',
                         ),
                       ),
                     ),
@@ -148,7 +148,7 @@ class WelcomeScreen extends StatelessWidget {
                       image: DecorationImage(
                         fit: BoxFit.cover,
                         image: NetworkImage(
-                          'assets/images/welcome_screen_image_6.jpeg',
+                          'assets/images/welcome_screen_image_6.jpg',
                         ),
                       ),
                     ),
@@ -182,7 +182,7 @@ class WelcomeScreen extends StatelessWidget {
                         image: DecorationImage(
                           fit: BoxFit.cover,
                           image: NetworkImage(
-                            'assets/images/welcome_screen_image_7.jpeg',
+                            'assets/images/welcome_screen_image_7.jpg',
                           ),
                         ),
                       ),
@@ -212,7 +212,7 @@ class WelcomeScreen extends StatelessWidget {
                         image: DecorationImage(
                           fit: BoxFit.cover,
                           image: NetworkImage(
-                            'assets/images/welcome_screen_image_9.jpeg',
+                            'assets/images/welcome_screen_image_9.jpg',
                           ),
                         ),
                       ),
@@ -242,7 +242,7 @@ class WelcomeScreen extends StatelessWidget {
                         image: DecorationImage(
                           fit: BoxFit.cover,
                           image: NetworkImage(
-                            'assets/images/welcome_screen_image_8.jpeg',
+                            'assets/images/welcome_screen_image_8.jpg',
                           ),
                         ),
                       ),

@@ -1,11 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socialice/constants/app_colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:socialice/providers/event_provider/events_provider.dart';
 
-class EventScreenAddOrganizer extends StatelessWidget {
+class EventScreenAddOrganizer extends ConsumerStatefulWidget {
   const EventScreenAddOrganizer({
+    required this.id,
     super.key,
   });
+
+  final String id;
+
+  @override
+  ConsumerState<EventScreenAddOrganizer> createState() =>
+      _EventScreenAddOrganizerState();
+}
+
+class _EventScreenAddOrganizerState
+    extends ConsumerState<EventScreenAddOrganizer> {
+  late TextEditingController controller;
+
+  @override
+  void initState() {
+    controller = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +75,15 @@ class EventScreenAddOrganizer extends StatelessWidget {
               ),
               SizedBox(
                 child: TextField(
+                  textInputAction: TextInputAction.send,
+                  onSubmitted: (value) async {
+                    controller.clear();
+                    await ref
+                        .read(eventsProvider.notifier)
+                        .updateOrganizers(eventId: widget.id, username: value);
+                  },
                   maxLength: 30,
+                  controller: controller,
                   textAlignVertical: TextAlignVertical.center,
                   decoration: InputDecoration(
                       counter: SizedBox.shrink(),

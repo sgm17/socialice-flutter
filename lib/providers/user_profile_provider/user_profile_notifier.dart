@@ -19,6 +19,7 @@ class UserProfileNotifier extends StateNotifier<AsyncValue<AppUserModel>> {
           await ref.read(appUserViewModelProvider).getUserById(id: userId);
       state = AsyncValue.data(user);
     } catch (e) {
+      print(e);
       state = AsyncValue.error(e, StackTrace.current);
     }
   }

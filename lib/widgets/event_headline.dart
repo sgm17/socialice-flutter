@@ -123,7 +123,7 @@ class EventHeadline extends ConsumerWidget {
               Container(
                 margin: EdgeInsets.fromLTRB(0, 7.5, 0, 6.5),
                 child: Text(
-                  formatMonthWordDayYear(eventHeadline.startTimestamp),
+                  formatMonthWordDayYear(eventHeadline.startDate),
                   style: TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: 10,

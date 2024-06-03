@@ -30,7 +30,7 @@ class PastEventItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      formatDayWordTime(event.startTimestamp).toUpperCase(),
+                      formatDayWordTime(event.startDate).toUpperCase(),
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 14,

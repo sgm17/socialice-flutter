@@ -1,4 +1,3 @@
-import 'package:socialice/domains/event_repository/src/models/event_model.dart';
 import 'package:socialice/providers/event_provider/events_provider.dart';
 import 'package:socialice/screens/events_screen/widgets/empty_joined_event.dart';
 import 'package:socialice/screens/events_screen/widgets/joined_or_past_event.dart';
@@ -17,10 +16,13 @@ class EventsScreen extends ConsumerWidget {
     // get the user state
     final appUser = ref.watch(appUserProvider).asData!.value;
     final events = ref.watch(eventsProvider).asData!.value;
-    final organizedEvents =
-        EventModel.getOrganizedEvents(appUser.events!, appUser);
-    final futureEvents = EventModel.getFutureEvents(appUser.events!);
-    final pastEvents = EventModel.getPastEvents(appUser.events!);
+
+    // created events and events as an organizer
+    final myEvents =
+        events.where((e) => e.community.owner.id == appUser.id).toList();
+
+    // events that the user has joined
+    final joinedEvents = appUser.events!;
 
     return Scaffold(
       body: SafeArea(
@@ -42,7 +44,7 @@ class EventsScreen extends ConsumerWidget {
                   ),
                 ),
                 Text(
-                  'You Have ${organizedEvents.length + organizedEvents.length} Events',
+                  'You Have ${myEvents.length} Events',
                   style: TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: 22,
@@ -55,20 +57,20 @@ class EventsScreen extends ConsumerWidget {
                 MyEventsSubtitle(
                   subtitle: 'My Events',
                 ),
-                if (organizedEvents.isEmpty)
+                if (myEvents.isEmpty)
                   // create your first event if there are no organized events
                   CreateFirstEvent()
                 else
                   // list of all the organized events as an owner or organizer
                   Column(
                     children: [
-                      for (int i = 0; i < organizedEvents.length; i++)
+                      for (int i = 0; i < myEvents.length; i++)
                         Padding(
-                          padding: i != organizedEvents.length - 1
+                          padding: i != myEvents.length - 1
                               ? const EdgeInsets.only(bottom: 16.0)
                               : EdgeInsets.zero,
                           child: MyEvent(
-                            event: organizedEvents[i],
+                            event: myEvents[i],
                           ),
                         ),
                     ],
@@ -77,19 +79,19 @@ class EventsScreen extends ConsumerWidget {
                   height: 32,
                 ),
                 MyEventsSubtitle(subtitle: 'Joined Events'),
-                if (futureEvents.isEmpty)
+                if (joinedEvents.isEmpty)
                   // there are no future joined events
                   EmptyJoinedEvent()
                 else
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      for (int i = 0; i < futureEvents.length; i++)
+                      for (int i = 0; i < joinedEvents.length; i++)
                         Padding(
-                          padding: i != futureEvents.length - 1
+                          padding: i != joinedEvents.length - 1
                               ? const EdgeInsets.only(bottom: 16.0)
                               : EdgeInsets.zero,
-                          child: JoinedOrPastEvent(event: futureEvents[i]),
+                          child: JoinedOrPastEvent(event: joinedEvents[i]),
                         )
                     ],
                   ),

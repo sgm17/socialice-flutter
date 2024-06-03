@@ -163,7 +163,9 @@ class CommentItem extends ConsumerWidget {
                             onTap: () => showDialog(
                               context: context,
                               builder: (context) {
-                                return ReportDialog();
+                                return ReportDialog(
+                                  text: 'Report this comment',
+                                );
                               },
                             ).then((value) async {
                               if (value is bool && value) {
@@ -328,7 +330,9 @@ class CommentItem extends ConsumerWidget {
                                             showDialog(
                                                     context: context,
                                                     builder: (context) =>
-                                                        ReportDialog())
+                                                        ReportDialog(
+                                                            text:
+                                                                "Report this comment"))
                                                 .then((value) async {
                                               if (value is bool && value) {
                                                 await ref

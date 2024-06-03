@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socialice/domains/event_repository/src/models/comment_reply_model.dart';
 import 'package:socialice/domains/event_repository/src/models/event_model.dart';
-import 'package:socialice/domains/event_repository/src/models/event_type.dart';
 import 'package:socialice/providers/app_user_provider/app_user_provider.dart';
 import 'package:socialice/providers/event_provider/event_viewmodel_provider.dart';
 import 'package:socialice/providers/http_provider/http_viewmodel_provider.dart';
@@ -20,24 +19,25 @@ class EventsNotifier extends StateNotifier<AsyncValue<List<EventModel>>> {
       final events = await ref.read(eventViewmodelProvider).getEvents();
       state = AsyncValue.data(events);
     } catch (e) {
+      print(e);
       state = AsyncValue.error(e, StackTrace.current);
     }
   }
 
-  Future<bool> createEvent(
+  Future<EventModel?> createEvent(
       {required String name,
       required String description,
       required String image,
       required String placeName,
       required String completeAddress,
       required String communityId,
-      required DateTime startDate,
-      required DateTime endDate,
+      required int startDate,
+      required int endDate,
       required double latitude,
       required double longitude,
-      required double price,
-      required double priceWithoutDiscount,
-      required EventType eventType}) async {
+      required double? price,
+      required double? priceWithoutDiscount,
+      required String eventType}) async {
     try {
       final events = state.asData!.value;
       final event = await ref.read(httpViewmodelProvider).createEventModel(
@@ -47,19 +47,20 @@ class EventsNotifier extends StateNotifier<AsyncValue<List<EventModel>>> {
           placeName: placeName,
           completeAddress: completeAddress,
           communityId: communityId,
-          startTimestamp: startDate.millisecondsSinceEpoch,
-          endTimestamp: endDate.millisecondsSinceEpoch,
+          startDate: startDate,
+          endDate: endDate,
           latitude: latitude,
           longitude: longitude,
           price: price,
           priceWithoutDiscount: priceWithoutDiscount,
           eventType: eventType);
       state = AsyncValue.data([event, ...events]);
-      return true;
+      return event;
     } catch (e) {
+      print(e);
       state = AsyncValue.error(e, StackTrace.current);
-      return false;
     }
+    return null;
   }
 
   Future<bool> handleCommentFavourite(
@@ -91,6 +92,7 @@ class EventsNotifier extends StateNotifier<AsyncValue<List<EventModel>>> {
 
       return true;
     } catch (e) {
+      print(e);
       state = AsyncValue.error(e, StackTrace.current);
       return false;
     }
@@ -142,6 +144,7 @@ class EventsNotifier extends StateNotifier<AsyncValue<List<EventModel>>> {
           .updateCommentReplyModel(id: commentReplyId);
       return true;
     } catch (e) {
+      print(e);
       state = AsyncValue.error(e, StackTrace.current);
       return false;
     }
@@ -164,6 +167,7 @@ class EventsNotifier extends StateNotifier<AsyncValue<List<EventModel>>> {
           events.map((e) => e.id == eventId ? newEvent : e).toList());
       return true;
     } catch (e) {
+      print(e);
       state = AsyncValue.error(e, StackTrace.current);
       return false;
     }
@@ -202,6 +206,7 @@ class EventsNotifier extends StateNotifier<AsyncValue<List<EventModel>>> {
       state = AsyncValue.data(updatedEvents);
       return true;
     } catch (e) {
+      print(e);
       state = AsyncValue.error(e, StackTrace.current);
       return false;
     }
@@ -240,6 +245,7 @@ class EventsNotifier extends StateNotifier<AsyncValue<List<EventModel>>> {
           .updateCommentReports(commentId: commentId);
       return true;
     } catch (e) {
+      print(e);
       state = AsyncValue.error(e, StackTrace.current);
       return false;
     }
@@ -291,6 +297,7 @@ class EventsNotifier extends StateNotifier<AsyncValue<List<EventModel>>> {
           .updateCommentRepliesReports(commentReplyId: commentReplyId);
       return true;
     } catch (e) {
+      print(e);
       state = AsyncValue.error(e, StackTrace.current);
       return false;
     }
@@ -310,7 +317,116 @@ class EventsNotifier extends StateNotifier<AsyncValue<List<EventModel>>> {
       await ref.read(httpViewmodelProvider).updateReports(eventId: eventId);
       return true;
     } catch (e) {
+      print(e);
       state = AsyncValue.error(e, StackTrace.current);
+      return false;
+    }
+  }
+
+  Future<void> deleteEvent({required String id}) async {
+    try {
+      final events = state.asData!.value;
+
+      await ref.read(httpViewmodelProvider).deleteEventModel(id: id);
+      state = AsyncValue.data(events.where((e) => e.id != id).toList());
+    } catch (e) {
+      print(e);
+      state = AsyncValue.error(e, StackTrace.current);
+    }
+  }
+
+  Future<void> handleCreatePhoto(
+      {required String eventId, required String imageUrl}) async {
+    try {
+      final events = state.asData!.value;
+      final event = events.where((e) => e.id == eventId).firstOrNull;
+
+      if (event != null) {
+        final highlight = await ref
+            .read(httpViewmodelProvider)
+            .createHighlightedImagesModel(eventId: eventId, image: imageUrl);
+        final updatedEvent =
+            event.copyWith(highlights: [highlight, ...event.highlights!]);
+        state = AsyncValue.data(
+            events.map((e) => e.id == eventId ? updatedEvent : e).toList());
+      }
+    } catch (e) {
+      print(e);
+      state = AsyncValue.error(e, StackTrace.current);
+    }
+  }
+
+  Future<void> handleDeletePhoto(
+      {required String eventId, required String highlightId}) async {
+    try {
+      final events = state.asData!.value;
+      final event = events.where((e) => e.id == eventId).firstOrNull;
+
+      if (event != null) {
+        await ref.read(httpViewmodelProvider).deleteHighlightedImagesModel(
+            eventId: eventId, highlightId: highlightId);
+        final updatedEvent = event.copyWith(
+            highlights:
+                event.highlights!.where((e) => e.id != highlightId).toList());
+        state = AsyncValue.data(
+            events.map((e) => e.id == eventId ? updatedEvent : e).toList());
+      }
+    } catch (e) {
+      print(e);
+      state = AsyncValue.error(e, StackTrace.current);
+    }
+  }
+
+  Future<bool> updateOrganizers(
+      {required String eventId, required String username}) async {
+    try {
+      final events = state.asData!.value;
+      final event = await ref
+          .read(httpViewmodelProvider)
+          .updateOrganizersMembers(eventId: eventId, username: username);
+      state = AsyncValue.data(
+          events.map((e) => e.id == eventId ? event : e).toList());
+      return true;
+    } catch (e) {
+      print(e);
+      state = AsyncValue.error(e, StackTrace.current);
+      return false;
+    }
+  }
+
+  Future<bool> joinEvent({required String eventId}) async {
+    try {
+      final events = state.asData!.value;
+      final event = events.where((e) => e.id == eventId).firstOrNull;
+      final appUser = ref.read(appUserProvider).value!;
+
+      if (event == null) return false;
+
+      EventModel updatedEvent;
+
+      final isParticipant =
+          event.participants!.map((e) => e.id).contains(appUser.id);
+
+      if (isParticipant) {
+        updatedEvent = event.copyWith(
+            participants:
+                event.participants!.where((e) => e.id != appUser.id).toList());
+      } else {
+        updatedEvent =
+            event.copyWith(participants: [appUser, ...event.participants!]);
+      }
+
+      ref.read(appUserProvider.notifier).joinEvent(eventId: eventId);
+
+      state = AsyncValue.data(
+          events.map((e) => e.id == eventId ? updatedEvent : e).toList());
+
+      await ref
+          .read(httpViewmodelProvider)
+          .updateParticipants(eventId: eventId);
+      return true;
+    } catch (e) {
+      print(e);
       return false;
     }
   }

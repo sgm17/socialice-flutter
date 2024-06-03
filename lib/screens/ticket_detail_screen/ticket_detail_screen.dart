@@ -264,7 +264,7 @@ class TicketDetailScreen extends StatelessWidget {
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             fit: BoxFit.cover,
-                            image: NetworkImage(
+                            image: AssetImage(
                               'assets/images/qr_code_image.png',
                             ),
                           ),

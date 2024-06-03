@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:socialice/constants/app_colors.dart';
 import 'package:socialice/dialogs/select_dialog/select_dialog.dart';
+import 'package:socialice/domains/event_repository/src/models/event_type.dart';
 import 'package:socialice/providers/app_provider/bottom_navigation_provider.dart';
 import 'package:socialice/providers/app_user_provider/app_user_provider.dart';
 import 'package:socialice/providers/event_provider/events_provider.dart';
+import 'package:socialice/providers/firebase_storage_provider/firebase_storage_provider.dart';
 import 'package:socialice/screens/event_screen/widgets/comment_item.dart';
 import 'package:socialice/utils/date_parser.dart';
 import 'package:socialice/widgets/arrow_back.dart';
-import 'package:socialice/widgets/black_container_button.dart';
 import 'package:socialice/screens/event_screen/widgets/detail_location_map.dart';
 import 'package:socialice/screens/event_screen/widgets/event_screen_add_organizer.dart';
 import 'package:socialice/screens/event_screen/widgets/event_screen_organizer.dart';
+import 'dart:io';
 
 class EventScreen extends ConsumerWidget {
   const EventScreen({Key? key}) : super(key: key);
@@ -24,17 +27,56 @@ class EventScreen extends ConsumerWidget {
 
     final String eventId = args['eventId'];
 
-    final events = ref.watch(eventsProvider).asData?.value;
-    final appUser = ref.watch(appUserProvider).asData?.value;
+    final events = ref.watch(eventsProvider).asData!.value;
+    final appUser = ref.watch(appUserProvider).asData!.value;
+    final event = events.where((e) => e.id == eventId).firstOrNull;
 
-    final event = events?.where((e) => e.id == eventId).firstOrNull;
+    if (event == null) return SizedBox.shrink();
 
-    if (event == null || appUser == null) {
-      return SizedBox.shrink();
-    }
+    final isParticipant = appUser.events!.map((e) => e.id).contains(event.id);
 
     final assistentsLength =
         event.participants!.length >= 4 ? 4 : event.participants!.length;
+
+    Future<void> _handleAddPhoto() async {
+      final _picker = ImagePicker();
+      final image = await _picker.pickImage(source: ImageSource.gallery);
+
+      if (image != null) {
+        final imageUrl = await ref
+            .read(firebaseStorageProvider.notifier)
+            .uploadFileToFirebaseStorage(File(image.path));
+
+        await ref
+            .read(eventsProvider.notifier)
+            .handleCreatePhoto(eventId: eventId, imageUrl: imageUrl);
+      }
+    }
+
+    Future<void> _submitJoinEvent() async {
+      if (isParticipant) {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return SelectDialog(
+                message: "Are you sure that you want to leave the event?",
+                redButtonText: "Leave");
+          },
+        ).then((value) {
+          if (value is bool && value) {
+            ref.read(eventsProvider.notifier).joinEvent(eventId: eventId);
+          }
+        });
+      } else {
+        final res = await ref
+            .read(eventsProvider.notifier)
+            .joinEvent(eventId: event.id);
+        if (res) {
+          Navigator.pushNamed(context, '/ConfirmationScreen',
+              arguments: {"eventId": event.id});
+        }
+      }
+    }
 
     return Scaffold(
       body: Stack(
@@ -57,7 +99,7 @@ class EventScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
-                if (event.endTimestamp.isBefore(DateTime.now()))
+                if (event.endDate.isBefore(DateTime.now()))
                   Positioned(
                     top: 280 - 30,
                     left: 0,
@@ -241,8 +283,7 @@ class EventScreen extends ConsumerWidget {
                                       ),
                                     ),
                                     Text(
-                                      formatMonthWordDayYear(
-                                          event.startTimestamp),
+                                      formatMonthWordDayYear(event.startDate),
                                       style: TextStyle(
                                         fontWeight: FontWeight.w400,
                                         fontSize: 10,
@@ -306,7 +347,7 @@ class EventScreen extends ConsumerWidget {
                                   margin: EdgeInsets.fromLTRB(0, 0, 0, 8),
                                   child: Text(
                                     formatDayWordMonthWordDayYear(
-                                        event.startTimestamp),
+                                        event.startDate),
                                     style: TextStyle(
                                       fontWeight: FontWeight.w400,
                                       fontSize: 18,
@@ -315,7 +356,7 @@ class EventScreen extends ConsumerWidget {
                                   ),
                                 ),
                                 Text(
-                                  "${formatDateHour(event.startTimestamp)} - ${formatDateHour(event.endTimestamp)}",
+                                  "${formatDateHour(event.startDate)} - ${formatDateHour(event.endDate)}",
                                   style: TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 16,
@@ -357,29 +398,33 @@ class EventScreen extends ConsumerWidget {
                             SizedBox(
                               width: 10,
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.fromLTRB(0, 0, 0, 8),
-                                  child: Text(
-                                    event.placeName,
+                            Flexible(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.fromLTRB(0, 0, 0, 8),
+                                    child: Text(
+                                      event.placeName,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 18,
+                                        color: Color(0xFF000000),
+                                      ),
+                                    ),
+                                  ),
+                                  Text(
+                                    event.completeAddress,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                       fontWeight: FontWeight.w400,
-                                      fontSize: 18,
+                                      fontSize: 16,
                                       color: Color(0xFF000000),
                                     ),
                                   ),
-                                ),
-                                Text(
-                                  event.completeAddress,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 16,
-                                    color: Color(0xFF000000),
-                                  ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -466,8 +511,9 @@ class EventScreen extends ConsumerWidget {
                           height: 24,
                         ),
                         GestureDetector(
-                          onTap: () =>
-                              Navigator.pushNamed(context, '/CommunityScreen'),
+                          onTap: () => Navigator.pushNamed(
+                              context, '/CommunityScreen',
+                              arguments: {"communityId": event.community.id}),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
@@ -550,18 +596,22 @@ class EventScreen extends ConsumerWidget {
                           height: 16,
                         ),
                         EventScreenOrganizer(
+                          id: event.id,
                           organizer: event.community.owner,
                           isOwner: true,
-                        ),
-                        SizedBox(
-                          height: 10,
                         ),
                         Row(
                           children: [
                             for (var organizer in event.organizers!)
-                              EventScreenOrganizer(
-                                organizer: organizer,
-                                isOwner: false,
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 10.0),
+                                  child: EventScreenOrganizer(
+                                    id: event.id,
+                                    organizer: organizer,
+                                    isOwner: false,
+                                  ),
+                                ),
                               ),
                             SizedBox(
                               height: 16,
@@ -569,7 +619,10 @@ class EventScreen extends ConsumerWidget {
                           ],
                         ),
                         if (appUser.id == event.community.owner.id)
-                          EventScreenAddOrganizer(),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  top: event.organizers!.isEmpty ? 0 : 10.0),
+                              child: EventScreenAddOrganizer(id: event.id)),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -613,12 +666,20 @@ class EventScreen extends ConsumerWidget {
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(20),
-                                            image: DecorationImage(
-                                              fit: BoxFit.cover,
-                                              image: NetworkImage(
-                                                'assets/images/event_assistent_4.png',
-                                              ),
-                                            ),
+                                            image: event.participants![i]
+                                                        .profileImage !=
+                                                    null
+                                                ? DecorationImage(
+                                                    fit: BoxFit.cover,
+                                                    image: NetworkImage(
+                                                      event.participants![i]
+                                                          .profileImage!,
+                                                    ),
+                                                  )
+                                                : DecorationImage(
+                                                    image: AssetImage(
+                                                        "assets/images/default_avatar.png"),
+                                                    fit: BoxFit.cover),
                                           ),
                                         ),
                                       ),
@@ -645,7 +706,7 @@ class EventScreen extends ConsumerWidget {
                               ),
                             ),
                             Text(
-                              'Sattva Yoga, Ayurveda, Plant-Based Kitchen Erlachstrasse 26, Zürich, ch',
+                              event.completeAddress,
                               style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 14,
@@ -658,10 +719,7 @@ class EventScreen extends ConsumerWidget {
                             SizedBox(
                               height: 148,
                               child: DetailLocationMap(
-                                geometry: [
-                                  8.683401883079997,
-                                  47.25733307983928
-                                ],
+                                geometry: [event.latitude, event.longitude],
                               ),
                             ),
                           ],
@@ -689,47 +747,79 @@ class EventScreen extends ConsumerWidget {
                                     scrollDirection: Axis.horizontal,
                                     itemBuilder: (context, index) {
                                       if (index == 0) {
-                                        return SizedBox(
-                                          width: 125,
-                                          height: 222.2,
-                                          child: Container(
-                                              alignment: Alignment.center,
-                                              decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                      color:
-                                                          Color(0xFFC1C1CB))),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    'Add a photo',
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      fontSize: 16,
-                                                      color: Color(0xFF1B1A1D),
+                                        return GestureDetector(
+                                          onTap: _handleAddPhoto,
+                                          child: SizedBox(
+                                            width: 125,
+                                            height: 222.2,
+                                            child: Container(
+                                                alignment: Alignment.center,
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        color:
+                                                            Color(0xFFC1C1CB))),
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      'Add a photo',
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontSize: 16,
+                                                        color:
+                                                            Color(0xFF1B1A1D),
+                                                      ),
                                                     ),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 6,
-                                                  ),
-                                                  Icon(Icons
-                                                      .add_a_photo_outlined)
-                                                ],
-                                              )),
+                                                    SizedBox(
+                                                      height: 6,
+                                                    ),
+                                                    Icon(Icons
+                                                        .add_a_photo_outlined)
+                                                  ],
+                                                )),
+                                          ),
                                         );
                                       } else {
                                         final newIndex = index - 1;
-                                        return Container(
-                                          width: 125,
-                                          height: 222.2,
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                              fit: BoxFit.cover,
-                                              image: NetworkImage(
-                                                event.highlights![newIndex]
-                                                    .image,
+                                        return GestureDetector(
+                                          onLongPress: () {
+                                            if (event.highlights![newIndex].user
+                                                    .id !=
+                                                appUser.id) return;
+
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return SelectDialog(
+                                                    message:
+                                                        "Do you want to delete the photo?");
+                                              },
+                                            ).then((value) async {
+                                              if (value) {
+                                                await ref
+                                                    .read(
+                                                        eventsProvider.notifier)
+                                                    .handleDeletePhoto(
+                                                        eventId: eventId,
+                                                        highlightId: event
+                                                            .highlights![
+                                                                newIndex]
+                                                            .id);
+                                              }
+                                            });
+                                          },
+                                          child: Container(
+                                            width: 125,
+                                            height: 222.2,
+                                            decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                fit: BoxFit.cover,
+                                                image: NetworkImage(
+                                                  event.highlights![newIndex]
+                                                      .image,
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -888,7 +978,16 @@ class EventScreen extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Start from',
+                        () {
+                          switch (event.eventType) {
+                            case EventType.free:
+                              return "Event price";
+                            case EventType.payment:
+                              return "Start from";
+                            case EventType.entrancePayment:
+                              return "Entrance Payment";
+                          }
+                        }(),
                         style: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontSize: 12,
@@ -926,7 +1025,9 @@ class EventScreen extends ConsumerWidget {
                         )
                       else
                         Text(
-                          "${event.price.toString()} CHF",
+                          event.eventType == EventType.free
+                              ? "FREE"
+                              : "${event.price.toString()} CHF",
                           style: TextStyle(
                             fontWeight: FontWeight.w700,
                             fontSize: 25,
@@ -936,25 +1037,46 @@ class EventScreen extends ConsumerWidget {
                     ],
                   ),
                   Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(4),
-                      color: Color(0xFF1B1A1D),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color(0x40000000),
-                          offset: Offset(0, 4),
-                          blurRadius: 2,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+                        color: Color(0xFF1B1A1D),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color(0x40000000),
+                            offset: Offset(0, 4),
+                            blurRadius: 2,
+                          ),
+                        ],
+                      ),
+                      child: GestureDetector(
+                        onTap: () {
+                          if (isParticipant &&
+                              event.eventType == EventType.payment) return;
+                          _submitJoinEvent();
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: 48.0,
+                          decoration: BoxDecoration(
+                              color: isParticipant &&
+                                      event.eventType == EventType.payment
+                                  ? Color(0xFF9E9E9E)
+                                  : AppColors.blackColor),
+                          padding: EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Text(
+                            event.eventType == EventType.payment
+                                ? "Purchase"
+                                : isParticipant
+                                    ? "Leave"
+                                    : "Join",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                              color: Color(0xFFFFFFFF),
+                            ),
+                          ),
                         ),
-                      ],
-                    ),
-                    child: Container(
-                        width: 163,
-                        child: BlackContainerButton(
-                          text: 'Purchase',
-                          action: () => Navigator.pushNamed(
-                              context, '/ConfirmationScreen'),
-                        )),
-                  ),
+                      )),
                 ],
               ),
             ),

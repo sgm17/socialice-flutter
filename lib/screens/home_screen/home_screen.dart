@@ -320,7 +320,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 height: 16,
               ),
               communitiesState.when(
-                data: (communities) {
+                data: (c) {
+                  final user = appUserState.value;
+                  final communities = c
+                      .where(
+                          (e) => e.members!.map((e) => e.id).contains(user!.id))
+                      .toList();
+
                   if (communities.isEmpty)
                     // nobody has created a community yet
                     return GestureDetector(

@@ -1,9 +1,12 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:socialice/constants/app_colors.dart';
 import 'package:socialice/domains/community_repository/src/models/highlight_model.dart';
+import 'package:socialice/providers/event_provider/events_provider.dart';
+import 'package:socialice/utils/date_parser.dart';
 
-class CommunityMultipleHighlightedEvent extends StatelessWidget {
+class CommunityMultipleHighlightedEvent extends ConsumerWidget {
   const CommunityMultipleHighlightedEvent({
     super.key,
     required this.highlights,
@@ -12,7 +15,13 @@ class CommunityMultipleHighlightedEvent extends StatelessWidget {
   final List<HighlightModel> highlights;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final events = ref.watch(eventsProvider).asData!.value;
+    final event =
+        events.where((e) => e.id == highlights[0].eventId).firstOrNull;
+
+    if (event == null) return SizedBox.shrink();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -106,7 +115,7 @@ class CommunityMultipleHighlightedEvent extends StatelessWidget {
           height: 16,
         ),
         Text(
-          'Pub Quiz',
+          event.name,
           style: TextStyle(
             fontWeight: FontWeight.w400,
             fontSize: 18,
@@ -117,7 +126,7 @@ class CommunityMultipleHighlightedEvent extends StatelessWidget {
           height: 3,
         ),
         Text(
-          '24 abr',
+          formatMonthWordDay(event.startDate),
           style: TextStyle(
             fontWeight: FontWeight.w400,
             fontSize: 18,

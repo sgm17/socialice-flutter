@@ -1,7 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socialice/domains/app_user_repository/src/models/app_user_model.dart';
 import 'package:socialice/domains/app_user_repository/src/models/interest_model.dart';
+import 'package:socialice/domains/community_repository/src/models/community_model.dart';
 import 'package:socialice/providers/app_user_provider/app_user_viewmodel_provider.dart';
+import 'package:socialice/providers/community_provider/communities_provider.dart';
 import 'package:socialice/providers/event_provider/events_provider.dart';
 import 'package:socialice/providers/firebase_storage_provider/firebase_storage_provider.dart';
 import 'package:socialice/providers/http_provider/http_viewmodel_provider.dart';
@@ -22,6 +24,7 @@ class AppUserNotifier extends StateNotifier<AsyncValue<AppUserModel>> {
       final user = await ref.read(appUserViewModelProvider).getUser();
       state = AsyncValue.data(user);
     } catch (e) {
+      print(e);
       state = AsyncValue.error(e, StackTrace.current);
     }
   }
@@ -34,6 +37,7 @@ class AppUserNotifier extends StateNotifier<AsyncValue<AppUserModel>> {
 
       state = AsyncValue.data(updatedUser);
     } catch (e) {
+      print(e);
       state = AsyncValue.error(e, StackTrace.current);
     }
   }
@@ -52,6 +56,7 @@ class AppUserNotifier extends StateNotifier<AsyncValue<AppUserModel>> {
       state = AsyncValue.data(
           state.asData!.value.copyWith(favourites: newFavourites));
     } catch (e) {
+      print(e);
       state = AsyncValue.error(e, StackTrace.current);
     }
   }
@@ -88,6 +93,63 @@ class AppUserNotifier extends StateNotifier<AsyncValue<AppUserModel>> {
 
       state = AsyncValue.data(newAppUserModel);
     } catch (e) {
+      print(e);
+      state = AsyncValue.error(e, StackTrace.current);
+    }
+  }
+
+  void createAppUserCommunity(CommunityModel community) {
+    try {
+      final user = state.asData!.value;
+      state = AsyncValue.data(user.copyWith(createdCommunity: community));
+    } catch (e) {
+      print(e);
+      state = AsyncValue.error(e, StackTrace.current);
+    }
+  }
+
+  void joinEvent({required String eventId}) {
+    try {
+      final user = state.asData!.value;
+      final events = ref.read(eventsProvider).asData!.value;
+      final event = events.where((e) => e.id == eventId).firstOrNull;
+
+      final isJoined = user.events?.map((e) => e.id).contains(event?.id);
+
+      if (isJoined == null || event == null) return;
+
+      AppUserModel updatedUser = isJoined
+          ? user.copyWith(
+              events: user.events!.where((e) => e.id != eventId).toList())
+          : user.copyWith(events: [event, ...user.events!]);
+      state = AsyncValue.data(updatedUser);
+    } catch (e) {
+      print(e);
+      state = AsyncValue.error(e, StackTrace.current);
+    }
+  }
+
+  void joinCommunity({required String communityId}) {
+    try {
+      final user = state.asData!.value;
+      final communities = ref.read(communitiesProvider).asData!.value;
+      final community =
+          communities.where((e) => e.id == communityId).firstOrNull;
+
+      final isMember =
+          user.communities?.map((e) => e.id).contains(community?.id);
+
+      if (isMember == null || community == null) return;
+
+      AppUserModel updatedUser = isMember
+          ? user.copyWith(
+              communities:
+                  user.communities!.where((e) => e.id != communityId).toList())
+          : user.copyWith(communities: [community, ...user.communities!]);
+
+      state = AsyncValue.data(updatedUser);
+    } catch (e) {
+      print(e);
       state = AsyncValue.error(e, StackTrace.current);
     }
   }

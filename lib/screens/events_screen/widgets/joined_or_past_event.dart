@@ -78,7 +78,7 @@ class JoinedOrPastEvent extends StatelessWidget {
               ),
             ),
             Text(
-              formatMonthWordDayYear(event.startTimestamp),
+              formatMonthWordDayYear(event.startDate),
               style: TextStyle(
                 fontWeight: FontWeight.w400,
                 fontSize: 12,

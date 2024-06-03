@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socialice/constants/app_colors.dart';
 import 'package:socialice/domains/community_repository/src/models/community_model.dart';
+import 'package:socialice/providers/app_user_provider/app_user_provider.dart';
 import 'package:socialice/providers/community_provider/communities_provider.dart';
 import 'package:socialice/widgets/arrow_back.dart';
 import 'package:socialice/widgets/black_container_button.dart';
@@ -11,7 +12,7 @@ class AllGroupsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final communities = ref.watch(communitiesProvider).asData?.value ?? [];
+    final communities = ref.watch(communitiesProvider).asData!.value;
 
     return Scaffold(
       body: SafeArea(
@@ -73,7 +74,7 @@ class AllGroupsScreen extends ConsumerWidget {
   }
 }
 
-class AllGroupsItem extends StatelessWidget {
+class AllGroupsItem extends ConsumerWidget {
   const AllGroupsItem({
     super.key,
     required this.community,
@@ -82,10 +83,23 @@ class AllGroupsItem extends StatelessWidget {
   final CommunityModel community;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final lastFourMembers = community.members!.length >= 4
         ? community.members!.sublist(0, 4)
         : community.members;
+
+    final user = ref.watch(appUserProvider).asData!.value;
+    final isMember = community.members!.map((e) => e.id).contains(user.id);
+
+    Future<void> _handleJoinCommunity() async {
+      final res = await ref
+          .read(communitiesProvider.notifier)
+          .joinCommunity(communityId: community.id);
+      if (res) {
+        Navigator.pushNamed(context, "/JoinedCommunityScreen",
+            arguments: {"communityId": community.id});
+      }
+    }
 
     return GestureDetector(
       onTap: () {
@@ -149,46 +163,59 @@ class AllGroupsItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 if (lastFourMembers!.isNotEmpty)
-                  Stack(
-                    children: [
-                      if (lastFourMembers.length >= 4)
-                        Container(
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: AppColors.blackColor,
-                          ),
-                          child: Text(
-                            '+${lastFourMembers.length - 4}',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16,
-                              color: AppColors.blackColor,
-                            ),
-                          ),
-                        ),
-                      for (int i = lastFourMembers.length; i >= 0; i--)
-                        Positioned(
-                            left: i * 30,
-                            child: Container(
+                  Expanded(
+                    child: SizedBox(
+                      height: 40,
+                      child: Stack(
+                        children: [
+                          if (lastFourMembers.length >= 4)
+                            Container(
                               height: 40,
                               width: 40,
+                              alignment: Alignment.center,
                               decoration: BoxDecoration(
-                                  border: Border.all(
-                                      width: 2, color: AppColors.whiteColor),
-                                  image: lastFourMembers[i].profileImage == null
-                                      ? DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: AssetImage(
-                                              "assets/images/default_avatar.png"))
-                                      : DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: NetworkImage(lastFourMembers[i]
-                                              .profileImage!))),
-                            ))
-                    ],
+                                borderRadius: BorderRadius.circular(20),
+                                color: AppColors.blackColor,
+                              ),
+                              child: Text(
+                                '+${lastFourMembers.length - 4}',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16,
+                                  color: AppColors.blackColor,
+                                ),
+                              ),
+                            ),
+                          for (int i = lastFourMembers.length - 1; i >= 0; i--)
+                            Positioned(
+                                left: i * 30,
+                                child: Container(
+                                  height: 40,
+                                  width: 40,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      border: Border.all(
+                                          width: 2,
+                                          color: AppColors.blackColor),
+                                      image: lastFourMembers[i].profileImage ==
+                                              null
+                                          ? DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: AssetImage(
+                                                  "assets/images/default_avatar.png"))
+                                          : DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: NetworkImage(
+                                                  lastFourMembers[i]
+                                                      .profileImage!))),
+                                ))
+                        ],
+                      ),
+                    ),
                   ),
-                BlackContainerButton(
-                    text: "+ Join", action: () => Navigator.pop(context))
+                if (!isMember && community.owner.id != user.id)
+                  BlackContainerButton(
+                      text: "+ Join", action: () => _handleJoinCommunity())
               ],
             )
           ],

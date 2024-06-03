@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socialice/constants/app_colors.dart';
 import 'package:socialice/domains/app_user_repository/src/models/app_user_model.dart';
+import 'package:socialice/providers/event_provider/events_provider.dart';
 
-class EventScreenOrganizer extends StatelessWidget {
+class EventScreenOrganizer extends ConsumerWidget {
   const EventScreenOrganizer({
     super.key,
+    required this.id,
     required this.isOwner,
     required this.organizer,
   });
-
+  final String id;
   final bool isOwner;
   final AppUserModel organizer;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final dismissWidget = Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,14 +69,16 @@ class EventScreenOrganizer extends StatelessWidget {
       return dismissWidget;
     }
 
+    Future<bool?> handleConfirmDismiss(DismissDirection direction) async {
+      return await ref
+          .read(eventsProvider.notifier)
+          .updateOrganizers(eventId: id, username: organizer.username);
+    }
+
     return Dismissible(
         confirmDismiss: handleConfirmDismiss,
         key: Key(organizer.id.toString()),
         background: Container(color: AppColors.redColor),
         child: dismissWidget);
-  }
-
-  Future<bool?> handleConfirmDismiss(DismissDirection direction) {
-    return Future.delayed(Duration.zero, null);
   }
 }

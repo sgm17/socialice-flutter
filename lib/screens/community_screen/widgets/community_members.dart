@@ -21,12 +21,16 @@ class CommunityMembers extends StatelessWidget {
               height: 37,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(18.5),
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(
-                    'assets/images/community_profile_1.png',
-                  ),
-                ),
+                image: members[i].profileImage == null
+                    ? DecorationImage(
+                        image: AssetImage("assets/images/default_avatar.png"),
+                        fit: BoxFit.cover)
+                    : DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(
+                          members[i].profileImage!,
+                        ),
+                      ),
               ),
             ),
             SizedBox(
