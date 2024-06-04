@@ -27,6 +27,7 @@ mixin _$AppUserModel {
   double get latitude => throw _privateConstructorUsedError;
   double get longitude => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
+  double get balance => throw _privateConstructorUsedError;
   CommunityModel? get createdCommunity => throw _privateConstructorUsedError;
   List<EventModel>? get events => throw _privateConstructorUsedError;
   List<EventModel>? get organizer => throw _privateConstructorUsedError;
@@ -57,6 +58,7 @@ abstract class $AppUserModelCopyWith<$Res> {
       double latitude,
       double longitude,
       String? description,
+      double balance,
       CommunityModel? createdCommunity,
       List<EventModel>? events,
       List<EventModel>? organizer,
@@ -91,6 +93,7 @@ class _$AppUserModelCopyWithImpl<$Res, $Val extends AppUserModel>
     Object? latitude = null,
     Object? longitude = null,
     Object? description = freezed,
+    Object? balance = null,
     Object? createdCommunity = freezed,
     Object? events = freezed,
     Object? organizer = freezed,
@@ -143,6 +146,10 @@ class _$AppUserModelCopyWithImpl<$Res, $Val extends AppUserModel>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
+      balance: null == balance
+          ? _value.balance
+          : balance // ignore: cast_nullable_to_non_nullable
+              as double,
       createdCommunity: freezed == createdCommunity
           ? _value.createdCommunity
           : createdCommunity // ignore: cast_nullable_to_non_nullable
@@ -203,6 +210,7 @@ abstract class _$$AppUserModelImplCopyWith<$Res>
       double latitude,
       double longitude,
       String? description,
+      double balance,
       CommunityModel? createdCommunity,
       List<EventModel>? events,
       List<EventModel>? organizer,
@@ -236,6 +244,7 @@ class __$$AppUserModelImplCopyWithImpl<$Res>
     Object? latitude = null,
     Object? longitude = null,
     Object? description = freezed,
+    Object? balance = null,
     Object? createdCommunity = freezed,
     Object? events = freezed,
     Object? organizer = freezed,
@@ -288,6 +297,10 @@ class __$$AppUserModelImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
+      balance: null == balance
+          ? _value.balance
+          : balance // ignore: cast_nullable_to_non_nullable
+              as double,
       createdCommunity: freezed == createdCommunity
           ? _value.createdCommunity
           : createdCommunity // ignore: cast_nullable_to_non_nullable
@@ -331,6 +344,7 @@ class _$AppUserModelImpl extends _AppUserModel {
       required this.latitude,
       required this.longitude,
       this.description,
+      required this.balance,
       this.createdCommunity,
       final List<EventModel>? events = const [],
       final List<EventModel>? organizer = const [],
@@ -366,6 +380,8 @@ class _$AppUserModelImpl extends _AppUserModel {
   final double longitude;
   @override
   final String? description;
+  @override
+  final double balance;
   @override
   final CommunityModel? createdCommunity;
   final List<EventModel>? _events;
@@ -425,7 +441,7 @@ class _$AppUserModelImpl extends _AppUserModel {
 
   @override
   String toString() {
-    return 'AppUserModel(id: $id, uid: $uid, profileImage: $profileImage, name: $name, surname: $surname, username: $username, email: $email, location: $location, latitude: $latitude, longitude: $longitude, description: $description, createdCommunity: $createdCommunity, events: $events, organizer: $organizer, communities: $communities, favourites: $favourites, interests: $interests)';
+    return 'AppUserModel(id: $id, uid: $uid, profileImage: $profileImage, name: $name, surname: $surname, username: $username, email: $email, location: $location, latitude: $latitude, longitude: $longitude, description: $description, balance: $balance, createdCommunity: $createdCommunity, events: $events, organizer: $organizer, communities: $communities, favourites: $favourites, interests: $interests)';
   }
 
   @override
@@ -450,6 +466,7 @@ class _$AppUserModelImpl extends _AppUserModel {
                 other.longitude == longitude) &&
             (identical(other.description, description) ||
                 other.description == description) &&
+            (identical(other.balance, balance) || other.balance == balance) &&
             (identical(other.createdCommunity, createdCommunity) ||
                 other.createdCommunity == createdCommunity) &&
             const DeepCollectionEquality().equals(other._events, _events) &&
@@ -477,6 +494,7 @@ class _$AppUserModelImpl extends _AppUserModel {
       latitude,
       longitude,
       description,
+      balance,
       createdCommunity,
       const DeepCollectionEquality().hash(_events),
       const DeepCollectionEquality().hash(_organizer),
@@ -504,6 +522,7 @@ abstract class _AppUserModel extends AppUserModel {
       required final double latitude,
       required final double longitude,
       final String? description,
+      required final double balance,
       final CommunityModel? createdCommunity,
       final List<EventModel>? events,
       final List<EventModel>? organizer,
@@ -534,6 +553,8 @@ abstract class _AppUserModel extends AppUserModel {
   double get longitude;
   @override
   String? get description;
+  @override
+  double get balance;
   @override
   CommunityModel? get createdCommunity;
   @override

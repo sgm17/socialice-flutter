@@ -23,6 +23,7 @@ AppUserModel _$AppUserModelFromJson(Map<String, dynamic> json) =>
           latitude: $checkedConvert('latitude', (v) => (v as num).toDouble()),
           longitude: $checkedConvert('longitude', (v) => (v as num).toDouble()),
           description: $checkedConvert('description', (v) => v as String?),
+          balance: $checkedConvert('balance', (v) => (v as num).toDouble()),
           createdCommunity: $checkedConvert(
               'createdCommunity',
               (v) => v == null
@@ -70,6 +71,7 @@ Map<String, dynamic> _$AppUserModelToJson(AppUserModel instance) =>
       'latitude': instance.latitude,
       'longitude': instance.longitude,
       'description': instance.description,
+      'balance': instance.balance,
       'createdCommunity': instance.createdCommunity?.toJson(),
       'events': instance.events?.map((e) => e.toJson()).toList(),
       'organizer': instance.organizer?.map((e) => e.toJson()).toList(),

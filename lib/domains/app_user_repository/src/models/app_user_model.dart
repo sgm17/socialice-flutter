@@ -31,6 +31,7 @@ class AppUserModel with _$AppUserModel {
       required double latitude,
       required double longitude,
       String? description,
+      required double balance,
       CommunityModel? createdCommunity,
       @Default([]) List<EventModel>? events,
       @Default([]) List<EventModel>? organizer,

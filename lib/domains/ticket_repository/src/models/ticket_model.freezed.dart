@@ -16,8 +16,10 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$TicketModel {
-  String get eventId => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
+  EventModel get event => throw _privateConstructorUsedError;
   String get qrCode => throw _privateConstructorUsedError;
+  bool get scanned => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TicketModelCopyWith<TicketModel> get copyWith =>
@@ -30,7 +32,9 @@ abstract class $TicketModelCopyWith<$Res> {
           TicketModel value, $Res Function(TicketModel) then) =
       _$TicketModelCopyWithImpl<$Res, TicketModel>;
   @useResult
-  $Res call({String eventId, String qrCode});
+  $Res call({String id, EventModel event, String qrCode, bool scanned});
+
+  $EventModelCopyWith<$Res> get event;
 }
 
 /// @nodoc
@@ -46,19 +50,37 @@ class _$TicketModelCopyWithImpl<$Res, $Val extends TicketModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? eventId = null,
+    Object? id = null,
+    Object? event = null,
     Object? qrCode = null,
+    Object? scanned = null,
   }) {
     return _then(_value.copyWith(
-      eventId: null == eventId
-          ? _value.eventId
-          : eventId // ignore: cast_nullable_to_non_nullable
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
               as String,
+      event: null == event
+          ? _value.event
+          : event // ignore: cast_nullable_to_non_nullable
+              as EventModel,
       qrCode: null == qrCode
           ? _value.qrCode
           : qrCode // ignore: cast_nullable_to_non_nullable
               as String,
+      scanned: null == scanned
+          ? _value.scanned
+          : scanned // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $EventModelCopyWith<$Res> get event {
+    return $EventModelCopyWith<$Res>(_value.event, (value) {
+      return _then(_value.copyWith(event: value) as $Val);
+    });
   }
 }
 
@@ -70,7 +92,10 @@ abstract class _$$TicketModelImplCopyWith<$Res>
       __$$TicketModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String eventId, String qrCode});
+  $Res call({String id, EventModel event, String qrCode, bool scanned});
+
+  @override
+  $EventModelCopyWith<$Res> get event;
 }
 
 /// @nodoc
@@ -84,18 +109,28 @@ class __$$TicketModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? eventId = null,
+    Object? id = null,
+    Object? event = null,
     Object? qrCode = null,
+    Object? scanned = null,
   }) {
     return _then(_$TicketModelImpl(
-      eventId: null == eventId
-          ? _value.eventId
-          : eventId // ignore: cast_nullable_to_non_nullable
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
               as String,
+      event: null == event
+          ? _value.event
+          : event // ignore: cast_nullable_to_non_nullable
+              as EventModel,
       qrCode: null == qrCode
           ? _value.qrCode
           : qrCode // ignore: cast_nullable_to_non_nullable
               as String,
+      scanned: null == scanned
+          ? _value.scanned
+          : scanned // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -103,17 +138,25 @@ class __$$TicketModelImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$TicketModelImpl extends _TicketModel {
-  const _$TicketModelImpl({required this.eventId, required this.qrCode})
+  const _$TicketModelImpl(
+      {required this.id,
+      required this.event,
+      required this.qrCode,
+      required this.scanned})
       : super._();
 
   @override
-  final String eventId;
+  final String id;
+  @override
+  final EventModel event;
   @override
   final String qrCode;
+  @override
+  final bool scanned;
 
   @override
   String toString() {
-    return 'TicketModel(eventId: $eventId, qrCode: $qrCode)';
+    return 'TicketModel(id: $id, event: $event, qrCode: $qrCode, scanned: $scanned)';
   }
 
   @override
@@ -121,12 +164,14 @@ class _$TicketModelImpl extends _TicketModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TicketModelImpl &&
-            (identical(other.eventId, eventId) || other.eventId == eventId) &&
-            (identical(other.qrCode, qrCode) || other.qrCode == qrCode));
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.event, event) || other.event == event) &&
+            (identical(other.qrCode, qrCode) || other.qrCode == qrCode) &&
+            (identical(other.scanned, scanned) || other.scanned == scanned));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, eventId, qrCode);
+  int get hashCode => Object.hash(runtimeType, id, event, qrCode, scanned);
 
   @JsonKey(ignore: true)
   @override
@@ -137,14 +182,20 @@ class _$TicketModelImpl extends _TicketModel {
 
 abstract class _TicketModel extends TicketModel {
   const factory _TicketModel(
-      {required final String eventId,
-      required final String qrCode}) = _$TicketModelImpl;
+      {required final String id,
+      required final EventModel event,
+      required final String qrCode,
+      required final bool scanned}) = _$TicketModelImpl;
   const _TicketModel._() : super._();
 
   @override
-  String get eventId;
+  String get id;
+  @override
+  EventModel get event;
   @override
   String get qrCode;
+  @override
+  bool get scanned;
   @override
   @JsonKey(ignore: true)
   _$$TicketModelImplCopyWith<_$TicketModelImpl> get copyWith =>

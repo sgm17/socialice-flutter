@@ -2,11 +2,14 @@ import 'package:socialice/domains/app_user_repository/src/models/app_user_model.
 import 'package:socialice/domains/app_user_repository/src/models/interest_model.dart';
 import 'package:socialice/domains/community_repository/src/models/community_model.dart';
 import 'package:socialice/domains/community_repository/src/models/highlight_model.dart';
+import 'package:socialice/domains/conversation_repository/src/models/conversation_model.dart';
+import 'package:socialice/domains/conversation_repository/src/models/message_model.dart';
 import 'package:socialice/domains/event_repository/src/models/category_model.dart';
 import 'package:socialice/domains/event_repository/src/models/comment_model.dart';
 import 'package:socialice/domains/event_repository/src/models/comment_reply_model.dart';
 import 'package:socialice/domains/event_repository/src/models/event_model.dart';
 import 'package:socialice/domains/event_repository/src/models/event_type.dart';
+import 'package:socialice/domains/ticket_repository/src/models/ticket_model.dart';
 
 abstract class HttpRepository {
   // AppUserModel
@@ -136,4 +139,26 @@ abstract class HttpRepository {
   // PUT /api/v1/comment-replies-reports
   Future<CommentReplyModel> updateCommentRepliesReports(
       {required String commentReplyId});
+
+  // TicketModel
+  // GET /api/v1/tickets
+  Future<List<TicketModel>> requestTickets();
+  // POST /api/v1/tickets
+  Future<TicketModel> createTicket(
+      {required String eventId, required String qrCode});
+  // PUT /api/v1/tickets
+  Future<TicketModel> updateTicket({required String id});
+
+  // ConversationModel
+  // GET /api/v1/conversations
+  Future<List<ConversationModel>> requestConversations();
+  // POST /api/v1/conversations
+  Future<ConversationModel> createConversation({required String userBId});
+  // POST /api/v1/messages
+  Future<MessageModel> createMessage(
+      {required String conversationId,
+      required String receiverId,
+      required String message});
+
+  // CommunityChat
 }

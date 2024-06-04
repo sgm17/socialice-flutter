@@ -1,17 +1,21 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:socialice/providers/app_user_provider/app_user_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socialice/constants/app_colors.dart';
-import 'package:socialice/providers/wallet_provider/wallet_provider.dart';
 import 'package:socialice/widgets/arrow_back.dart';
-import 'package:socialice/widgets/skelton.dart';
+import 'package:flutter/material.dart';
 
 class WalletScreen extends ConsumerWidget {
   const WalletScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final walletState = ref.watch(walletNotifierProvider);
+    final user = ref.watch(appUserProvider).asData!.value;
+
+    String numberString =
+        user.balance.toStringAsFixed(2); // Keep two decimal places
+    List<String> parts = numberString.split('.');
+    String integerPart = parts[0];
+    String decimalPart = parts.length > 1 ? parts[1] : '';
 
     return Scaffold(
         body: SafeArea(
@@ -61,61 +65,45 @@ class WalletScreen extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              walletState.when(
-                data: (wallet) {
-                  String numberString = wallet.balance
-                      .toStringAsFixed(2); // Keep two decimal places
-                  List<String> parts = numberString.split('.');
-                  String integerPart = parts[0];
-                  String decimalPart = parts.length > 1 ? parts[1] : '';
-
-                  return RichText(
-                    text: TextSpan(
-                      children: [
-                        WidgetSpan(
-                          alignment: PlaceholderAlignment.bottom,
-                          child: Transform.translate(
-                            offset: const Offset(2, 5),
-                            child: Text(
-                              "CHF ",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 32,
-                                  color: AppColors.greyLightColor),
-                            ),
-                          ),
-                        ),
-                        TextSpan(
-                          text: integerPart,
+              RichText(
+                text: TextSpan(
+                  children: [
+                    WidgetSpan(
+                      alignment: PlaceholderAlignment.bottom,
+                      child: Transform.translate(
+                        offset: const Offset(2, 5),
+                        child: Text(
+                          "CHF ",
                           style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 64,
-                            color: AppColors.blackColor,
-                          ),
+                              fontWeight: FontWeight.w400,
+                              fontSize: 32,
+                              color: AppColors.greyLightColor),
                         ),
-                        WidgetSpan(
-                          alignment: PlaceholderAlignment.top,
-                          child: Transform.translate(
-                            offset: const Offset(2, -40),
-                            child: Text(
-                              decimalPart,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 28,
-                                  color: AppColors.blackColor),
-                            ),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
-                  );
-                },
-                loading: () => Skelton(
-                    height: 88,
-                    width: 200,
-                    borderRadius: 6,
-                    isProfileImage: false),
-                error: (error, stackTrace) => SizedBox.shrink(),
+                    TextSpan(
+                      text: integerPart,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 64,
+                        color: AppColors.blackColor,
+                      ),
+                    ),
+                    WidgetSpan(
+                      alignment: PlaceholderAlignment.top,
+                      child: Transform.translate(
+                        offset: const Offset(2, -40),
+                        child: Text(
+                          decimalPart,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 28,
+                              color: AppColors.blackColor),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               SizedBox(
                 height: 16,
