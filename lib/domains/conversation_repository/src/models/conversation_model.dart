@@ -22,5 +22,5 @@ class ConversationModel with _$ConversationModel {
       {required String id,
       required AppUserModel userA,
       required AppUserModel userB,
-      required MessageModel messages}) = _ConversationModel;
+      @Default([]) List<MessageModel>? messages}) = _ConversationModel;
 }

@@ -19,7 +19,7 @@ mixin _$MessageModel {
   String get id => throw _privateConstructorUsedError;
   AppUserModel get sender => throw _privateConstructorUsedError;
   AppUserModel get receiver => throw _privateConstructorUsedError;
-  ConversationModel get conversation => throw _privateConstructorUsedError;
+  String get conversationId => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
   @TimestampConverter()
   DateTime get createdAt => throw _privateConstructorUsedError;
@@ -39,13 +39,12 @@ abstract class $MessageModelCopyWith<$Res> {
       {String id,
       AppUserModel sender,
       AppUserModel receiver,
-      ConversationModel conversation,
+      String conversationId,
       String message,
       @TimestampConverter() DateTime createdAt});
 
   $AppUserModelCopyWith<$Res> get sender;
   $AppUserModelCopyWith<$Res> get receiver;
-  $ConversationModelCopyWith<$Res> get conversation;
 }
 
 /// @nodoc
@@ -64,7 +63,7 @@ class _$MessageModelCopyWithImpl<$Res, $Val extends MessageModel>
     Object? id = null,
     Object? sender = null,
     Object? receiver = null,
-    Object? conversation = null,
+    Object? conversationId = null,
     Object? message = null,
     Object? createdAt = null,
   }) {
@@ -81,10 +80,10 @@ class _$MessageModelCopyWithImpl<$Res, $Val extends MessageModel>
           ? _value.receiver
           : receiver // ignore: cast_nullable_to_non_nullable
               as AppUserModel,
-      conversation: null == conversation
-          ? _value.conversation
-          : conversation // ignore: cast_nullable_to_non_nullable
-              as ConversationModel,
+      conversationId: null == conversationId
+          ? _value.conversationId
+          : conversationId // ignore: cast_nullable_to_non_nullable
+              as String,
       message: null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -111,14 +110,6 @@ class _$MessageModelCopyWithImpl<$Res, $Val extends MessageModel>
       return _then(_value.copyWith(receiver: value) as $Val);
     });
   }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $ConversationModelCopyWith<$Res> get conversation {
-    return $ConversationModelCopyWith<$Res>(_value.conversation, (value) {
-      return _then(_value.copyWith(conversation: value) as $Val);
-    });
-  }
 }
 
 /// @nodoc
@@ -133,7 +124,7 @@ abstract class _$$MessageModelImplCopyWith<$Res>
       {String id,
       AppUserModel sender,
       AppUserModel receiver,
-      ConversationModel conversation,
+      String conversationId,
       String message,
       @TimestampConverter() DateTime createdAt});
 
@@ -141,8 +132,6 @@ abstract class _$$MessageModelImplCopyWith<$Res>
   $AppUserModelCopyWith<$Res> get sender;
   @override
   $AppUserModelCopyWith<$Res> get receiver;
-  @override
-  $ConversationModelCopyWith<$Res> get conversation;
 }
 
 /// @nodoc
@@ -159,7 +148,7 @@ class __$$MessageModelImplCopyWithImpl<$Res>
     Object? id = null,
     Object? sender = null,
     Object? receiver = null,
-    Object? conversation = null,
+    Object? conversationId = null,
     Object? message = null,
     Object? createdAt = null,
   }) {
@@ -176,10 +165,10 @@ class __$$MessageModelImplCopyWithImpl<$Res>
           ? _value.receiver
           : receiver // ignore: cast_nullable_to_non_nullable
               as AppUserModel,
-      conversation: null == conversation
-          ? _value.conversation
-          : conversation // ignore: cast_nullable_to_non_nullable
-              as ConversationModel,
+      conversationId: null == conversationId
+          ? _value.conversationId
+          : conversationId // ignore: cast_nullable_to_non_nullable
+              as String,
       message: null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -199,7 +188,7 @@ class _$MessageModelImpl extends _MessageModel {
       {required this.id,
       required this.sender,
       required this.receiver,
-      required this.conversation,
+      required this.conversationId,
       required this.message,
       @TimestampConverter() required this.createdAt})
       : super._();
@@ -211,7 +200,7 @@ class _$MessageModelImpl extends _MessageModel {
   @override
   final AppUserModel receiver;
   @override
-  final ConversationModel conversation;
+  final String conversationId;
   @override
   final String message;
   @override
@@ -220,7 +209,7 @@ class _$MessageModelImpl extends _MessageModel {
 
   @override
   String toString() {
-    return 'MessageModel(id: $id, sender: $sender, receiver: $receiver, conversation: $conversation, message: $message, createdAt: $createdAt)';
+    return 'MessageModel(id: $id, sender: $sender, receiver: $receiver, conversationId: $conversationId, message: $message, createdAt: $createdAt)';
   }
 
   @override
@@ -232,8 +221,8 @@ class _$MessageModelImpl extends _MessageModel {
             (identical(other.sender, sender) || other.sender == sender) &&
             (identical(other.receiver, receiver) ||
                 other.receiver == receiver) &&
-            (identical(other.conversation, conversation) ||
-                other.conversation == conversation) &&
+            (identical(other.conversationId, conversationId) ||
+                other.conversationId == conversationId) &&
             (identical(other.message, message) || other.message == message) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
@@ -241,7 +230,7 @@ class _$MessageModelImpl extends _MessageModel {
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, id, sender, receiver, conversation, message, createdAt);
+      runtimeType, id, sender, receiver, conversationId, message, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -255,7 +244,7 @@ abstract class _MessageModel extends MessageModel {
           {required final String id,
           required final AppUserModel sender,
           required final AppUserModel receiver,
-          required final ConversationModel conversation,
+          required final String conversationId,
           required final String message,
           @TimestampConverter() required final DateTime createdAt}) =
       _$MessageModelImpl;
@@ -268,7 +257,7 @@ abstract class _MessageModel extends MessageModel {
   @override
   AppUserModel get receiver;
   @override
-  ConversationModel get conversation;
+  String get conversationId;
   @override
   String get message;
   @override

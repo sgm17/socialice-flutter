@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socialice/constants/app_colors.dart';
 import 'package:socialice/providers/user_profile_provider/user_profile_provider.dart';
@@ -13,12 +12,12 @@ class UserProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final Map<String, dynamic> args =
-    //     ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final Map<String, dynamic> args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
 
-    // final String userId = args['userId'];
+    final String userId = args['userId'];
 
-    final userProfileState = ref.watch(userProfileProvider("1"));
+    final userProfileState = ref.watch(userProfileProvider(userId));
 
     return Scaffold(
       body: SafeArea(

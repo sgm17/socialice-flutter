@@ -17,8 +17,11 @@ ConversationModel _$ConversationModelFromJson(Map<String, dynamic> json) =>
               'userA', (v) => AppUserModel.fromJson(v as Map<String, dynamic>)),
           userB: $checkedConvert(
               'userB', (v) => AppUserModel.fromJson(v as Map<String, dynamic>)),
-          messages: $checkedConvert('messages',
-              (v) => MessageModel.fromJson(v as Map<String, dynamic>)),
+          messages: $checkedConvert(
+              'messages',
+              (v) => (v as List<dynamic>?)
+                  ?.map((e) => MessageModel.fromJson(e as Map<String, dynamic>))
+                  .toList()),
         );
         return val;
       },
@@ -29,5 +32,5 @@ Map<String, dynamic> _$ConversationModelToJson(ConversationModel instance) =>
       'id': instance.id,
       'userA': instance.userA.toJson(),
       'userB': instance.userB.toJson(),
-      'messages': instance.messages.toJson(),
+      'messages': instance.messages?.map((e) => e.toJson()).toList(),
     };

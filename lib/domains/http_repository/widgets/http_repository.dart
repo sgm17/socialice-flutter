@@ -1,5 +1,7 @@
 import 'package:socialice/domains/app_user_repository/src/models/app_user_model.dart';
 import 'package:socialice/domains/app_user_repository/src/models/interest_model.dart';
+import 'package:socialice/domains/community_chats_repository/src/models/community_chat_model.dart';
+import 'package:socialice/domains/community_chats_repository/src/models/community_message_model.dart';
 import 'package:socialice/domains/community_repository/src/models/community_model.dart';
 import 'package:socialice/domains/community_repository/src/models/highlight_model.dart';
 import 'package:socialice/domains/conversation_repository/src/models/conversation_model.dart';
@@ -147,7 +149,7 @@ abstract class HttpRepository {
   Future<TicketModel> createTicket(
       {required String eventId, required String qrCode});
   // PUT /api/v1/tickets
-  Future<TicketModel> updateTicket({required String id});
+  Future<TicketModel> updateTicket({required String ticketId});
 
   // ConversationModel
   // GET /api/v1/conversations
@@ -161,4 +163,11 @@ abstract class HttpRepository {
       required String message});
 
   // CommunityChat
+  // GET /api/v1/community-chats
+  Future<List<CommunityChatModel>> requestCommunityChats();
+  // POST /api/v1/community-chats
+  Future<CommunityChatModel> createCommunityChat({required String communityId});
+  // POST /api/v1/community-messages
+  Future<CommunityMessageModel> createCommunityMessage(
+      {required String chatId, required String message});
 }

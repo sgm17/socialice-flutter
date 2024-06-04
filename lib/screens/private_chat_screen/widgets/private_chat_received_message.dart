@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:socialice/domains/app_user_repository/src/models/app_user_model.dart';
 
 class PrivateChatReceivedMessage extends StatelessWidget {
   const PrivateChatReceivedMessage({
     super.key,
+    required this.otherUser,
     required this.message,
-    required this.username,
   });
 
+  final AppUserModel otherUser;
   final String message;
-  final String username;
 
   @override
   Widget build(BuildContext context) {
@@ -22,16 +23,20 @@ class PrivateChatReceivedMessage extends StatelessWidget {
               height: 35,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(17.5),
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(
-                    'assets/images/private_avatar_image.png',
-                  ),
-                ),
+                image: otherUser.profileImage == null
+                    ? DecorationImage(
+                        image: AssetImage("assets/images/default_avatar.png"),
+                        fit: BoxFit.cover)
+                    : DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(
+                          otherUser.profileImage!,
+                        ),
+                      ),
               ),
             ),
             Text(
-              username,
+              otherUser.username,
               style: TextStyle(
                 fontWeight: FontWeight.w400,
                 fontSize: 10,

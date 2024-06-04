@@ -22,6 +22,7 @@ class NoTicketsAvailable extends StatelessWidget {
             children: [
               Text(
                 'No Tickets Available',
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontWeight: FontWeight.w400,
                   fontSize: 22,

@@ -43,3 +43,11 @@ String formatDateHour(DateTime dateTime) {
   final String formattedTime = formatter.format(dateTime);
   return formattedTime;
 }
+
+String formatTimestamp(DateTime dateTime) {
+  // Define the time format
+  final DateFormat formatter = DateFormat('HH:mm');
+  // Format the DateTime object
+  final String formattedTime = formatter.format(dateTime);
+  return formattedTime;
+}

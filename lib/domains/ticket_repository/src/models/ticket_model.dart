@@ -17,4 +17,9 @@ class TicketModel with _$TicketModel {
       required EventModel event,
       required String qrCode,
       required bool scanned}) = _TicketModel;
+
+  factory TicketModel.fromJson(Map<String, dynamic> json) =>
+      _$TicketModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TicketModelToJson(this);
 }

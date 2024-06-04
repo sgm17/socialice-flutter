@@ -1,7 +1,6 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:socialice/domains/app_user_repository/src/models/app_user_model.dart';
-import 'package:socialice/domains/conversation_repository/src/models/conversation_model.dart';
 import 'package:socialice/helpers/serialize/timestamp_converter.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 part 'message_model.freezed.dart';
 part 'message_model.g.dart';
 
@@ -23,7 +22,7 @@ class MessageModel with _$MessageModel {
       {required String id,
       required AppUserModel sender,
       required AppUserModel receiver,
-      required ConversationModel conversation,
+      required String conversationId,
       required String message,
       @TimestampConverter() required DateTime createdAt}) = _MessageModel;
 }

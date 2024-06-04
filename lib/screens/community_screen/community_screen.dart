@@ -1,6 +1,4 @@
-import 'package:flutter/widgets.dart';
 import 'package:socialice/dialogs/report_dialog/report_dialog.dart';
-import 'package:socialice/dialogs/select_dialog/select_dialog.dart';
 import 'package:socialice/domains/event_repository/src/models/event_model.dart';
 import 'package:socialice/providers/app_provider/bottom_navigation_provider.dart';
 import 'package:socialice/providers/app_user_provider/app_user_provider.dart';
@@ -95,26 +93,6 @@ class _CommunityScreenState extends ConsumerState<CommunityScreen> {
           Navigator.pushNamed(context, "/EventScreen",
               arguments: {'eventId': createdEvent.id});
         }
-      }
-    }
-
-    Future<void> _handleClick(String option) async {
-      final uniqueOption = "Leave the Group";
-
-      if (option == uniqueOption) {
-        showDialog(
-          context: context,
-          builder: (context) {
-            return SelectDialog(
-                message: "Are you sure that you want to leave the community?");
-          },
-        ).then((value) {
-          if (value is bool && value) {
-            ref
-                .read(communitiesProvider.notifier)
-                .joinCommunity(communityId: communityId);
-          }
-        });
       }
     }
 

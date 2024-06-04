@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:socialice/utils/date_parser.dart';
 
 class PrivateChatTimestamp extends StatelessWidget {
   const PrivateChatTimestamp({
     super.key,
-    required this.weekDay,
+    required this.createdAt,
   });
 
-  final String weekDay;
+  final DateTime createdAt;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +16,7 @@ class PrivateChatTimestamp extends StatelessWidget {
       alignment: Alignment.center,
       child: RichText(
         text: TextSpan(
-          text: '${weekDay} ',
+          text: '${DateFormat("EEEE").format(createdAt).toLowerCase()} ',
           style: TextStyle(
             fontWeight: FontWeight.w500,
             fontSize: 12,
@@ -22,7 +24,7 @@ class PrivateChatTimestamp extends StatelessWidget {
           ),
           children: [
             TextSpan(
-              text: '10:05',
+              text: formatTimestamp(createdAt),
               style: TextStyle(
                 fontWeight: FontWeight.w400,
                 fontSize: 12,

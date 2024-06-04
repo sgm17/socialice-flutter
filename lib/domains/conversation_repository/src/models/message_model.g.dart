@@ -17,8 +17,7 @@ MessageModel _$MessageModelFromJson(Map<String, dynamic> json) =>
               (v) => AppUserModel.fromJson(v as Map<String, dynamic>)),
           receiver: $checkedConvert('receiver',
               (v) => AppUserModel.fromJson(v as Map<String, dynamic>)),
-          conversation: $checkedConvert('conversation',
-              (v) => ConversationModel.fromJson(v as Map<String, dynamic>)),
+          conversationId: $checkedConvert('conversationId', (v) => v as String),
           message: $checkedConvert('message', (v) => v as String),
           createdAt: $checkedConvert('createdAt',
               (v) => const TimestampConverter().fromJson(v as String)),
@@ -32,7 +31,7 @@ Map<String, dynamic> _$MessageModelToJson(MessageModel instance) =>
       'id': instance.id,
       'sender': instance.sender.toJson(),
       'receiver': instance.receiver.toJson(),
-      'conversation': instance.conversation.toJson(),
+      'conversationId': instance.conversationId,
       'message': instance.message,
       'createdAt': const TimestampConverter().toJson(instance.createdAt),
     };

@@ -19,7 +19,7 @@ mixin _$ConversationModel {
   String get id => throw _privateConstructorUsedError;
   AppUserModel get userA => throw _privateConstructorUsedError;
   AppUserModel get userB => throw _privateConstructorUsedError;
-  MessageModel get messages => throw _privateConstructorUsedError;
+  List<MessageModel>? get messages => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ConversationModelCopyWith<ConversationModel> get copyWith =>
@@ -36,11 +36,10 @@ abstract class $ConversationModelCopyWith<$Res> {
       {String id,
       AppUserModel userA,
       AppUserModel userB,
-      MessageModel messages});
+      List<MessageModel>? messages});
 
   $AppUserModelCopyWith<$Res> get userA;
   $AppUserModelCopyWith<$Res> get userB;
-  $MessageModelCopyWith<$Res> get messages;
 }
 
 /// @nodoc
@@ -59,7 +58,7 @@ class _$ConversationModelCopyWithImpl<$Res, $Val extends ConversationModel>
     Object? id = null,
     Object? userA = null,
     Object? userB = null,
-    Object? messages = null,
+    Object? messages = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -74,10 +73,10 @@ class _$ConversationModelCopyWithImpl<$Res, $Val extends ConversationModel>
           ? _value.userB
           : userB // ignore: cast_nullable_to_non_nullable
               as AppUserModel,
-      messages: null == messages
+      messages: freezed == messages
           ? _value.messages
           : messages // ignore: cast_nullable_to_non_nullable
-              as MessageModel,
+              as List<MessageModel>?,
     ) as $Val);
   }
 
@@ -96,14 +95,6 @@ class _$ConversationModelCopyWithImpl<$Res, $Val extends ConversationModel>
       return _then(_value.copyWith(userB: value) as $Val);
     });
   }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $MessageModelCopyWith<$Res> get messages {
-    return $MessageModelCopyWith<$Res>(_value.messages, (value) {
-      return _then(_value.copyWith(messages: value) as $Val);
-    });
-  }
 }
 
 /// @nodoc
@@ -118,14 +109,12 @@ abstract class _$$ConversationModelImplCopyWith<$Res>
       {String id,
       AppUserModel userA,
       AppUserModel userB,
-      MessageModel messages});
+      List<MessageModel>? messages});
 
   @override
   $AppUserModelCopyWith<$Res> get userA;
   @override
   $AppUserModelCopyWith<$Res> get userB;
-  @override
-  $MessageModelCopyWith<$Res> get messages;
 }
 
 /// @nodoc
@@ -142,7 +131,7 @@ class __$$ConversationModelImplCopyWithImpl<$Res>
     Object? id = null,
     Object? userA = null,
     Object? userB = null,
-    Object? messages = null,
+    Object? messages = freezed,
   }) {
     return _then(_$ConversationModelImpl(
       id: null == id
@@ -157,10 +146,10 @@ class __$$ConversationModelImplCopyWithImpl<$Res>
           ? _value.userB
           : userB // ignore: cast_nullable_to_non_nullable
               as AppUserModel,
-      messages: null == messages
-          ? _value.messages
+      messages: freezed == messages
+          ? _value._messages
           : messages // ignore: cast_nullable_to_non_nullable
-              as MessageModel,
+              as List<MessageModel>?,
     ));
   }
 }
@@ -172,8 +161,9 @@ class _$ConversationModelImpl extends _ConversationModel {
       {required this.id,
       required this.userA,
       required this.userB,
-      required this.messages})
-      : super._();
+      final List<MessageModel>? messages = const []})
+      : _messages = messages,
+        super._();
 
   @override
   final String id;
@@ -181,8 +171,16 @@ class _$ConversationModelImpl extends _ConversationModel {
   final AppUserModel userA;
   @override
   final AppUserModel userB;
+  final List<MessageModel>? _messages;
   @override
-  final MessageModel messages;
+  @JsonKey()
+  List<MessageModel>? get messages {
+    final value = _messages;
+    if (value == null) return null;
+    if (_messages is EqualUnmodifiableListView) return _messages;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
@@ -197,12 +195,12 @@ class _$ConversationModelImpl extends _ConversationModel {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.userA, userA) || other.userA == userA) &&
             (identical(other.userB, userB) || other.userB == userB) &&
-            (identical(other.messages, messages) ||
-                other.messages == messages));
+            const DeepCollectionEquality().equals(other._messages, _messages));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, userA, userB, messages);
+  int get hashCode => Object.hash(runtimeType, id, userA, userB,
+      const DeepCollectionEquality().hash(_messages));
 
   @JsonKey(ignore: true)
   @override
@@ -217,7 +215,7 @@ abstract class _ConversationModel extends ConversationModel {
       {required final String id,
       required final AppUserModel userA,
       required final AppUserModel userB,
-      required final MessageModel messages}) = _$ConversationModelImpl;
+      final List<MessageModel>? messages}) = _$ConversationModelImpl;
   const _ConversationModel._() : super._();
 
   @override
@@ -227,7 +225,7 @@ abstract class _ConversationModel extends ConversationModel {
   @override
   AppUserModel get userB;
   @override
-  MessageModel get messages;
+  List<MessageModel>? get messages;
   @override
   @JsonKey(ignore: true)
   _$$ConversationModelImplCopyWith<_$ConversationModelImpl> get copyWith =>

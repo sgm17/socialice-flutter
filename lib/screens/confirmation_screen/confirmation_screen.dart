@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socialice/domains/event_repository/src/models/event_type.dart';
 import 'package:socialice/providers/event_provider/events_provider.dart';

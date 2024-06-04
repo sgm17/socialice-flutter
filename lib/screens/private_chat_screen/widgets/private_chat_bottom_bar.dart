@@ -1,14 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socialice/constants/app_colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:socialice/providers/conversations_provider/conversations_provider.dart';
 
-class PrivateChatBottomBar extends StatelessWidget {
-  const PrivateChatBottomBar({
-    super.key,
-  });
+class PrivateChatBottomBar extends ConsumerStatefulWidget {
+  const PrivateChatBottomBar({super.key, required this.conversationId});
+
+  final String conversationId;
+
+  @override
+  ConsumerState<PrivateChatBottomBar> createState() =>
+      _PrivateChatBottomBarState();
+}
+
+class _PrivateChatBottomBarState extends ConsumerState<PrivateChatBottomBar> {
+  late TextEditingController controller;
+
+  @override
+  void initState() {
+    controller = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    _submitMessage() {
+      if (controller.text.isNotEmpty) {
+        ref.read(conversationsProvider.notifier).sendMessage(
+            conversationId: widget.conversationId, message: controller.text);
+        controller.clear();
+      }
+    }
+
     return Container(
       decoration: BoxDecoration(
           border: Border(
@@ -19,6 +50,9 @@ class PrivateChatBottomBar extends StatelessWidget {
         children: [
           Expanded(
             child: TextField(
+                controller: controller,
+                textInputAction: TextInputAction.send,
+                onSubmitted: (value) => _submitMessage,
                 maxLength: 100,
                 textAlignVertical: TextAlignVertical.center,
                 style: TextStyle(
@@ -50,12 +84,15 @@ class PrivateChatBottomBar extends StatelessWidget {
           SizedBox(
             width: 6,
           ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 10.0),
-            child: SizedBox(
-                height: 40,
-                width: 40,
-                child: SvgPicture.asset('assets/vectors/send_icon.svg')),
+          GestureDetector(
+            onTap: _submitMessage,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 10.0),
+              child: SizedBox(
+                  height: 40,
+                  width: 40,
+                  child: SvgPicture.asset('assets/vectors/send_icon.svg')),
+            ),
           )
         ],
       ),

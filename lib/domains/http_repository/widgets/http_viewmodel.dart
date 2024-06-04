@@ -1,10 +1,15 @@
 import 'package:socialice/domains/app_user_repository/src/models/app_user_model.dart';
 import 'package:socialice/domains/app_user_repository/src/models/interest_model.dart';
+import 'package:socialice/domains/community_chats_repository/src/models/community_chat_model.dart';
+import 'package:socialice/domains/community_chats_repository/src/models/community_message_model.dart';
 import 'package:socialice/domains/community_repository/src/models/community_model.dart';
 import 'package:socialice/domains/community_repository/src/models/highlight_model.dart';
+import 'package:socialice/domains/conversation_repository/src/models/conversation_model.dart';
+import 'package:socialice/domains/conversation_repository/src/models/message_model.dart';
 import 'package:socialice/domains/event_repository/src/models/category_model.dart';
 import 'package:socialice/domains/event_repository/src/models/comment_model.dart';
 import 'package:socialice/domains/event_repository/src/models/comment_reply_model.dart';
+import 'package:socialice/domains/ticket_repository/src/models/ticket_model.dart';
 import 'package:socialice/domains/event_repository/src/models/event_model.dart';
 import 'package:socialice/domains/event_repository/src/models/event_type.dart';
 import 'package:socialice/domains/http_repository/widgets/http_repository.dart';
@@ -741,6 +746,199 @@ class HttpViewmodel implements HttpRepository {
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = await jsonDecode(response.body);
       return CommentReplyModel.fromJson(data);
+    }
+    // return null;
+    throw Exception("Example");
+  }
+
+  @override
+  Future<CommunityChatModel> createCommunityChat(
+      {required String communityId}) async {
+    final headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    final body = jsonEncode({"communityId": communityId});
+
+    final response = await httpClient.post(
+        Uri.parse("${API_ENDPOINT}/community-chats"),
+        headers: headers,
+        body: body);
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = await jsonDecode(response.body);
+      return CommunityChatModel.fromJson(data);
+    }
+    // return null;
+    throw Exception("Example");
+  }
+
+  @override
+  Future<CommunityMessageModel> createCommunityMessage(
+      {required String chatId, required String message}) async {
+    final headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    final body = jsonEncode({"chatId": chatId, "message": message});
+
+    final response = await httpClient.post(
+        Uri.parse("${API_ENDPOINT}/community-messages"),
+        headers: headers,
+        body: body);
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = await jsonDecode(response.body);
+      return CommunityMessageModel.fromJson(data);
+    }
+    // return null;
+    throw Exception("Example");
+  }
+
+  @override
+  Future<ConversationModel> createConversation(
+      {required String userBId}) async {
+    final headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    final body = jsonEncode({"userBId": userBId});
+
+    final response = await httpClient.post(
+        Uri.parse("${API_ENDPOINT}/conversations"),
+        headers: headers,
+        body: body);
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = await jsonDecode(response.body);
+      return ConversationModel.fromJson(data);
+    }
+    // return null;
+    throw Exception("Example");
+  }
+
+  @override
+  Future<MessageModel> createMessage(
+      {required String conversationId,
+      required String receiverId,
+      required String message}) async {
+    final headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    final body = jsonEncode({
+      "conversationId": conversationId,
+      "receiverId": receiverId,
+      "message": message,
+    });
+
+    final response = await httpClient.post(
+        Uri.parse("${API_ENDPOINT}/messages"),
+        headers: headers,
+        body: body);
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = await jsonDecode(response.body);
+      return MessageModel.fromJson(data);
+    }
+    // return null;
+    throw Exception("Example");
+  }
+
+  @override
+  Future<TicketModel> createTicket(
+      {required String eventId, required String qrCode}) async {
+    final headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    final body = jsonEncode({"eventId": eventId, "qrCode": qrCode});
+
+    final response = await httpClient.post(Uri.parse("${API_ENDPOINT}/tickets"),
+        headers: headers, body: body);
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = await jsonDecode(response.body);
+      return TicketModel.fromJson(data);
+    }
+    // return null;
+    throw Exception("Example");
+  }
+
+  @override
+  Future<List<CommunityChatModel>> requestCommunityChats() async {
+    final headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    final response = await httpClient
+        .get(Uri.parse("${API_ENDPOINT}/community-chats"), headers: headers);
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = await jsonDecode(response.body);
+      return data.map((e) => CommunityChatModel.fromJson(e)).toList();
+    }
+    // return null;
+    throw Exception("Example");
+  }
+
+  @override
+  Future<List<ConversationModel>> requestConversations() async {
+    final headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    final response = await httpClient
+        .get(Uri.parse("${API_ENDPOINT}/conversations"), headers: headers);
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = await jsonDecode(response.body);
+      return data.map((e) => ConversationModel.fromJson(e)).toList();
+    }
+    // return null;
+    throw Exception("Example");
+  }
+
+  @override
+  Future<List<TicketModel>> requestTickets() async {
+    final headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    final response = await httpClient.get(Uri.parse("${API_ENDPOINT}/tickets"),
+        headers: headers);
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = await jsonDecode(response.body);
+      return data.map((e) => TicketModel.fromJson(e)).toList();
+    }
+    // return null;
+    throw Exception("Example");
+  }
+
+  @override
+  Future<TicketModel> updateTicket({required String ticketId}) async {
+    final headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    final body = jsonEncode({"ticketId": ticketId});
+
+    final response = await httpClient.put(Uri.parse("${API_ENDPOINT}/tickets"),
+        headers: headers, body: body);
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = await jsonDecode(response.body);
+      return TicketModel.fromJson(data);
     }
     // return null;
     throw Exception("Example");
