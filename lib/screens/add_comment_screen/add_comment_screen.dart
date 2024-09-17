@@ -27,6 +27,9 @@ class _AddCommentScreenState extends ConsumerState<AddCommentScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(
+                height: 32,
+              ),
               ArrowBack(),
               SizedBox(
                 height: 16.0,

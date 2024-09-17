@@ -5,8 +5,27 @@ import 'package:socialice/widgets/black_container_button.dart';
 import 'package:socialice/widgets/email_input.dart';
 import 'package:socialice/dialogs/message_dialog/message_dialog.dart';
 
-class ForgotPasswordScreen extends StatelessWidget {
+class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
+}
+
+class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+  late TextEditingController _emailController;
+
+  @override
+  void initState() {
+    super.initState();
+    _emailController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +49,9 @@ class ForgotPasswordScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(
+                height: 32,
+              ),
               ArrowBack(),
               SizedBox(
                 height: 32,
@@ -84,7 +106,9 @@ class ForgotPasswordScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                EmailInput(),
+                EmailInput(
+                  emailController: _emailController,
+                ),
               ]),
               SizedBox(
                 height: 32,

@@ -15,67 +15,67 @@ class DirectMessageConversation extends ConsumerWidget {
     final otherUser =
         conversation.userA != user.id ? conversation.userB : conversation.userA;
 
-    return SizedBox(
-      height: 70,
-      child: Row(
-        children: [
-          SizedBox(
-            width: 16,
-          ),
-          Container(
-            height: 50,
-            width: 50,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(25),
-              image: otherUser.profileImage == null
-                  ? DecorationImage(
-                      image: AssetImage("assets/images/default_avatar.png"),
-                      fit: BoxFit.cover)
-                  : DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(
-                        otherUser.profileImage!,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16.0),
+      child: SizedBox(
+        height: 70,
+        child: Row(
+          children: [
+            Container(
+              height: 50,
+              width: 50,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+                image: otherUser.profileImage == null
+                    ? DecorationImage(
+                        image: AssetImage("assets/images/default_avatar.png"),
+                        fit: BoxFit.cover)
+                    : DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(
+                          otherUser.profileImage!,
+                        ),
                       ),
+              ),
+            ),
+            SizedBox(
+              width: 12,
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    otherUser.username,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 18,
+                      color: Color(0xFF000000),
                     ),
+                  ),
+                  Text(
+                    conversation.messages!.last.message,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 15,
+                      color: Color(0xFFC1C1CB),
+                    ),
+                  ),
+                  Text(
+                    formatTimestamp(conversation.messages!.last.createdAt),
+                    style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
+                      color: Color(0xFFC1C1CB),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          SizedBox(
-            width: 12,
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  otherUser.username,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 18,
-                    color: Color(0xFF000000),
-                  ),
-                ),
-                Text(
-                  conversation.messages!.last.message,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 15,
-                    color: Color(0xFFC1C1CB),
-                  ),
-                ),
-                Text(
-                  formatTimestamp(conversation.messages!.last.createdAt),
-                  style: TextStyle(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 16,
-                    color: Color(0xFFC1C1CB),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

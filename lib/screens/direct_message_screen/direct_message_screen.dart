@@ -23,11 +23,8 @@ class DirectMessageScreen extends ConsumerWidget {
                     onTap: () => Navigator.pushNamed(
                         context, '/PrivateChatScreen',
                         arguments: {"conversationId": conversations[index].id}),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 12),
-                      child: DirectMessageConversation(
-                        conversation: conversations[index],
-                      ),
+                    child: DirectMessageConversation(
+                      conversation: conversations[index],
                     ),
                   );
                 },

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class PrivateChatSentMessage extends StatelessWidget {
-  const PrivateChatSentMessage({
+class EventChatDetailSentMessage extends StatelessWidget {
+  const EventChatDetailSentMessage({
     super.key,
     required this.message,
   });

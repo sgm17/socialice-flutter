@@ -16,6 +16,7 @@ import 'package:socialice/screens/create_event_screen/create_event_screen.dart';
 import 'package:socialice/screens/direct_message_screen/direct_message_screen.dart';
 import 'package:socialice/screens/discover_groups_screen/discover_groups_screen.dart';
 import 'package:socialice/screens/edit_profile_screen/edit_profile_screen.dart';
+import 'package:socialice/screens/event_chat_detail_screen/event_chat_detail_screen.dart';
 import 'package:socialice/screens/event_chat_screen/event_chat_screen.dart';
 import 'package:socialice/screens/event_screen/event_screen.dart';
 import 'package:socialice/screens/events_screen/events_screen.dart';
@@ -114,7 +115,8 @@ class MyApp extends StatelessWidget {
         '/WalletScreen': (context) => const WalletScreen(),
         '/CreateEventScreen': (context) => const CreateEventScreen(),
         '/CreateCommunityScreen': (context) => const CreateCommunityScreen(),
-        '/JoinedCommunityScreen': (context) => const JoinedCommunityScreen()
+        '/JoinedCommunityScreen': (context) => const JoinedCommunityScreen(),
+        '/EventChatDetailScreen': (context) => const EventChatDetailScreen()
       },
     );
   }

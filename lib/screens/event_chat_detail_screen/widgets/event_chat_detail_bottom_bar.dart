@@ -1,21 +1,21 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:socialice/providers/community_chat_provider/event_chat_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socialice/constants/app_colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:socialice/providers/conversations_provider/conversations_provider.dart';
+import 'package:flutter/material.dart';
 
-class PrivateChatBottomBar extends ConsumerStatefulWidget {
-  const PrivateChatBottomBar({super.key, required this.conversationId});
+class EventChatDetailBottomBar extends ConsumerStatefulWidget {
+  const EventChatDetailBottomBar({super.key, required this.eventChatId});
 
-  final String conversationId;
+  final String eventChatId;
 
   @override
-  ConsumerState<PrivateChatBottomBar> createState() =>
-      _PrivateChatBottomBarState();
+  ConsumerState<EventChatDetailBottomBar> createState() =>
+      _EventChatDetailBottomBarState();
 }
 
-class _PrivateChatBottomBarState extends ConsumerState<PrivateChatBottomBar> {
+class _EventChatDetailBottomBarState
+    extends ConsumerState<EventChatDetailBottomBar> {
   late TextEditingController controller;
 
   @override
@@ -34,8 +34,8 @@ class _PrivateChatBottomBarState extends ConsumerState<PrivateChatBottomBar> {
   Widget build(BuildContext context) {
     _submitMessage() {
       if (controller.text.isNotEmpty) {
-        ref.read(conversationsProvider.notifier).sendMessage(
-            conversationId: widget.conversationId, message: controller.text);
+        ref.read(eventChatProvider.notifier).sendMessage(
+            eventChatId: widget.eventChatId, message: controller.text);
         controller.clear();
       }
     }
@@ -52,7 +52,6 @@ class _PrivateChatBottomBarState extends ConsumerState<PrivateChatBottomBar> {
             child: TextField(
                 controller: controller,
                 textInputAction: TextInputAction.send,
-                onSubmitted: (value) => _submitMessage,
                 maxLength: 100,
                 textAlignVertical: TextAlignVertical.center,
                 style: TextStyle(
@@ -60,6 +59,7 @@ class _PrivateChatBottomBarState extends ConsumerState<PrivateChatBottomBar> {
                   fontSize: 16.0,
                   fontWeight: FontWeight.w400,
                 ),
+                onSubmitted: _submitMessage(),
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.fromLTRB(10, 14, 0, 14),
                     counter: SizedBox.shrink(),

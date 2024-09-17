@@ -1,41 +1,34 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'community_message_model.dart';
+part of 'event_message_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-CommunityMessageModel _$CommunityMessageModelFromJson(
-        Map<String, dynamic> json) =>
+EventMessageModel _$EventMessageModelFromJson(Map<String, dynamic> json) =>
     $checkedCreate(
-      'CommunityMessageModel',
+      'EventMessageModel',
       json,
       ($checkedConvert) {
-        final val = CommunityMessageModel(
+        final val = EventMessageModel(
           id: $checkedConvert('id', (v) => v as String),
           user: $checkedConvert(
               'user', (v) => AppUserModel.fromJson(v as Map<String, dynamic>)),
-          chat: $checkedConvert('chat',
-              (v) => CommunityChatModel.fromJson(v as Map<String, dynamic>)),
+          chat: $checkedConvert('chat', (v) => EventChatModel.fromJson(v)),
           message: $checkedConvert('message', (v) => v as String),
-          messages: $checkedConvert(
-              'messages',
-              (v) => (v as List<dynamic>)
-                  .map((e) =>
-                      CommunityMessageModel.fromJson(e as Map<String, dynamic>))
-                  .toList()),
+          createdAt: $checkedConvert('createdAt',
+              (v) => const TimestampConverter().fromJson(v as String)),
         );
         return val;
       },
     );
 
-Map<String, dynamic> _$CommunityMessageModelToJson(
-        CommunityMessageModel instance) =>
+Map<String, dynamic> _$EventMessageModelToJson(EventMessageModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'user': instance.user.toJson(),
       'chat': instance.chat.toJson(),
       'message': instance.message,
-      'messages': instance.messages.map((e) => e.toJson()).toList(),
+      'createdAt': const TimestampConverter().toJson(instance.createdAt),
     };

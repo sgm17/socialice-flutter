@@ -1,19 +1,62 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socialice/constants/app_colors.dart';
 import 'package:socialice/widgets/black_container_button.dart';
+import 'package:socialice/widgets/confirm_password_input.dart';
 import 'package:socialice/widgets/or_sign_with.dart';
 import 'package:socialice/widgets/password_input.dart';
 import 'package:socialice/widgets/sign_oaut2_items.dart';
 
-class RegisterScreen extends StatefulWidget {
+class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  ConsumerState<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  late TextEditingController _nameController;
+  late TextEditingController _surnameController;
+  late TextEditingController _emailController;
+  late TextEditingController _passwordController;
+  late TextEditingController _confirmPasswordController;
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController = TextEditingController();
+    _surnameController = TextEditingController();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+    _confirmPasswordController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _surnameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _submitRegister() async {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+
+      print("name: ${_nameController.text}");
+      print("surname: ${_surnameController.text}");
+      print("email: ${_emailController.text}");
+      print("password: ${_passwordController.text}");
+      print("confirmPassword: ${_confirmPasswordController.text}");
+
+      // TODO: create firebase user
+      // TODO: create db user
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +106,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   height: 6,
                                 ),
                                 TextFormField(
-                                    maxLength: 100,
+                                    controller: _nameController,
+                                    maxLength: 30,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Name cannot be empty';
+                                      } else if (value.length > 30) {
+                                        return 'Name cannot exceed 30 characters';
+                                      }
+                                      return null;
+                                    },
                                     textAlignVertical: TextAlignVertical.center,
                                     style: TextStyle(
                                       color: AppColors.blackColor,
@@ -88,7 +140,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                 color: AppColors.greyLightColor,
                                                 width: 1)),
                                         isCollapsed: true,
-                                        hintText: 'Sergi',
+                                        hintText: 'Name',
                                         hintStyle: TextStyle(
                                           fontSize: 16.0,
                                           fontWeight: FontWeight.w400,
@@ -116,7 +168,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   height: 6,
                                 ),
                                 TextFormField(
-                                    maxLength: 100,
+                                    controller: _surnameController,
+                                    maxLength: 30,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Name cannot be empty';
+                                      } else if (value.length > 30) {
+                                        return 'Name cannot exceed 30 characters';
+                                      }
+                                      return null;
+                                    },
                                     textAlignVertical: TextAlignVertical.center,
                                     style: TextStyle(
                                       color: AppColors.blackColor,
@@ -167,7 +228,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         height: 6,
                       ),
                       TextFormField(
+                          controller: _emailController,
                           maxLength: 100,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Email cannot be empty';
+                            } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+$')
+                                .hasMatch(value)) {
+                              return 'Enter a valid email address';
+                            }
+                            return null;
+                          },
                           textAlignVertical: TextAlignVertical.center,
                           style: TextStyle(
                             color: AppColors.blackColor,
@@ -211,8 +282,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         height: 6,
                       ),
                       PasswordInput(
-                        hintText: 'Password',
-                      ),
+                          hintText: 'Password',
+                          passwordController: _passwordController),
                       SizedBox(
                         height: 16,
                       ),
@@ -227,9 +298,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       SizedBox(
                         height: 6,
                       ),
-                      PasswordInput(
-                        hintText: 'Confirm Password',
-                      ),
+                      ConfirmPasswordInput(
+                          hintText: 'Confirm Password',
+                          passwordController: _passwordController,
+                          confirmPasswordController:
+                              _confirmPasswordController),
                     ],
                   ),
                 ),
@@ -238,8 +311,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 BlackContainerButton(
                   text: 'Register',
-                  action: () => Navigator.pushNamedAndRemoveUntil(
-                      context, '/AppScreen', (route) => false),
+                  action: _submitRegister,
                 ),
                 SizedBox(
                   height: 32,

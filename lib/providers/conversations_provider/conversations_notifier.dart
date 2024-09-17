@@ -47,7 +47,7 @@ class ConversationsNotifier
           createdAt: DateTime.now());
 
       final updatedConversation = conversation
-          .copyWith(messages: [newMessage, ...conversation.messages!]);
+          .copyWith(messages: [...conversation.messages!, newMessage]);
 
       state = AsyncValue.data(conversations
           .map((e) => e.id == conversationId ? updatedConversation : e)

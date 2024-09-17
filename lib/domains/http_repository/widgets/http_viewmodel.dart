@@ -1,7 +1,7 @@
 import 'package:socialice/domains/app_user_repository/src/models/app_user_model.dart';
 import 'package:socialice/domains/app_user_repository/src/models/interest_model.dart';
-import 'package:socialice/domains/community_chats_repository/src/models/community_chat_model.dart';
-import 'package:socialice/domains/community_chats_repository/src/models/community_message_model.dart';
+import 'package:socialice/domains/event_chat_repository/src/models/event_chat_model.dart';
+import 'package:socialice/domains/event_chat_repository/src/models/event_message_model.dart';
 import 'package:socialice/domains/community_repository/src/models/community_model.dart';
 import 'package:socialice/domains/community_repository/src/models/highlight_model.dart';
 import 'package:socialice/domains/conversation_repository/src/models/conversation_model.dart';
@@ -18,8 +18,8 @@ import 'dart:convert';
 
 class HttpViewmodel implements HttpRepository {
   final http.Client httpClient;
-  // final API_ENDPOINT = "https://socialice-nextjs.vercel.app/api/v1";
-  final API_ENDPOINT = "http://192.168.1.122:3000/api/v1";
+  final API_ENDPOINT = "https://socialice-nextjs.vercel.app/api/v1";
+  // final API_ENDPOINT = "http://192.168.1.122:3000/api/v1";
 
   HttpViewmodel({required this.httpClient});
 
@@ -752,14 +752,13 @@ class HttpViewmodel implements HttpRepository {
   }
 
   @override
-  Future<CommunityChatModel> createCommunityChat(
-      {required String communityId}) async {
+  Future<EventChatModel> createEventChat({required String eventId}) async {
     final headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
     };
 
-    final body = jsonEncode({"communityId": communityId});
+    final body = jsonEncode({"eventId": eventId});
 
     final response = await httpClient.post(
         Uri.parse("${API_ENDPOINT}/community-chats"),
@@ -768,14 +767,14 @@ class HttpViewmodel implements HttpRepository {
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = await jsonDecode(response.body);
-      return CommunityChatModel.fromJson(data);
+      return EventChatModel.fromJson(data);
     }
     // return null;
     throw Exception("Example");
   }
 
   @override
-  Future<CommunityMessageModel> createCommunityMessage(
+  Future<EventMessageModel> createEventMessage(
       {required String chatId, required String message}) async {
     final headers = {
       'Content-Type': 'application/json',
@@ -791,7 +790,7 @@ class HttpViewmodel implements HttpRepository {
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = await jsonDecode(response.body);
-      return CommunityMessageModel.fromJson(data);
+      return EventMessageModel.fromJson(data);
     }
     // return null;
     throw Exception("Example");
@@ -871,18 +870,18 @@ class HttpViewmodel implements HttpRepository {
   }
 
   @override
-  Future<List<CommunityChatModel>> requestCommunityChats() async {
+  Future<List<EventChatModel>> requestEventChats() async {
     final headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
     };
 
     final response = await httpClient
-        .get(Uri.parse("${API_ENDPOINT}/community-chats"), headers: headers);
+        .get(Uri.parse("${API_ENDPOINT}/event-chats"), headers: headers);
 
     if (response.statusCode == 200) {
       final List<dynamic> data = await jsonDecode(response.body);
-      return data.map((e) => CommunityChatModel.fromJson(e)).toList();
+      return data.map((e) => EventChatModel.fromJson(e)).toList();
     }
     // return null;
     throw Exception("Example");
@@ -942,5 +941,22 @@ class HttpViewmodel implements HttpRepository {
     }
     // return null;
     throw Exception("Example");
+  }
+
+  @override
+  Future<bool> updateCloudToken({required String cloudToken}) async {
+    final headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    final body = jsonEncode({"cloudToken": cloudToken});
+
+    final response = await httpClient.put(
+        Uri.parse("${API_ENDPOINT}/cloud-token"),
+        headers: headers,
+        body: body);
+
+    return response.statusCode == 200;
   }
 }

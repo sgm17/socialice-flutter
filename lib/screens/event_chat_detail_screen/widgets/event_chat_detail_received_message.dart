@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:socialice/domains/app_user_repository/src/models/app_user_model.dart';
 
-class PrivateChatReceivedMessage extends StatelessWidget {
-  const PrivateChatReceivedMessage({
+class EventChatDetailReceivedMessage extends StatelessWidget {
+  const EventChatDetailReceivedMessage({
     super.key,
     required this.otherUser,
     required this.message,

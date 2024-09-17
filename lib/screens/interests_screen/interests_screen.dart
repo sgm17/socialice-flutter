@@ -126,6 +126,9 @@ class _InterestsScreenState extends ConsumerState<InterestsScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(
+                    height: 32,
+                  ),
                   ArrowBack(),
                   SizedBox(
                     height: 16,

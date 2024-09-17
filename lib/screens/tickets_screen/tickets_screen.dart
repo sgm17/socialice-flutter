@@ -35,7 +35,7 @@ class TicketsScreen extends ConsumerWidget {
             data: (tickets) => SizedBox(
               height: 26,
               child: Text(
-                '${tickets.length} Tickets In The Wallet',
+                '${tickets.length} Tickets in the Wallet',
                 style: TextStyle(
                   fontWeight: FontWeight.w400,
                   fontSize: 22,

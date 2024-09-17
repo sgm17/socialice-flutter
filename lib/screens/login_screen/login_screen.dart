@@ -5,8 +5,34 @@ import 'package:socialice/widgets/or_sign_with.dart';
 import 'package:socialice/widgets/password_input.dart';
 import 'package:socialice/widgets/sign_oaut2_items.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  late TextEditingController _emailController;
+  late TextEditingController _passwordController;
+  late TextEditingController _confirmPasswordController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+    _confirmPasswordController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +71,9 @@ class LoginScreen extends StatelessWidget {
                   SizedBox(
                     height: 6,
                   ),
-                  EmailInput(),
+                  EmailInput(
+                    emailController: _emailController,
+                  ),
                   SizedBox(
                     height: 16,
                   ),
@@ -62,6 +90,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                   PasswordInput(
                     hintText: 'Password',
+                    passwordController: _passwordController,
                   ),
                 ],
               ),

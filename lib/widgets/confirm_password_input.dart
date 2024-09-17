@@ -2,35 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:socialice/constants/app_colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class PasswordInput extends StatefulWidget {
-  const PasswordInput({
+class ConfirmPasswordInput extends StatefulWidget {
+  const ConfirmPasswordInput({
     super.key,
     required this.hintText,
     required this.passwordController,
+    required this.confirmPasswordController,
   });
 
   final String hintText;
-  final TextEditingController? passwordController;
+  final TextEditingController passwordController, confirmPasswordController;
 
   @override
-  State<PasswordInput> createState() => _PasswordInputState();
+  State<ConfirmPasswordInput> createState() => _ConfirmPasswordInputState();
 }
 
-class _PasswordInputState extends State<PasswordInput> {
+class _ConfirmPasswordInputState extends State<ConfirmPasswordInput> {
   bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-        controller: widget.passwordController,
+        controller: widget.confirmPasswordController,
         maxLength: 30,
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Password cannot be empty';
           } else if (value.length < 6) {
             return 'Password must be at least 6 characters long';
-          } else if (widget.passwordController != null &&
-              value != widget.passwordController!.text) {
+          } else if (value != widget.passwordController.text) {
             return 'Passwords do not match';
           }
           return null;

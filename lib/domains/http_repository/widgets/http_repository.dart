@@ -1,7 +1,7 @@
 import 'package:socialice/domains/app_user_repository/src/models/app_user_model.dart';
 import 'package:socialice/domains/app_user_repository/src/models/interest_model.dart';
-import 'package:socialice/domains/community_chats_repository/src/models/community_chat_model.dart';
-import 'package:socialice/domains/community_chats_repository/src/models/community_message_model.dart';
+import 'package:socialice/domains/event_chat_repository/src/models/event_chat_model.dart';
+import 'package:socialice/domains/event_chat_repository/src/models/event_message_model.dart';
 import 'package:socialice/domains/community_repository/src/models/community_model.dart';
 import 'package:socialice/domains/community_repository/src/models/highlight_model.dart';
 import 'package:socialice/domains/conversation_repository/src/models/conversation_model.dart';
@@ -162,12 +162,15 @@ abstract class HttpRepository {
       required String receiverId,
       required String message});
 
-  // CommunityChat
-  // GET /api/v1/community-chats
-  Future<List<CommunityChatModel>> requestCommunityChats();
-  // POST /api/v1/community-chats
-  Future<CommunityChatModel> createCommunityChat({required String communityId});
-  // POST /api/v1/community-messages
-  Future<CommunityMessageModel> createCommunityMessage(
+  // EventChat
+  // GET /api/v1/event-chats
+  Future<List<EventChatModel>> requestEventChats();
+  // POST /api/v1/event-chats
+  Future<EventChatModel> createEventChat({required String eventId});
+  // POST /api/v1/event-messages
+  Future<EventMessageModel> createEventMessage(
       {required String chatId, required String message});
+
+  // CloudToken
+  Future<bool> updateCloudToken({required String cloudToken});
 }

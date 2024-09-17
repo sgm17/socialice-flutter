@@ -4,12 +4,24 @@ import 'package:socialice/constants/app_colors.dart';
 class EmailInput extends StatelessWidget {
   const EmailInput({
     super.key,
+    required this.emailController,
   });
+
+  final TextEditingController emailController;
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+        controller: emailController,
         maxLength: 100,
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Email cannot be empty';
+          } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+$').hasMatch(value)) {
+            return 'Enter a valid email address';
+          }
+          return null;
+        },
         textAlignVertical: TextAlignVertical.center,
         style: TextStyle(
           color: AppColors.blackColor,

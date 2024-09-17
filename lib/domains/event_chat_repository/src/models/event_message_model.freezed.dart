@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'community_message_model.dart';
+part of 'event_message_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,41 +15,40 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$CommunityMessageModel {
+mixin _$EventMessageModel {
   String get id => throw _privateConstructorUsedError;
   AppUserModel get user => throw _privateConstructorUsedError;
-  CommunityChatModel get chat => throw _privateConstructorUsedError;
+  EventChatModel get chat => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
-  List<CommunityMessageModel> get messages =>
-      throw _privateConstructorUsedError;
+  @TimestampConverter()
+  DateTime get createdAt => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $CommunityMessageModelCopyWith<CommunityMessageModel> get copyWith =>
+  $EventMessageModelCopyWith<EventMessageModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $CommunityMessageModelCopyWith<$Res> {
-  factory $CommunityMessageModelCopyWith(CommunityMessageModel value,
-          $Res Function(CommunityMessageModel) then) =
-      _$CommunityMessageModelCopyWithImpl<$Res, CommunityMessageModel>;
+abstract class $EventMessageModelCopyWith<$Res> {
+  factory $EventMessageModelCopyWith(
+          EventMessageModel value, $Res Function(EventMessageModel) then) =
+      _$EventMessageModelCopyWithImpl<$Res, EventMessageModel>;
   @useResult
   $Res call(
       {String id,
       AppUserModel user,
-      CommunityChatModel chat,
+      EventChatModel chat,
       String message,
-      List<CommunityMessageModel> messages});
+      @TimestampConverter() DateTime createdAt});
 
   $AppUserModelCopyWith<$Res> get user;
-  $CommunityChatModelCopyWith<$Res> get chat;
+  $EventChatModelCopyWith<$Res> get chat;
 }
 
 /// @nodoc
-class _$CommunityMessageModelCopyWithImpl<$Res,
-        $Val extends CommunityMessageModel>
-    implements $CommunityMessageModelCopyWith<$Res> {
-  _$CommunityMessageModelCopyWithImpl(this._value, this._then);
+class _$EventMessageModelCopyWithImpl<$Res, $Val extends EventMessageModel>
+    implements $EventMessageModelCopyWith<$Res> {
+  _$EventMessageModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -63,7 +62,7 @@ class _$CommunityMessageModelCopyWithImpl<$Res,
     Object? user = null,
     Object? chat = null,
     Object? message = null,
-    Object? messages = null,
+    Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -77,15 +76,15 @@ class _$CommunityMessageModelCopyWithImpl<$Res,
       chat: null == chat
           ? _value.chat
           : chat // ignore: cast_nullable_to_non_nullable
-              as CommunityChatModel,
+              as EventChatModel,
       message: null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
-      messages: null == messages
-          ? _value.messages
-          : messages // ignore: cast_nullable_to_non_nullable
-              as List<CommunityMessageModel>,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ) as $Val);
   }
 
@@ -99,42 +98,40 @@ class _$CommunityMessageModelCopyWithImpl<$Res,
 
   @override
   @pragma('vm:prefer-inline')
-  $CommunityChatModelCopyWith<$Res> get chat {
-    return $CommunityChatModelCopyWith<$Res>(_value.chat, (value) {
+  $EventChatModelCopyWith<$Res> get chat {
+    return $EventChatModelCopyWith<$Res>(_value.chat, (value) {
       return _then(_value.copyWith(chat: value) as $Val);
     });
   }
 }
 
 /// @nodoc
-abstract class _$$CommunityMessageModelImplCopyWith<$Res>
-    implements $CommunityMessageModelCopyWith<$Res> {
-  factory _$$CommunityMessageModelImplCopyWith(
-          _$CommunityMessageModelImpl value,
-          $Res Function(_$CommunityMessageModelImpl) then) =
-      __$$CommunityMessageModelImplCopyWithImpl<$Res>;
+abstract class _$$EventMessageModelImplCopyWith<$Res>
+    implements $EventMessageModelCopyWith<$Res> {
+  factory _$$EventMessageModelImplCopyWith(_$EventMessageModelImpl value,
+          $Res Function(_$EventMessageModelImpl) then) =
+      __$$EventMessageModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {String id,
       AppUserModel user,
-      CommunityChatModel chat,
+      EventChatModel chat,
       String message,
-      List<CommunityMessageModel> messages});
+      @TimestampConverter() DateTime createdAt});
 
   @override
   $AppUserModelCopyWith<$Res> get user;
   @override
-  $CommunityChatModelCopyWith<$Res> get chat;
+  $EventChatModelCopyWith<$Res> get chat;
 }
 
 /// @nodoc
-class __$$CommunityMessageModelImplCopyWithImpl<$Res>
-    extends _$CommunityMessageModelCopyWithImpl<$Res,
-        _$CommunityMessageModelImpl>
-    implements _$$CommunityMessageModelImplCopyWith<$Res> {
-  __$$CommunityMessageModelImplCopyWithImpl(_$CommunityMessageModelImpl _value,
-      $Res Function(_$CommunityMessageModelImpl) _then)
+class __$$EventMessageModelImplCopyWithImpl<$Res>
+    extends _$EventMessageModelCopyWithImpl<$Res, _$EventMessageModelImpl>
+    implements _$$EventMessageModelImplCopyWith<$Res> {
+  __$$EventMessageModelImplCopyWithImpl(_$EventMessageModelImpl _value,
+      $Res Function(_$EventMessageModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -144,9 +141,9 @@ class __$$CommunityMessageModelImplCopyWithImpl<$Res>
     Object? user = null,
     Object? chat = null,
     Object? message = null,
-    Object? messages = null,
+    Object? createdAt = null,
   }) {
-    return _then(_$CommunityMessageModelImpl(
+    return _then(_$EventMessageModelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -158,98 +155,95 @@ class __$$CommunityMessageModelImplCopyWithImpl<$Res>
       chat: null == chat
           ? _value.chat
           : chat // ignore: cast_nullable_to_non_nullable
-              as CommunityChatModel,
+              as EventChatModel,
       message: null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
-      messages: null == messages
-          ? _value._messages
-          : messages // ignore: cast_nullable_to_non_nullable
-              as List<CommunityMessageModel>,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
 
 /// @nodoc
 
-class _$CommunityMessageModelImpl extends _CommunityMessageModel {
-  const _$CommunityMessageModelImpl(
+class _$EventMessageModelImpl extends _EventMessageModel {
+  const _$EventMessageModelImpl(
       {required this.id,
       required this.user,
       required this.chat,
       required this.message,
-      required final List<CommunityMessageModel> messages})
-      : _messages = messages,
-        super._();
+      @TimestampConverter() required this.createdAt})
+      : super._();
 
   @override
   final String id;
   @override
   final AppUserModel user;
   @override
-  final CommunityChatModel chat;
+  final EventChatModel chat;
   @override
   final String message;
-  final List<CommunityMessageModel> _messages;
   @override
-  List<CommunityMessageModel> get messages {
-    if (_messages is EqualUnmodifiableListView) return _messages;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_messages);
-  }
+  @TimestampConverter()
+  final DateTime createdAt;
 
   @override
   String toString() {
-    return 'CommunityMessageModel(id: $id, user: $user, chat: $chat, message: $message, messages: $messages)';
+    return 'EventMessageModel(id: $id, user: $user, chat: $chat, message: $message, createdAt: $createdAt)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CommunityMessageModelImpl &&
+            other is _$EventMessageModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.user, user) || other.user == user) &&
             (identical(other.chat, chat) || other.chat == chat) &&
             (identical(other.message, message) || other.message == message) &&
-            const DeepCollectionEquality().equals(other._messages, _messages));
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, user, chat, message,
-      const DeepCollectionEquality().hash(_messages));
+  int get hashCode =>
+      Object.hash(runtimeType, id, user, chat, message, createdAt);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$CommunityMessageModelImplCopyWith<_$CommunityMessageModelImpl>
-      get copyWith => __$$CommunityMessageModelImplCopyWithImpl<
-          _$CommunityMessageModelImpl>(this, _$identity);
+  _$$EventMessageModelImplCopyWith<_$EventMessageModelImpl> get copyWith =>
+      __$$EventMessageModelImplCopyWithImpl<_$EventMessageModelImpl>(
+          this, _$identity);
 }
 
-abstract class _CommunityMessageModel extends CommunityMessageModel {
-  const factory _CommunityMessageModel(
+abstract class _EventMessageModel extends EventMessageModel {
+  const factory _EventMessageModel(
           {required final String id,
           required final AppUserModel user,
-          required final CommunityChatModel chat,
+          required final EventChatModel chat,
           required final String message,
-          required final List<CommunityMessageModel> messages}) =
-      _$CommunityMessageModelImpl;
-  const _CommunityMessageModel._() : super._();
+          @TimestampConverter() required final DateTime createdAt}) =
+      _$EventMessageModelImpl;
+  const _EventMessageModel._() : super._();
 
   @override
   String get id;
   @override
   AppUserModel get user;
   @override
-  CommunityChatModel get chat;
+  EventChatModel get chat;
   @override
   String get message;
   @override
-  List<CommunityMessageModel> get messages;
+  @TimestampConverter()
+  DateTime get createdAt;
   @override
   @JsonKey(ignore: true)
-  _$$CommunityMessageModelImplCopyWith<_$CommunityMessageModelImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$EventMessageModelImplCopyWith<_$EventMessageModelImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
